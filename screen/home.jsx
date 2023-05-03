@@ -4,12 +4,14 @@ import Constants from "expo-constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import Button from "../components/button";
 
 const Home = ({ route, navigation }) => {
   const { currentUser } = route.params;
   const [borrowedBooks, setBorrowedBooks] = useState([]);
+  const [libraryState, setLibraryState] = useState(false);
 
   useEffect(() => {
     const borrowedRef = collection(db, "borrowed");
@@ -24,6 +26,22 @@ const Home = ({ route, navigation }) => {
       setBorrowedBooks(books);
     });
   }, []);
+
+  useEffect(() => {
+    const libStateRef = collection(db, "libState");
+    onSnapshot(libStateRef, (snapshot) => {
+      let libState = undefined;
+      snapshot.forEach((doc) => {
+        libState = doc.data().state;
+      });
+      setLibraryState(libState);
+    });
+  }, []);
+
+  const handleLibraryState = () => {
+    const docRef = doc(db, "libState", "OlTcG1ZZO1rPqR5ltgp7");
+    updateDoc(docRef, { state: libraryState ? false : true });
+  };
 
   const renderBorrowedBooks = ({ item }) => {
     return (
@@ -94,11 +112,28 @@ const Home = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={{ flex: 0.7 }}>
-        <Image
-          resizeMode="contain"
-          source={require("../assets/lib-open.png")}
-          style={{ width: "100%", height: "100%" }}
-        />
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          {currentUser.role === "admin" && (
+            <Button
+              text={libraryState ? "Close Library" : "Open Library"}
+              bgColor={"#FEB648"}
+              event={handleLibraryState}
+            />
+          )}
+        </View>
+        {libraryState ? (
+          <Image
+            resizeMode="contain"
+            source={require("../assets/lib-open.png")}
+            style={{ width: "100%", height: "100%" }}
+          />
+        ) : (
+          <Image
+            resizeMode="contain"
+            source={require("../assets/lib-close.png")}
+            style={{ width: "100%", height: "100%" }}
+          />
+        )}
       </View>
 
       <View
