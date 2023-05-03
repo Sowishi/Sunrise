@@ -7,8 +7,9 @@ import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { showToast } from "../components/toast";
 import Loader from "../components/loader";
+import { LinearGradient } from "expo-linear-gradient";
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [schoolID, setSchoolID] = useState("");
   const [password, setPassword] = useState("");
@@ -16,19 +17,25 @@ const Login = () => {
   const authenticate = () => {
     if (schoolID.length === 0) {
       showToast("error", "School ID must not be empty");
-    } else if (schoolID.length === 0) {
+    } else if (password.length === 0) {
       showToast("error", "Password must not be empty");
     } else {
       setLoading(true);
       const userRef = collection(db, "users");
       onSnapshot(userRef, (snapshot) => {
+        let hasUser = false;
         snapshot.forEach((doc) => {
           const user = doc.data();
           if (user.schoolID === schoolID && user.password === password) {
-            console.log(user);
+            navigation.navigate("home", { currentUser: user });
             setLoading(false);
+            hasUser = true;
           }
         });
+        if (!hasUser) {
+          showToast("error", "Incorrect Password or SchoolID");
+        }
+        setLoading(false);
       });
     }
   };
@@ -36,7 +43,6 @@ const Login = () => {
   return (
     <View style={{ flex: 1 }}>
       {loading && <Loader />}
-      <StatusBar backgroundColor={"white"} />
       <View
         style={{
           flex: 0.7,
@@ -44,13 +50,25 @@ const Login = () => {
           alignItems: "center",
           marginTop: 25,
           backgroundColor: "white",
+          position: "relative",
         }}
       >
         <Image
-          style={{ backgroundColor: "white" }}
-          source={require("../assets/laco.png")}
+          style={{ zIndex: 99, position: "absolute" }}
+          source={require("../assets/laco-removebg-preview.png")}
           resizeMode="contain"
         />
+        <LinearGradient
+          colors={["#DDA033", "#0D97AC"]}
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            right: 0,
+            top: -20,
+            opacity: 0.4,
+          }}
+        ></LinearGradient>
       </View>
       <View
         style={{
@@ -89,7 +107,11 @@ const Login = () => {
             <Input label="School ID" event={(text) => setSchoolID(text)} />
           </View>
           <View style={{ marginVertical: 10 }}>
-            <Input label="Password" event={(text) => setPassword(text)} />
+            <Input
+              label="Password"
+              event={(text) => setPassword(text)}
+              secured={true}
+            />
           </View>
 
           <View

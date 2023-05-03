@@ -20,6 +20,7 @@ const Loader = () => {
           color: "white",
           fontWeight: "bold",
           textAlign: "center",
+          marginHorizontal: 20,
         }}
       >
         Loading, please wait...{" "}

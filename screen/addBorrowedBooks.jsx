@@ -2,7 +2,7 @@ import { Image, ScrollView, StatusBar, Text, View } from "react-native";
 import Input from "../components/input";
 import Button from "../components/button";
 import SelectDropdown from "react-native-select-dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { showToast } from "../components/toast";
 import {
   addDoc,
@@ -12,96 +12,83 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import Loader from "../components/loader";
+import Constants from "expo-constants";
 
-const Register = ({ navigation }) => {
+const AddBorrowedBooks = ({ navigation, route }) => {
+  const { data, currentUser } = route.params;
+
   const [loading, setLoading] = useState(false);
-  const [schoolID, setSchoolID] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [gender, setGender] = useState("");
-  const [course, setCourse] = useState("");
-  const [yearLevel, setYearLevel] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [IDS, setIDS] = useState([]);
+  const [bookName, setBookName] = useState("");
+  const [author, setAuthor] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [bookID, setBookID] = useState("");
 
-  const register = () => {
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
     const userRef = collection(db, "users");
     onSnapshot(userRef, (snapshot) => {
-      const IDS = [];
+      const returnUser = [];
       snapshot.forEach((doc) => {
         const user = doc.data();
-        IDS.push(user.schoolID);
+        if (user.schoolID === data) {
+          returnUser.push(user);
+        }
       });
-      setIDS(IDS);
+      setUser(returnUser);
     });
+  }, []);
 
-    if (schoolID.length === 0) {
-      showToast("error", "School ID must not be empty!");
-    } else if (IDS.includes(schoolID)) {
-      showToast("error", "School ID already registered");
-    } else if (firstName.length === 0) {
-      showToast("error", "First name must not be empty!");
-    } else if (lastName.length === 0) {
-      showToast("error", "Last name must not be empty!");
-    } else if (gender.length === 0) {
-      showToast("error", "Please select a gender!");
-    } else if (course.length === 0) {
-      showToast("error", "Please select a course!");
-    } else if (yearLevel.length === 0) {
-      showToast("error", "Please specify your year level!");
-    } else if (password.length === 0) {
-      showToast("error", "Password must not be empty!");
-    } else if (password.length <= 5) {
-      showToast("error", "Password must be greater than 5 characters!");
-    } else if (password2.length === 0) {
-      showToast("error", "Re-enter password is empty");
-    } else if (password2 !== password) {
-      showToast("error", "Your password did not match!");
+  const addBook = () => {
+    if (bookName.length === 0) {
+      showToast("error", "Book name must not be empty!");
+    } else if (author.length === 0) {
+      showToast("error", "Author must not be empty!");
+    } else if (purpose.length === 0) {
+      showToast("error", "Purpose must not be empty!");
+    } else if (bookID.length === 0) {
+      showToast("error", "Book ID must not be empty!");
     } else {
       setLoading(true);
       const data = {
-        schoolID: schoolID,
-        firstName: firstName,
-        middleName,
-        middleName,
-        lastName,
-        lastName,
-        gender: gender,
-        course: course,
-        yearLevel: yearLevel,
-        password: password,
+        issuedTo: user[0],
         createdAt: serverTimestamp(),
-        role: "client",
+        bookName: bookName,
+        bookID: bookID,
+        purpose: purpose,
+        author: author,
       };
-      const userRef = collection(db, "users");
-      addDoc(userRef, data).then(() => {
+      const borrowedRef = collection(db, "borrowed");
+      addDoc(borrowedRef, data).then(() => {
         setLoading(false);
-        showToast("success", "Successfully Registered");
-        navigation.navigate("login");
+        showToast("success", "Successfully Added");
+        navigation.navigate("home", { currentUser: currentUser });
       });
     }
   };
 
+  if (user.length === 0) {
+    return <Loader />;
+  }
+
   return (
     <>
       {loading && <Loader />}
-      <View style={{ flex: 1 }}>
+      <View
+        style={{
+          flex: 1,
+          marginTop: Constants.statusBarHeight,
+          backgroundColor: "white",
+        }}
+      >
         <StatusBar />
-        <View style={{ flex: 0.3, marginTop: 30 }}>
-          <Image
-            style={{ width: "100%", height: "100%" }}
-            source={require("../assets/Mobile-login.jpg")}
-            resizeMode="contain"
-          />
-        </View>
+
         <View
           style={{
             flex: 1,
             paddingHorizontal: 10,
             backgroundColor: "white",
-            marginTop: 15,
+            marginTop: 25,
             paddingTop: 15,
           }}
         >
@@ -113,7 +100,7 @@ const Register = ({ navigation }) => {
               marginHorizontal: 20,
             }}
           >
-            Create your account
+            Borrow Books!
           </Text>
           <View
             style={{
@@ -130,22 +117,45 @@ const Register = ({ navigation }) => {
             style={{ marginTop: 20, marginHorizontal: 10 }}
             contentContainerStyle={{ paddingBottom: 20 }}
           >
+            <Text style={{ fontSize: 20, textAlign: "center" }}>
+              Issued to:
+            </Text>
             <View style={{ marginVertical: 10 }}>
-              <Input label="School ID" event={(text) => setSchoolID(text)} />
-            </View>
-            <View style={{ marginVertical: 10 }}>
-              <Input label="First Name" event={(text) => setFirstName(text)} />
-            </View>
-            <View style={{ marginVertical: 10 }}>
+              <Text>School ID</Text>
               <Input
-                label="Middle Name"
+                label={user[0].schoolID}
+                enabled={false}
+                event={(text) => setSchoolID(text)}
+              />
+            </View>
+            <View style={{ marginVertical: 10 }}>
+              <Text>First Name</Text>
+
+              <Input
+                label={user[0].firstName}
+                enabled={false}
+                event={(text) => setFirstName(text)}
+              />
+            </View>
+            <View style={{ marginVertical: 10 }}>
+              <Text>Middle Name</Text>
+              <Input
+                label={user[0].middleName}
+                enabled={false}
                 event={(text) => setMiddleName(text)}
               />
             </View>
             <View style={{ marginVertical: 10 }}>
-              <Input label="Last Name" event={(text) => setLastName(text)} />
+              <Text>Last Name</Text>
+              <Input
+                label={user[0].lastName}
+                enabled={false}
+                event={(text) => setLastName(text)}
+              />
             </View>
             <View style={{ marginVertical: 10 }}>
+              <Text>Gender</Text>
+
               <SelectDropdown
                 data={["Male", "Female", "Prefer not to say"]}
                 onSelect={(selectedItem, index) => {
@@ -157,7 +167,8 @@ const Register = ({ navigation }) => {
                 rowTextForSelection={(item, index) => {
                   return item;
                 }}
-                defaultButtonText={"Select Gender"}
+                disabled
+                defaultButtonText={user[0].gender}
                 buttonStyle={{
                   backgroundColor: "#FEB64899",
                   borderRadius: 5,
@@ -169,6 +180,7 @@ const Register = ({ navigation }) => {
             </View>
 
             <View style={{ marginVertical: 10 }}>
+              <Text>Course</Text>
               <SelectDropdown
                 data={["BSCS", "BSIS", "BSTM", "BSHM", "BSN"]}
                 onSelect={(selectedItem, index) => {
@@ -180,17 +192,20 @@ const Register = ({ navigation }) => {
                 rowTextForSelection={(item, index) => {
                   return item;
                 }}
-                defaultButtonText={"Select Course"}
+                defaultButtonText={user[0].course}
                 buttonStyle={{
                   backgroundColor: "#FEB64899",
                   borderRadius: 5,
                   width: "100%",
                   height: 36,
                 }}
+                disabled
                 buttonTextStyle={{ fontSize: 15, padding: 0, opacity: 0.5 }}
               />
             </View>
             <View style={{ marginVertical: 10 }}>
+              <Text>Year Level</Text>
+
               <SelectDropdown
                 data={[
                   "First Year",
@@ -207,7 +222,8 @@ const Register = ({ navigation }) => {
                 rowTextForSelection={(item, index) => {
                   return item;
                 }}
-                defaultButtonText={"Select Year Level"}
+                disabled
+                defaultButtonText={user[0].yearLevel}
                 buttonStyle={{
                   backgroundColor: "#FEB64899",
                   borderRadius: 5,
@@ -217,20 +233,36 @@ const Register = ({ navigation }) => {
                 buttonTextStyle={{ fontSize: 15, padding: 0, opacity: 0.5 }}
               />
             </View>
+            <Text style={{ fontSize: 20, textAlign: "center" }}>Book</Text>
             <View style={{ marginVertical: 10 }}>
+              <Text>Book Name</Text>
               <Input
-                label="Password"
-                secured={true}
-                event={(text) => setPassword(text)}
+                label={"Please enter the book name"}
+                event={(text) => setBookName(text)}
               />
             </View>
             <View style={{ marginVertical: 10 }}>
+              <Text>Author</Text>
               <Input
-                label="Re-enter Password"
-                event={(text) => setPassword2(text)}
-                secured={true}
+                label={"Please enter the Author"}
+                event={(text) => setAuthor(text)}
               />
             </View>
+            <View style={{ marginVertical: 10 }}>
+              <Text>Purpose</Text>
+              <Input
+                label={"Please enter the Purpose"}
+                event={(text) => setPurpose(text)}
+              />
+            </View>
+            <View style={{ marginVertical: 10 }}>
+              <Text>Book ID</Text>
+              <Input
+                label={"Please enter the Book ID"}
+                event={(text) => setBookID(text)}
+              />
+            </View>
+
             <View
               style={{
                 justifyContent: "center",
@@ -239,10 +271,10 @@ const Register = ({ navigation }) => {
               }}
             >
               <Button
-                text={"Register"}
+                text={"Add Book!"}
                 bgColor={"#E2532F"}
                 icon={"account-arrow-up"}
-                event={register}
+                event={addBook}
               />
             </View>
           </ScrollView>
@@ -252,4 +284,4 @@ const Register = ({ navigation }) => {
   );
 };
 
-export default Register;
+export default AddBorrowedBooks;

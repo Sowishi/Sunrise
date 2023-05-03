@@ -1,16 +1,29 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Button from "../components/button";
+import { LinearGradient } from "expo-linear-gradient";
 
 const Landing = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, position: "relative" }}>
         <Image
           style={{ width: "100%", height: "100%" }}
           source={require("../assets/landing.jpg")}
         />
+        <LinearGradient
+          colors={["#DDA033", "#0D97AC"]}
+          style={{
+            position: "absolute",
+            width: 250,
+            height: 250,
+            borderRadius: 150,
+            right: -50,
+            top: -20,
+            opacity: 0.4,
+          }}
+        ></LinearGradient>
       </View>
       <View
         style={{ flex: 1, paddingHorizontal: 10, backgroundColor: "white" }}
@@ -18,6 +31,7 @@ const Landing = ({ navigation }) => {
         <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
           A new way to borrow books{" "}
         </Text>
+
         <View
           style={{
             justifyContent: "center",
