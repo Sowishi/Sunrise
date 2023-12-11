@@ -121,7 +121,10 @@ const Home = ({ route, navigation }) => {
         backgroundColor: "white",
       }}
     >
-      <StatusBar backgroundColor="#B40001" style="light" />
+      <StatusBar
+        backgroundColor={smoke ? "#B40001" : "#f16b00"}
+        style="light"
+      />
       {loading && (
         <LottieView
           ref={splash}

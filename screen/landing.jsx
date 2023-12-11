@@ -30,7 +30,7 @@ const Landing = ({ navigation }) => {
         }}
       >
         <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
-          Title of the app
+          Smoke Detector
         </Text>
         <Text
           style={{
@@ -38,10 +38,10 @@ const Landing = ({ navigation }) => {
             marginVertical: 10,
           }}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-          distinctio, quas officiis ratione nisi veritatis quod ab voluptatibus
-          qui accusantium. Sunt neque harum recusandae iste temporibus tempora
-          velit praesentium quae.
+          Experience peace of mind with our Smoke Detector — providing early
+          warnings for swift actions. Safeguard your space with advanced
+          detection technology, ensuring a rapid response to potential fire
+          hazards. Your safety is our priority
         </Text>
 
         <View

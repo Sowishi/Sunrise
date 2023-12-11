@@ -20,10 +20,9 @@ export default function App() {
     <>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="home" component={Home} />
-
           <Stack.Screen name="landing" component={Landing} />
           <Stack.Screen name="register" component={Register} />
+          <Stack.Screen name="home" component={Home} />
           <Stack.Screen name="login" component={Login} />
           <Stack.Screen name="qrcode" component={Qrcode} />
           <Stack.Screen name="qrcode-scanner" component={QrcodeScanner} />

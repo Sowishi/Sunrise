@@ -8,20 +8,18 @@
         }
       ]
     ],
-    "name": "LACOnyo",
+    "name": "Smoke Detecter",
     "slug": "super-laco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/applogo.png",
+    "icon": "./assets/smoke-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/applogo.png",
+      "image": "./assets/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0D97AC"
+      "backgroundColor": "#f16b00"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -34,9 +32,7 @@
         "foregroundImage": "./assets/applogo.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": [
-        "android.permission.CAMERA"
-      ],
+      "permissions": ["android.permission.CAMERA"],
       "package": "com.sowishi.superlaco"
     },
     "web": {

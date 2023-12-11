@@ -68,7 +68,7 @@ const Login = ({ navigation }) => {
             marginHorizontal: 20,
           }}
         >
-          LOG IN TO OUR APP TITLE
+          LOG IN TO OUR SMOKE DETECTOR
         </Text>
         <View
           style={{
