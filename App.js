@@ -9,6 +9,9 @@ import Home from './screen/home';
 import Qrcode from './screen/qrcode';
 import QrcodeScanner from './screen/qrcode-scanner';
 import AddBorrowedBooks from './screen/addBorrowedBooks';
+import ViewAll from './screen/viewAll';
+import ViewBook from './screen/viewBook';
+import ScanBook from './screen/scan-book';
 
 export default function App() {
 
@@ -25,9 +28,10 @@ export default function App() {
           <Stack.Screen  name="qrcode" component={Qrcode} />
           <Stack.Screen  name="qrcode-scanner" component={QrcodeScanner} />
           <Stack.Screen  name="add-borrowed-books" component={AddBorrowedBooks} />
+          <Stack.Screen  name="view-all" component={ViewAll} />
+          <Stack.Screen  name="scan-book" component={ScanBook} />
 
-
-
+          <Stack.Screen  name="view-book" component={ViewBook} />
 
         </Stack.Navigator>
       </NavigationContainer>

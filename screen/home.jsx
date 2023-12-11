@@ -2,29 +2,38 @@ import { StatusBar } from "expo-status-bar";
 import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
 import Constants from "expo-constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import Button from "../components/button";
+import LottieView from 'lottie-react-native';
+
 
 const Home = ({ route, navigation }) => {
   const { currentUser } = route.params;
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [libraryState, setLibraryState] = useState(false);
+  const [splashVisible, setSplashVisible] = useState(true);
+
+
+
+  const splash = useRef()
+
 
   useEffect(() => {
     const borrowedRef = collection(db, "borrowed");
     onSnapshot(borrowedRef, (snapshot) => {
       const books = [];
       snapshot.forEach((doc) => {
-        const book = doc.data();
-        if (book.issuedTo.schoolID === currentUser.schoolID) {
-          books.push(book);
-        }
+        books.push({ ...doc.data(), borrowedID: doc.id });
       });
       setBorrowedBooks(books);
     });
+    splash.current.play()
+    setTimeout(() => {
+      setSplashVisible(false)
+    }, 2000);
   }, []);
 
   useEffect(() => {
@@ -45,7 +54,16 @@ const Home = ({ route, navigation }) => {
 
   const renderBorrowedBooks = ({ item }) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("view-book", {
+            book: item,
+            currentUser: currentUser,
+          })
+        }
+      >
+     
+       
         <LinearGradient
           style={{
             paddingVertical: 20,
@@ -73,6 +91,12 @@ const Home = ({ route, navigation }) => {
     );
   };
 
+  const filteredBooks = borrowedBooks.filter((book) => {
+    if (book.issuedTo.schoolID === currentUser.schoolID) {
+      return book;
+    }
+  });
+
   return (
     <View
       style={{
@@ -82,6 +106,14 @@ const Home = ({ route, navigation }) => {
       }}
     >
       <StatusBar backgroundColor="white" />
+         {splashVisible && <LottieView
+         ref={splash}
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+        source={require('../assets/animation_lo08fpgc.json')}
+      /> }   
       <View
         style={{
           padding: 20,
@@ -112,13 +144,33 @@ const Home = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       <View style={{ flex: 0.7 }}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {currentUser.role === "admin" && (
-            <Button
-              text={libraryState ? "Close Library" : "Open Library"}
-              bgColor={"#FEB648"}
-              event={handleLibraryState}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Button
+                text={libraryState ? "Close Library" : "Open Library"}
+                bgColor={"#FEB648"}
+                event={handleLibraryState}
+              />
+              <Button
+                text={"Scan Book"}
+                bgColor={"#FEB648"}
+                event={() =>
+                  navigation.navigate("scan-book", { currentUser: currentUser })
+                }
+              />
+            </View>
           )}
         </View>
         {libraryState ? (
@@ -148,34 +200,119 @@ const Home = ({ route, navigation }) => {
         ></View>
       </View>
 
-      <View style={{ flex: 1 }}>
-        {borrowedBooks.length <= 0 ? (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 30,
-            }}
-          >
-            <Text style={{ fontSize: 25, textAlign: "center", color: "gray" }}>
-              You don't have a borrowed book yet
-            </Text>
-          </View>
-        ) : (
-          <>
-            <Text style={{ fontSize: 25, marginLeft: 20, fontWeight: "bold" }}>
-              Borrowed Books
-            </Text>
-            <FlatList
-              contentContainerStyle={{ paddingBottom: 20 }}
-              data={borrowedBooks}
-              renderItem={renderBorrowedBooks}
-              keyExtractor={(item, index) => index}
-            />
-          </>
-        )}
-      </View>
+      {currentUser.role === "admin" ? (
+        <View style={{ flex: 1 }}>
+          {borrowedBooks.length <= 0 ? (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 30,
+              }}
+            >
+              <Text
+                style={{ fontSize: 25, textAlign: "center", color: "gray" }}
+              >
+                You don't have a borrowed book yet
+              </Text>
+            </View>
+          ) : (
+            <>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 25, marginLeft: 20, fontWeight: "bold" }}
+                >
+                  Borrowed Books
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("view-all", {
+                      books: borrowedBooks,
+                      currentUser: currentUser,
+                    })
+                  }
+                >
+                  <Text
+                    style={{ marginRight: 20, color: "gray", fontSize: 15 }}
+                  >
+                    View all books
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <FlatList
+                contentContainerStyle={{ paddingBottom: 20 }}
+                data={borrowedBooks.slice(0, 5)}
+                renderItem={renderBorrowedBooks}
+                keyExtractor={(item, index) => index}
+              />
+            </>
+          )}
+        </View>
+      ) : (
+        <View style={{ flex: 1 }}>
+          {filteredBooks.length <= 0 ? (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 30,
+              }}
+            >
+              <Text
+                style={{ fontSize: 25, textAlign: "center", color: "gray" }}
+              >
+                You don't have a borrowed book yet
+              </Text>
+            </View>
+          ) : (
+            <>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 25, marginLeft: 20, fontWeight: "bold" }}
+                >
+                  Borrowed Books
+                </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("view-all", {
+                      books: filteredBooks,
+                      currentUser: currentUser,
+                    })
+                  }
+                >
+                  <Text
+                    style={{ marginRight: 20, color: "gray", fontSize: 15 }}
+                  >
+                    View all books
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <FlatList
+                contentContainerStyle={{ paddingBottom: 20 }}
+                data={filteredBooks.slice(0, 5)}
+                renderItem={renderBorrowedBooks}
+                keyExtractor={(item, index) => index}
+              />
+            </>
+          )}
+        </View>
+      )}
     </View>
   );
 };

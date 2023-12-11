@@ -13,6 +13,7 @@ const Button = ({ text, icon, bgColor, event }) => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
+        marginHorizontal: 10,
       }}
     >
       <Text style={{ fontSize: 20, color: "white", marginRight: 5 }}>

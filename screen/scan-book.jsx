@@ -1,8 +1,10 @@
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { showToast } from "../components/toast";
 import { useEffect, useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
-const QrcodeScanner = ({ navigation, route }) => {
+const ScanBook = ({ navigation, route }) => {
   const { currentUser } = route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -10,9 +12,12 @@ const QrcodeScanner = ({ navigation, route }) => {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
 
-    navigation.navigate("add-borrowed-books", {
-      data: data,
-      currentUser: currentUser,
+    const bookRef = doc(db, "borrowed", data);
+    getDoc(bookRef).then((snapshot) => {
+      navigation.navigate("view-book", {
+        book: { ...snapshot.data(), borrowedID: data },
+        currentUser: currentUser,
+      });
     });
   };
 
@@ -45,4 +50,4 @@ const QrcodeScanner = ({ navigation, route }) => {
   );
 };
 
-export default QrcodeScanner;
+export default ScanBook;
