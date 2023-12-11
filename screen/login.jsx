@@ -1,74 +1,56 @@
-import { Image, ScrollView, StatusBar, Text, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+  TextInput,
+} from "react-native";
 import Input from "../components/input";
 import Button from "../components/button";
 import SelectDropdown from "react-native-select-dropdown";
 import { useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 import { showToast } from "../components/toast";
 import Loader from "../components/loader";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
-  const [schoolID, setSchoolID] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const authenticate = () => {
-    if (schoolID.length === 0) {
-      showToast("error", "School ID must not be empty");
-    } else if (password.length === 0) {
-      showToast("error", "Password must not be empty");
-    } else {
-      setLoading(true);
-      const userRef = collection(db, "users");
-      onSnapshot(userRef, (snapshot) => {
-        let hasUser = false;
-        snapshot.forEach((doc) => {
-          const user = doc.data();
-          if (user.schoolID === schoolID && user.password === password) {
-            navigation.navigate("home", { currentUser: user });
-            setLoading(false);
-            hasUser = true;
-          }
-        });
-        if (!hasUser) {
-          showToast("error", "Incorrect Password or SchoolID");
+  const handleLogin = () => {
+    try {
+      signInWithEmailAndPassword(auth, email.trim(), password.trim()).then(
+        (res) => {
+          navigation.navigate("home");
         }
-        setLoading(false);
-      });
+      );
+    } catch (error) {
+      showToast("error", error.toString());
     }
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       {loading && <Loader />}
       <View
         style={{
-          flex: 0.7,
+          flex: 0.8,
+          backgroundColor: "#f16b00",
+          borderBottomLeftRadius: 150,
           justifyContent: "center",
           alignItems: "center",
-          marginTop: 25,
-          backgroundColor: "white",
-          position: "relative",
         }}
       >
         <Image
-          style={{ zIndex: 99, position: "absolute" }}
-          source={require("../assets/laco-removebg-preview.png")}
-          resizeMode="contain"
+          style={{ width: 150, height: 150 }}
+          source={require("../assets/logo.png")}
         />
-        <LinearGradient
-          colors={["#DDA033", "#0D97AC"]}
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            right: 0,
-            top: -20,
-            opacity: 0.4,
-          }}
-        ></LinearGradient>
       </View>
       <View
         style={{
@@ -86,7 +68,7 @@ const Login = ({ navigation }) => {
             marginHorizontal: 20,
           }}
         >
-          LOG IN TO OUR LIBRARY SYSTEM
+          LOG IN TO OUR APP TITLE
         </Text>
         <View
           style={{
@@ -99,36 +81,77 @@ const Login = ({ navigation }) => {
             style={{ backgroundColor: "#FEB648", width: "80%", height: 5 }}
           ></View>
         </View>
-        <ScrollView
-          style={{ marginTop: 20, marginHorizontal: 30 }}
-          contentContainerStyle={{ paddingBottom: 20 }}
-        >
-          <View style={{ marginVertical: 10 }}>
-            <Input label="School ID" event={(text) => setSchoolID(text)} />
-          </View>
-          <View style={{ marginVertical: 10 }}>
-            <Input
-              label="Password"
-              event={(text) => setPassword(text)}
-              secured={true}
-            />
-          </View>
-
+        <View style={{ paddingHorizontal: 20, marginTop: 30 }}>
           <View
             style={{
-              justifyContent: "center",
+              flexDirection: "row",
               alignItems: "center",
-              marginTop: 15,
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.8,
+              shadowRadius: 2,
+              elevation: 3,
+              borderRadius: 3,
+              paddingHorizontal: 10,
+              backgroundColor: "white",
+              borderRadius: 10,
             }}
           >
-            <Button
-              event={authenticate}
-              text={"Log in"}
-              bgColor={"#0D97AC"}
-              icon={"login"}
+            <Ionicons name="mail" size={24} color="#999999" />
+            <TextInput
+              onChangeText={(text) => setEmail(text)}
+              placeholder="Email"
+              style={{
+                flex: 1,
+                paddingVertical: 9,
+                paddingHorizontal: 10,
+              }}
             />
           </View>
-        </ScrollView>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.8,
+              shadowRadius: 2,
+              elevation: 3,
+              borderRadius: 3,
+              paddingHorizontal: 10,
+              marginTop: 20,
+              backgroundColor: "white",
+              borderRadius: 10,
+            }}
+          >
+            <Ionicons name="key" size={24} color="#999999" />
+            <TextInput
+              secureTextEntry
+              onChangeText={(text) => setPassword(text)}
+              placeholder="Password"
+              style={{
+                flex: 1,
+                paddingVertical: 9,
+                paddingHorizontal: 10,
+              }}
+            />
+          </View>
+        </View>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginVertical: 30,
+          }}
+        >
+          <Button
+            icon="login"
+            text="Login"
+            bgColor={"#144F61"}
+            navigation={navigation}
+            event={handleLogin}
+          />
+        </View>
       </View>
     </View>
   );

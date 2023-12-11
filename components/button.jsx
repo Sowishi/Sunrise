@@ -7,7 +7,7 @@ const Button = ({ text, icon, bgColor, event }) => {
       onPress={event}
       style={{
         backgroundColor: bgColor,
-        width: 150,
+        width: 200,
         paddingVertical: 10,
         borderRadius: 10,
         justifyContent: "center",

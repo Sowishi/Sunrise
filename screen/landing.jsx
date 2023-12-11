@@ -5,31 +5,43 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const Landing = ({ navigation }) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar />
-      <View style={{ flex: 1, position: "relative" }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#f16b00",
+          borderBottomLeftRadius: 150,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Image
-          style={{ width: "100%", height: "100%" }}
-          source={require("../assets/landing.jpg")}
+          style={{ width: 150, height: 150 }}
+          source={require("../assets/logo.png")}
         />
-        <LinearGradient
-          colors={["#DDA033", "#0D97AC"]}
-          style={{
-            position: "absolute",
-            width: 250,
-            height: 250,
-            borderRadius: 150,
-            right: -50,
-            top: -20,
-            opacity: 0.4,
-          }}
-        ></LinearGradient>
       </View>
       <View
-        style={{ flex: 1, paddingHorizontal: 10, backgroundColor: "white" }}
+        style={{
+          flex: 1.5,
+          paddingHorizontal: 10,
+          marginTop: 20,
+          backgroundColor: "white",
+        }}
       >
         <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
-          A new way to borrow books{" "}
+          Title of the app
+        </Text>
+        <Text
+          style={{
+            textAlign: "center",
+            marginVertical: 10,
+          }}
+        >
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
+          distinctio, quas officiis ratione nisi veritatis quod ab voluptatibus
+          qui accusantium. Sunt neque harum recusandae iste temporibus tempora
+          velit praesentium quae.
         </Text>
 
         <View
@@ -59,8 +71,8 @@ const Landing = ({ navigation }) => {
           >
             <Button
               icon="login"
-              text="Log In"
-              bgColor={"#0D97AC"}
+              text="Go to login!"
+              bgColor={"#144F61"}
               navigation={navigation}
               event={() => navigation.navigate("login")}
             />
