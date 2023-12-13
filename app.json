@@ -8,16 +8,16 @@
         }
       ]
     ],
-    "name": "Smoke Detecter",
+    "name": "Smoke Detector",
     "slug": "super-laco",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/smoke-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo.png",
+      "image": "./assets/splash-smoke.png",
       "resizeMode": "contain",
-      "backgroundColor": "#f16b00"
+      "backgroundColor": "#F9F7F8"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -29,7 +29,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/applogo.png",
+        "foregroundImage": "./assets/smoke-logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"],
