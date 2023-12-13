@@ -5,11 +5,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { database, db } from "../firebase";
 import Button from "../components/button";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "../components/toast";
+import { onValue, ref } from "firebase/database";
 
 const Home = ({ route, navigation }) => {
   // const { currentUser } = route.params;
@@ -28,16 +29,27 @@ const Home = ({ route, navigation }) => {
       setLoading(false);
     }, 2000);
 
-    const smokeDoc = doc(db, "smoke", "smokeState");
-    onSnapshot(smokeDoc, (snapshot) => {
-      const smoke = snapshot.data();
-      if (smoke["smoke"] == 1) {
+    const smokeRef = ref(database, "/smoke");
+
+    onValue(smokeRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data == 1) {
         setSmoke(true);
         showToast("error", "Smoke Detected!");
       } else {
         setSmoke(false);
       }
     });
+
+    // const smokeDoc = doc(db, "smoke", "smokeState");
+    // onSnapshot(smokeDoc, (snapshot) => {
+    //   const smoke = snapshot.data();
+    //   if (smoke["smoke"] == 1) {
+    //     setSmoke(true);
+    //   } else {
+    //     setSmoke(false);
+    //   }
+    // });
   }, []);
 
   function getGreeting() {
