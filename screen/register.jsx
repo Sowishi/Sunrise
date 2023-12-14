@@ -11,21 +11,19 @@ import Button from "../components/button";
 import SelectDropdown from "react-native-select-dropdown";
 import { useState } from "react";
 import { showToast } from "../components/toast";
-import {
-  addDoc,
-  collection,
-  onSnapshot,
-  serverTimestamp,
-} from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { auth, database, db } from "../firebase";
 import Loader from "../components/loader";
 import { Ionicons } from "@expo/vector-icons";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { child, get, onValue, push, ref, on } from "firebase/database";
 
 const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const usersRef = ref(database, "/users");
+
   // const register = () => {
   //   const userRef = collection(db, "users");
   //   onSnapshot(userRef, (snapshot) => {
@@ -84,18 +82,36 @@ const Register = ({ navigation }) => {
   //   }
   // };
 
-  const handleRegister = () => {
-    console.log(email, password);
-    try {
-      createUserWithEmailAndPassword(auth, email.trim(), password.trim()).then(
-        (res) => {
-          showToast("success", "Successfully Registered!");
-          navigation.navigate("login");
-        }
-      );
-    } catch (error) {
-      showToast("error", error.toString());
+  const handleRegister = async () => {
+    if (email == undefined) {
+      showToast("error", "Invalid Email!");
+      return;
     }
+
+    const emailExist = await checkIfUserExists(email);
+    if (emailExist) {
+      showToast("error", "Email Already exist!");
+    } else {
+      push(usersRef, { email: email, password: password }).then((res) => {
+        showToast("success", "You can now login!");
+        navigation.navigate("login");
+      });
+    }
+  };
+
+  const checkIfUserExists = async (email) => {
+    let isEmail = false;
+
+    onValue(usersRef, (snapshot) => {
+      snapshot.forEach((doc) => {
+        const data = doc.val();
+        if (data.email == email) {
+          console.log(data.email, email);
+          isEmail = true;
+        }
+      });
+    });
+    return isEmail;
   };
 
   return (

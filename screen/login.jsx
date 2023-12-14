@@ -11,12 +11,13 @@ import Button from "../components/button";
 import SelectDropdown from "react-native-select-dropdown";
 import { useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { auth, database, db } from "../firebase";
 import { showToast } from "../components/toast";
 import Loader from "../components/loader";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { onValue, ref } from "firebase/database";
 
 const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -24,15 +25,19 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    try {
-      signInWithEmailAndPassword(auth, email.trim(), password.trim()).then(
-        (res) => {
+    onValue(ref(database, "/users"), (snapshot) => {
+      snapshot.forEach((doc) => {
+        const data = doc.val();
+        console.log(data.email, data.password);
+        console.log("inpputted", email, password);
+        if (data.email == email && data.password == password) {
+          showToast("success", "login successfully!");
           navigation.navigate("home");
+          return;
         }
-      );
-    } catch (error) {
-      showToast("error", error.toString());
-    }
+      });
+      showToast("error", "Invalid email or password!");
+    });
   };
 
   return (
