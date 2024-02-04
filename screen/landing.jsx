@@ -2,40 +2,34 @@ import { View, Text, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Button from "../components/button";
 import { LinearGradient } from "expo-linear-gradient";
+import LogoComponent from "../components/logoComponent";
 
 const Landing = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar />
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#f16b00",
-          borderBottomLeftRadius: 150,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          style={{ width: 150, height: 150 }}
-          source={require("../assets/logo.png")}
-        />
-      </View>
-      <View
+      <LinearGradient
+        colors={["#0F0F0F", "#005B41", "#008170"]}
         style={{
           flex: 1.5,
-          paddingHorizontal: 10,
-          marginTop: 20,
-          backgroundColor: "white",
+          paddingHorizontal: 15,
+          paddingVertical: 30,
         }}
       >
-        <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
+        <Text
+          style={{
+            color: "white",
+            textAlign: "center",
+            fontSize: 40,
+            fontWeight: "bold",
+          }}
+        >
           Smoke Detector
         </Text>
         <Text
           style={{
             textAlign: "center",
             marginVertical: 10,
+            color: "white",
           }}
         >
           Experience peace of mind with our Smoke Detector — providing early
@@ -52,7 +46,7 @@ const Landing = ({ navigation }) => {
           }}
         >
           <View
-            style={{ backgroundColor: "#FEB648", width: "80%", height: 5 }}
+            style={{ backgroundColor: "#008170", width: "80%", height: 5 }}
           ></View>
         </View>
         <View
@@ -94,7 +88,7 @@ const Landing = ({ navigation }) => {
             />
           </View>
         </View>
-      </View>
+      </LinearGradient>
     </View>
   );
 };

@@ -18,6 +18,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
+import LogoComponent from "../components/logoComponent";
 
 const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -47,20 +48,9 @@ const Login = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       {loading && <Loader />}
-      <View
-        style={{
-          flex: 0.8,
-          backgroundColor: "#f16b00",
-          borderBottomLeftRadius: 150,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          style={{ width: 150, height: 150 }}
-          source={require("../assets/logo.png")}
-        />
-      </View>
+
+      <LogoComponent />
+
       <View
         style={{
           flex: 1,

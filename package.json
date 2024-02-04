@@ -17,6 +17,7 @@
     "expo-linear-gradient": "~12.7.1",
     "expo-status-bar": "~1.11.1",
     "firebase": "^9.21.0",
+    "lottie-react-native": "6.5.1",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-gesture-handler": "~2.14.0",
@@ -26,7 +27,7 @@
     "react-native-select-dropdown": "^3.3.3",
     "react-native-svg": "14.1.0",
     "react-native-toast-message": "^2.1.6",
-    "lottie-react-native": "6.5.1"
+    "@expo/metro-runtime": "~3.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

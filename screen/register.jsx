@@ -16,6 +16,7 @@ import Loader from "../components/loader";
 import { Ionicons } from "@expo/vector-icons";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { child, get, onValue, push, ref, on } from "firebase/database";
+import LogoComponent from "../components/logoComponent";
 
 const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -120,20 +121,7 @@ const Register = ({ navigation }) => {
 
       <View style={{ flex: 1 }}>
         <StatusBar />
-        <View
-          style={{
-            flex: 0.8,
-            backgroundColor: "#f16b00",
-            borderBottomLeftRadius: 150,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image
-            style={{ width: 150, height: 150 }}
-            source={require("../assets/logo.png")}
-          />
-        </View>
+        <LogoComponent />
       </View>
       <Text
         style={{
