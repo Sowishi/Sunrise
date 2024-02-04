@@ -18,6 +18,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { child, get, onValue, push, ref, on } from "firebase/database";
 import LogoComponent from "../components/logoComponent";
 import LineComponent from "../components/line";
+import TitleComponent from "../components/titleComponent";
 
 const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -124,16 +125,7 @@ const Register = ({ navigation }) => {
         <StatusBar />
         <LogoComponent />
       </View>
-      <Text
-        style={{
-          textAlign: "center",
-          fontSize: 30,
-          fontWeight: "bold",
-          marginHorizontal: 20,
-        }}
-      >
-        Register Now!
-      </Text>
+      <TitleComponent title={"Register"} titleColor={"black"} />
       <View
         style={{
           justifyContent: "center",

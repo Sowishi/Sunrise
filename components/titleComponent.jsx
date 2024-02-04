@@ -1,10 +1,10 @@
 import { Text } from "react-native";
 
-const TitleComponent = ({ title }) => {
+const TitleComponent = ({ title, titleColor }) => {
   return (
     <Text
       style={{
-        color: "white",
+        color: titleColor ? titleColor : "white",
         textAlign: "center",
         fontSize: 35,
         fontWeight: "bold",

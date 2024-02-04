@@ -48,7 +48,7 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#232D3F" }}>
+    <View style={{ flex: 1, backgroundColor: "white" }}>
       {loading && <Loader />}
 
       <LogoComponent />
@@ -57,11 +57,14 @@ const Login = ({ navigation }) => {
         style={{
           flex: 1.2,
           paddingHorizontal: 10,
-          backgroundColor: "#232D3F",
+          backgroundColor: "white",
           paddingTop: 15,
         }}
       >
-        <TitleComponent title={"Log in to our smoke detector"} />
+        <TitleComponent
+          titleColor={"black"}
+          title={"Log in to our smoke detector"}
+        />
         <View
           style={{
             justifyContent: "center",
