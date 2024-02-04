@@ -3,6 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import Button from "../components/button";
 import { LinearGradient } from "expo-linear-gradient";
 import LogoComponent from "../components/logoComponent";
+import LineComponent from "../components/line";
+import TitleComponent from "../components/titleComponent";
 
 const Landing = ({ navigation }) => {
   return (
@@ -15,28 +17,21 @@ const Landing = ({ navigation }) => {
           paddingVertical: 30,
         }}
       >
-        <Text
-          style={{
-            color: "white",
-            textAlign: "center",
-            fontSize: 40,
-            fontWeight: "bold",
-          }}
-        >
-          Smoke Detector
-        </Text>
-        <Text
-          style={{
-            textAlign: "center",
-            marginVertical: 10,
-            color: "white",
-          }}
-        >
-          Experience peace of mind with our Smoke Detector — providing early
-          warnings for swift actions. Safeguard your space with advanced
-          detection technology, ensuring a rapid response to potential fire
-          hazards. Your safety is our priority
-        </Text>
+        <View style={{ marginTop: 50 }}>
+          <TitleComponent title={"Smoke Detector"} />
+          <Text
+            style={{
+              textAlign: "center",
+              marginVertical: 10,
+              color: "white",
+            }}
+          >
+            Experience peace of mind with our Smoke Detector — providing early
+            warnings for swift actions. Safeguard your space with advanced
+            detection technology, ensuring a rapid response to potential fire
+            hazards. Your safety is our priority
+          </Text>
+        </View>
 
         <View
           style={{
@@ -45,9 +40,7 @@ const Landing = ({ navigation }) => {
             marginTop: 10,
           }}
         >
-          <View
-            style={{ backgroundColor: "#008170", width: "80%", height: 5 }}
-          ></View>
+          <LineComponent />
         </View>
         <View
           style={{
@@ -66,7 +59,7 @@ const Landing = ({ navigation }) => {
             <Button
               icon="login"
               text="Go to login!"
-              bgColor={"#144F61"}
+              bgColor={"#0B60B0"}
               navigation={navigation}
               event={() => navigation.navigate("login")}
             />
@@ -81,7 +74,7 @@ const Landing = ({ navigation }) => {
           >
             <Button
               text="Register"
-              bgColor={"#E2532F"}
+              bgColor={"#232D3F"}
               navigation={navigation}
               event={() => navigation.navigate("register")}
               icon={"account-arrow-up"}

@@ -19,6 +19,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { onValue, ref } from "firebase/database";
 import LogoComponent from "../components/logoComponent";
+import LineComponent from "../components/line";
+import TitleComponent from "../components/titleComponent";
 
 const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -46,29 +48,20 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "#232D3F" }}>
       {loading && <Loader />}
 
       <LogoComponent />
 
       <View
         style={{
-          flex: 1,
+          flex: 1.2,
           paddingHorizontal: 10,
-          backgroundColor: "white",
+          backgroundColor: "#232D3F",
           paddingTop: 15,
         }}
       >
-        <Text
-          style={{
-            textAlign: "center",
-            fontSize: 30,
-            fontWeight: "bold",
-            marginHorizontal: 20,
-          }}
-        >
-          LOG IN TO OUR SMOKE DETECTOR
-        </Text>
+        <TitleComponent title={"Log in to our smoke detector"} />
         <View
           style={{
             justifyContent: "center",
@@ -76,9 +69,7 @@ const Login = ({ navigation }) => {
             marginTop: 10,
           }}
         >
-          <View
-            style={{ backgroundColor: "#FEB648", width: "80%", height: 5 }}
-          ></View>
+          <LineComponent />
         </View>
         <View style={{ paddingHorizontal: 20, marginTop: 30 }}>
           <View
@@ -146,7 +137,7 @@ const Login = ({ navigation }) => {
           <Button
             icon="login"
             text="Login"
-            bgColor={"#144F61"}
+            bgColor={"#0B60B0"}
             navigation={navigation}
             event={handleLogin}
           />

@@ -17,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { child, get, onValue, push, ref, on } from "firebase/database";
 import LogoComponent from "../components/logoComponent";
+import LineComponent from "../components/line";
 
 const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -140,9 +141,7 @@ const Register = ({ navigation }) => {
           marginTop: 10,
         }}
       >
-        <View
-          style={{ backgroundColor: "#FEB648", width: "80%", height: 5 }}
-        ></View>
+        <LineComponent />
       </View>
       <View
         style={{
