@@ -4,7 +4,8 @@ import { Image } from "react-native";
 const LogoComponent = () => {
   return (
     <LinearGradient
-      colors={["#0F0F0F", "#008170"]}
+      end={{ x: 0.1, y: 0.5 }}
+      colors={["#FC6736", "#0C2D57"]}
       style={{
         flex: 0.8,
         borderBottomLeftRadius: 150,

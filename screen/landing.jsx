@@ -10,7 +10,7 @@ const Landing = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <LinearGradient
-        colors={["#0F0F0F", "#005B41", "#008170"]}
+        colors={["#FC6736", "#0C2D57"]}
         style={{
           flex: 1.5,
           paddingHorizontal: 15,
@@ -18,7 +18,7 @@ const Landing = ({ navigation }) => {
         }}
       >
         <View style={{ marginTop: 50 }}>
-          <TitleComponent title={"Smoke Detector"} />
+          <TitleComponent title={"Smoke Detector"} noBG={true} />
           <Text
             style={{
               textAlign: "center",

@@ -38,7 +38,7 @@ const Login = ({ navigation }) => {
           console.log("inpputted", email, password);
           if (data.email == email && data.password == password) {
             showToast("success", "login successfully!");
-            navigation.navigate("home");
+            navigation.navigate("main");
             return;
           }
         });
@@ -48,7 +48,7 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "#FAF5FC" }}>
       {loading && <Loader />}
 
       <LogoComponent />
@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
         style={{
           flex: 1.2,
           paddingHorizontal: 10,
-          backgroundColor: "white",
+          backgroundColor: "#FAF5FC",
           paddingTop: 15,
         }}
       >

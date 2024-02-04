@@ -91,6 +91,11 @@ const Register = ({ navigation }) => {
       return;
     }
 
+    if (password.length <= 0) {
+      showToast("error", "Password is empty!");
+      return;
+    }
+
     const emailExist = await checkIfUserExists(email);
     if (emailExist) {
       showToast("error", "Email Already exist!");
@@ -121,7 +126,7 @@ const Register = ({ navigation }) => {
     <>
       {loading && <Loader />}
 
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: "#FAF5FC" }}>
         <StatusBar />
         <LogoComponent />
       </View>
@@ -139,11 +144,12 @@ const Register = ({ navigation }) => {
         style={{
           flex: 1,
           paddingHorizontal: 20,
-          marginTop: 30,
+          backgroundColor: "#FAF5FC",
         }}
       >
         <View
           style={{
+            marginTop: 30,
             flexDirection: "row",
             alignItems: "center",
             shadowColor: "#000",
@@ -205,7 +211,7 @@ const Register = ({ navigation }) => {
           <Button
             icon="login"
             text="Register"
-            bgColor={"#144F61"}
+            bgColor={"#0B60B0"}
             navigation={navigation}
             event={handleRegister}
           />
