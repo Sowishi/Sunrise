@@ -11,6 +11,7 @@ import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "../components/toast";
 import { onValue, ref } from "firebase/database";
+import TitleComponent from "../components/titleComponent";
 
 const Home = ({ route, navigation }) => {
   // const { currentUser } = route.params;
@@ -56,12 +57,21 @@ const Home = ({ route, navigation }) => {
     const now = new Date();
     const currentHour = now.getHours();
 
-    if (currentHour >= 5 && currentHour < 12) {
+    if (currentHour >= 5 && currentHour < 18) {
       return "Good morning! 🌞";
-    } else if (currentHour >= 12 && currentHour < 18) {
-      return "Good afternoon ⛅";
     } else {
-      return "Good night! 🌛";
+      return "Good Evening. 🌛";
+    }
+  }
+
+  function getGreetingAnimation() {
+    const now = new Date();
+    const currentHour = now.getHours();
+
+    if (currentHour >= 5 && currentHour < 18) {
+      return require("../assets/Goodevening.json");
+    } else {
+      return require("../assets/Goodmorning.json");
     }
   }
 
@@ -130,7 +140,7 @@ const Home = ({ route, navigation }) => {
       style={{
         flex: 1,
         marginTop: Constants.statusBarHeight,
-        backgroundColor: "white",
+        backgroundColor: "#FAF5FC",
       }}
     >
       <StatusBar
@@ -148,26 +158,39 @@ const Home = ({ route, navigation }) => {
         />
       )}
       <View style={{ flex: 1, backgroundColor: smoke ? "#B40001" : "#f16b00" }}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("landing")}
-          style={{ margin: 20 }}
-        >
-          <Ionicons name="arrow-back" size={45} color="white" />
-        </TouchableOpacity>
-        <Text
+        <View
           style={{
-            textAlign: "center",
-            fontSize: 25,
-            color: "white",
-            fontWeight: "bold",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
           }}
         >
-          {getGreeting()}
-        </Text>
+          <Text
+            style={{
+              alignSelf: "flex-start",
+              fontSize: 25,
+              color: "white",
+              fontWeight: "bold",
+              marginHorizontal: 15,
+            }}
+          >
+            {getGreeting()}
+          </Text>
+          <LottieView
+            autoPlay
+            style={{
+              width: 100,
+              height: 100,
+            }}
+            source={getGreetingAnimation()}
+          />
+        </View>
+
         <View
           style={{
             flex: 1,
-            backgroundColor: "white",
+            backgroundColor: "#FAF5FC",
             marginTop: 40,
             borderTopRightRadius: 100,
             borderTopLeftRadius: 100,
@@ -194,17 +217,11 @@ const Home = ({ route, navigation }) => {
 
           {!smoke && (
             <View>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 30,
-                  color: "black",
-                  marginTop: 30,
-                  fontWeight: "bold",
-                }}
-              >
-                Detecting Smoke...
-              </Text>
+              <TitleComponent
+                title={"Detecting Smoke..."}
+                titleColor={"black"}
+              />
+
               <Ionicons
                 style={{ opacity: 0 }}
                 name="warning"

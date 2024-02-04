@@ -1,22 +1,20 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from 'firebase/database';
 
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAqraDAcpkDrr-Qxx_T6aNH-wVZsnbEZoo",
-  authDomain: "smoke-c6a3e.firebaseapp.com",
-  projectId: "smoke-c6a3e",
-  storageBucket: "smoke-c6a3e.appspot.com",
-  messagingSenderId: "624680627943",
-  appId: "1:624680627943:web:ee866681f720b613683c42",
+  apiKey: "AIzaSyBgt9w5juZPEGy7idwEcQCjQsnmi5LSSrA",
+  authDomain: "sinfero-vphs.firebaseapp.com",
+  databaseURL:
+    "https://sinfero-vphs-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sinfero-vphs",
+  storageBucket: "sinfero-vphs.appspot.com",
+  messagingSenderId: "885902784733",
+  appId: "1:885902784733:web:0906f4fd9179b5ae040334",
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
-const auth = getAuth(app);
+
 const database = getDatabase(app);
 
-
-export { app, db, auth,database };
+export { app, database };

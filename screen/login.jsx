@@ -28,6 +28,7 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
+    let userFound = false;
     if (email.length <= 0 || password.length <= 0) {
       showToast("error", "email or password must not be empty");
     } else {
@@ -39,10 +40,13 @@ const Login = ({ navigation }) => {
           if (data.email == email && data.password == password) {
             showToast("success", "login successfully!");
             navigation.navigate("main");
+            userFound = true;
             return;
           }
         });
-        showToast("error", "Invalid email or password!");
+        if (!userFound) {
+          showToast("error", "Invalid email or password!");
+        }
       });
     }
   };

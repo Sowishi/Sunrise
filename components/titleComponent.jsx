@@ -6,7 +6,7 @@ const TitleComponent = ({ title, titleColor, noBG }) => {
       style={{
         color: titleColor ? titleColor : "white",
         textAlign: "center",
-        fontSize: 35,
+        fontSize: 30,
         fontWeight: "bold",
         backgroundColor: noBG ? "transparent" : "#FAF5FC",
       }}

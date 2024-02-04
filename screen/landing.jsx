@@ -9,6 +9,7 @@ import TitleComponent from "../components/titleComponent";
 const Landing = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      <StatusBar backgroundColor={"#f16b00"} style="light" />
       <LinearGradient
         colors={["#FC6736", "#0C2D57"]}
         style={{
@@ -18,7 +19,7 @@ const Landing = ({ navigation }) => {
         }}
       >
         <View style={{ marginTop: 50 }}>
-          <TitleComponent title={"Smoke Detector"} noBG={true} />
+          <TitleComponent title={"Sinfero VPHS"} noBG={true} />
           <Text
             style={{
               textAlign: "center",
