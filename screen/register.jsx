@@ -83,7 +83,7 @@ const Register = ({ navigation }) => {
   // };
 
   const handleRegister = async () => {
-    if (email == undefined) {
+    if (email.length <= 0) {
       showToast("error", "Invalid Email!");
       return;
     }

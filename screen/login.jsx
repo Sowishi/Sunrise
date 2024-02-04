@@ -25,19 +25,23 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    onValue(ref(database, "/users"), (snapshot) => {
-      snapshot.forEach((doc) => {
-        const data = doc.val();
-        console.log(data.email, data.password);
-        console.log("inpputted", email, password);
-        if (data.email == email && data.password == password) {
-          showToast("success", "login successfully!");
-          navigation.navigate("home");
-          return;
-        }
+    if (email.length <= 0 || password.length <= 0) {
+      showToast("error", "email or password must not be empty");
+    } else {
+      onValue(ref(database, "/users"), (snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.val();
+          console.log(data.email, data.password);
+          console.log("inpputted", email, password);
+          if (data.email == email && data.password == password) {
+            showToast("success", "login successfully!");
+            navigation.navigate("home");
+            return;
+          }
+        });
+        showToast("error", "Invalid email or password!");
       });
-      showToast("error", "Invalid email or password!");
-    });
+    }
   };
 
   return (
