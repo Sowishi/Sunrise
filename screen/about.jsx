@@ -64,6 +64,15 @@ const About = ({ navigation }) => {
             source={require("../assets/team.json")}
           />
         </View>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Button
+            navigation={navigation}
+            event={() => navigation.navigate("login")}
+            icon="login"
+            text="Log out"
+            bgColor={"#0B60B0"}
+          />
+        </View>
       </LinearGradient>
     </View>
   );
