@@ -6,11 +6,17 @@ import LogoComponent from "../components/logoComponent";
 import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
 import LottieView from "lottie-react-native";
+import { useSmokeContext } from "../utils/smokeContext";
 
 const About = ({ navigation }) => {
+  const { smoke, updateData } = useSmokeContext();
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor={"#f16b00"} style="light" />
+      <StatusBar
+        backgroundColor={smoke ? "#B40001" : "#f16b00"}
+        style="light"
+      />
       <LinearGradient
         colors={["#FC6736", "#0C2D57"]}
         style={{
