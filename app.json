@@ -8,14 +8,14 @@
         }
       ]
     ],
-    "name": "Smoke Detector",
+    "name": "Sinferno",
     "slug": "super-laco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/smoke-logo.png",
+    "icon": "./assets/vinzons-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash-smoke.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#F9F7F8"
     },
@@ -29,7 +29,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/smoke-logo.png",
+        "foregroundImage": "./assets/vinzons-logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"],
