@@ -3,8 +3,12 @@ import Button from "../components/button";
 import { useEffect, useState } from "react";
 import { onValue, ref } from "firebase/database";
 import { database } from "../firebase";
+import { useSmokeContext } from "../utils/smokeContext";
 
 const Thermal = () => {
+  const { smoke } = useSmokeContext();
+  console.log(smoke, "in thermal");
+
   return (
     <View style={{ flex: 1, backgroundColor: "#FAF5FC" }}>
       <View>
@@ -21,7 +25,7 @@ const Thermal = () => {
           justifyContent: "center",
         }}
       >
-        <Button text="Request" bgColor={"#232D3F"} icon={"account-arrow-up"} />
+        <Button isDisable={smoke} text="Request" bgColor={"#0B60B0"} />
       </View>
     </View>
   );

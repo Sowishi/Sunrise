@@ -16,6 +16,6 @@ export const MyProvider = ({ children }) => {
   );
 };
 
-export const useMyContext = () => {
+export const useSmokeContext = () => {
   return useContext(MyContext);
 };

@@ -9,12 +9,8 @@ import {
   Pressable,
 } from "react-native";
 import Constants from "expo-constants";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
-import { LinearGradient } from "expo-linear-gradient";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { database, db } from "../firebase";
-import Button from "../components/button";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "../components/toast";
@@ -22,13 +18,13 @@ import { onValue, ref } from "firebase/database";
 import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomModal from "../components/bottomModal";
-import { useMyContext } from "../utils/smokeContext";
+import { useSmokeContext } from "../utils/smokeContext";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { smoke, updateData } = useMyContext();
+  const { smoke, updateData } = useSmokeContext();
 
   const splash = useRef();
 

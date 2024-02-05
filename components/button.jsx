@@ -1,12 +1,12 @@
 import { Text, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Button = ({ text, icon, bgColor, event }) => {
+const Button = ({ text, icon, bgColor, event, isDisable }) => {
   return (
     <TouchableOpacity
       onPress={event}
       style={{
-        backgroundColor: bgColor,
+        backgroundColor: isDisable ? bgColor + "99" : bgColor,
         width: 200,
         paddingVertical: 10,
         borderRadius: 10,
@@ -15,10 +15,17 @@ const Button = ({ text, icon, bgColor, event }) => {
         flexDirection: "row",
         marginHorizontal: 10,
       }}
+      disabled={isDisable}
     >
-      <Text style={{ fontSize: 20, color: "white", marginRight: 5 }}>
-        {text}
-      </Text>
+      {isDisable ? (
+        <Text style={{ fontSize: 20, color: "white", marginRight: 5 }}>
+          Disabled
+        </Text>
+      ) : (
+        <Text style={{ fontSize: 20, color: "white", marginRight: 5 }}>
+          {text}
+        </Text>
+      )}
       <MaterialCommunityIcons name={icon} size={20} color="white" />
     </TouchableOpacity>
   );
