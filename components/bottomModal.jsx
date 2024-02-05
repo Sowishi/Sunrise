@@ -1,6 +1,16 @@
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import TitleComponent from "./titleComponent";
+import { Ionicons } from "@expo/vector-icons";
+import SmallButton from "./smallButton";
 
-const BottomModal = ({ modalVisible, closeModal }) => {
+const BottomModal = ({ modalVisible, closeModal, children }) => {
   return (
     <Modal
       animationType="slide"
@@ -10,13 +20,115 @@ const BottomModal = ({ modalVisible, closeModal }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
-          <TouchableOpacity
-            style={[styles.button, styles.buttonClose]}
-            onPress={closeModal}
-          >
-            <Text style={styles.textStyle}>Hide Modal</Text>
-          </TouchableOpacity>
+          <TitleComponent
+            title={"Personal Details"}
+            titleColor={"black"}
+            noBG={true}
+          />
+          <View style={{ flex: 1, width: "100%" }}>
+            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+              <Text style={{ color: "gray", marginBottom: 3 }}>Owner</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 3,
+                  borderRadius: 3,
+                  paddingHorizontal: 10,
+                  backgroundColor: "white",
+                  borderRadius: 10,
+                }}
+              >
+                <Ionicons name="mail" size={24} color="#999999" />
+                <TextInput
+                  placeholder="Emergency Number"
+                  style={{
+                    flex: 1,
+                    paddingVertical: 9,
+                    paddingHorizontal: 10,
+                  }}
+                />
+              </View>
+            </View>
+            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+              <Text style={{ color: "gray", marginBottom: 3 }}>
+                Emergency Contact Number
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 3,
+                  borderRadius: 3,
+                  paddingHorizontal: 10,
+                  backgroundColor: "white",
+                  borderRadius: 10,
+                }}
+              >
+                <Ionicons name="mail" size={24} color="#999999" />
+                <TextInput
+                  placeholder="Emergency Number"
+                  style={{
+                    flex: 1,
+                    paddingVertical: 9,
+                    paddingHorizontal: 10,
+                  }}
+                />
+              </View>
+            </View>
+            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+              <Text style={{ color: "gray", marginBottom: 3 }}>
+                Emergency Contact Number
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 3,
+                  borderRadius: 3,
+                  paddingHorizontal: 10,
+                  backgroundColor: "white",
+                  borderRadius: 10,
+                }}
+              >
+                <Ionicons name="mail" size={24} color="#999999" />
+                <TextInput
+                  placeholder="Emergency Number"
+                  style={{
+                    flex: 1,
+                    paddingVertical: 9,
+                    paddingHorizontal: 10,
+                  }}
+                />
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                marginVertical: 20,
+                justifyContent: "space-between",
+              }}
+            >
+              <SmallButton
+                event={closeModal}
+                text="Cancel"
+                bgColor={"#232D3F"}
+              />
+              <SmallButton text="Update" bgColor={"#0B60B0"} />
+            </View>
+          </View>
         </View>
       </View>
     </Modal>
@@ -32,7 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#24252699",
   },
   modalView: {
-    backgroundColor: "white",
+    backgroundColor: "#FAF5FC",
     width: "100%",
     height: 500,
     padding: 35,

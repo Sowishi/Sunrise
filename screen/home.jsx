@@ -7,6 +7,7 @@ import {
   FlatList,
   Modal,
   Pressable,
+  TextInput,
 } from "react-native";
 import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
@@ -19,6 +20,8 @@ import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomModal from "../components/bottomModal";
 import { useSmokeContext } from "../utils/smokeContext";
+import Button from "../components/button";
+import SmallButton from "../components/smallButton";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -86,7 +89,7 @@ const Home = ({ route, navigation }) => {
       <BottomModal
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
-      />
+      ></BottomModal>
       {loading && (
         <LottieView
           ref={splash}

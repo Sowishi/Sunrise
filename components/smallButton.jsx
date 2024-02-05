@@ -1,13 +1,13 @@
 import { Text, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const Button = ({ text, icon, bgColor, event, isDisable }) => {
+const SmallButton = ({ text, icon, bgColor, event, isDisable }) => {
   return (
     <TouchableOpacity
       onPress={event}
       style={{
         backgroundColor: isDisable ? bgColor + "99" : bgColor,
-        width: 180,
+        width: 100,
         paddingVertical: 10,
         borderRadius: 10,
         justifyContent: "center",
@@ -18,11 +18,11 @@ const Button = ({ text, icon, bgColor, event, isDisable }) => {
       disabled={isDisable}
     >
       {isDisable ? (
-        <Text style={{ fontSize: 20, color: "white", marginRight: 5 }}>
+        <Text style={{ fontSize: 16, color: "white", marginRight: 5 }}>
           Disabled
         </Text>
       ) : (
-        <Text style={{ fontSize: 20, color: "white", marginRight: 5 }}>
+        <Text style={{ fontSize: 16, color: "white", marginRight: 5 }}>
           {text}
         </Text>
       )}
@@ -31,4 +31,4 @@ const Button = ({ text, icon, bgColor, event, isDisable }) => {
   );
 };
 
-export default Button;
+export default SmallButton;
