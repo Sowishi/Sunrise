@@ -19,7 +19,7 @@ const Landing = ({ navigation }) => {
         }}
       >
         <View style={{ marginTop: 50 }}>
-          <TitleComponent title={"Sinfero VPHS"} noBG={true} />
+          <TitleComponent title={"Sinferno VPHS"} noBG={true} />
           <Text
             style={{
               textAlign: "center",

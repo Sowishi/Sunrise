@@ -1,5 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text, TouchableOpacity, Image, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  Modal,
+  Pressable,
+} from "react-native";
 import Constants from "expo-constants";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
@@ -12,13 +20,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "../components/toast";
 import { onValue, ref } from "firebase/database";
 import TitleComponent from "../components/titleComponent";
+import { FontAwesome } from "@expo/vector-icons";
+import BottomModal from "../components/bottomModal";
 
 const Home = ({ route, navigation }) => {
-  // const { currentUser } = route.params;
-  // const [borrowedBooks, setBorrowedBooks] = useState([]);
-  // const [libraryState, setLibraryState] = useState(false);
   const [loading, setLoading] = useState(true);
   const [smoke, setSmoke] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const splash = useRef();
 
@@ -41,16 +49,6 @@ const Home = ({ route, navigation }) => {
         setSmoke(false);
       }
     });
-
-    // const smokeDoc = doc(db, "smoke", "smokeState");
-    // onSnapshot(smokeDoc, (snapshot) => {
-    //   const smoke = snapshot.data();
-    //   if (smoke["smoke"] == 1) {
-    //     setSmoke(true);
-    //   } else {
-    //     setSmoke(false);
-    //   }
-    // });
   }, []);
 
   function getGreeting() {
@@ -75,66 +73,6 @@ const Home = ({ route, navigation }) => {
     }
   }
 
-  // useEffect(() => {
-  //   const libStateRef = collection(db, "libState");
-  //   onSnapshot(libStateRef, (snapshot) => {
-  //     let libState = undefined;
-  //     snapshot.forEach((doc) => {
-  //       libState = doc.data().state;
-  //     });
-  //     setLibraryState(libState);
-  //   });
-  // }, []);
-
-  // const handleLibraryState = () => {
-  //   const docRef = doc(db, "libState", "OlTcG1ZZO1rPqR5ltgp7");
-  //   updateDoc(docRef, { state: libraryState ? false : true });
-  // };
-
-  // const renderBorrowedBooks = ({ item }) => {
-  //   return (
-  //     <TouchableOpacity
-  //       onPress={() =>
-  //         navigation.navigate("view-book", {
-  //           book: item,
-  //           currentUser: currentUser,
-  //         })
-  //       }
-  //     >
-
-  //       <LinearGradient
-  //         style={{
-  //           paddingVertical: 20,
-  //           opacity: 0.5,
-  //           margin: 10,
-  //           marginHorizontal: 20,
-  //           borderRadius: 10,
-  //           paddingHorizontal: 10,
-  //           flexDirection: "row",
-  //           justifyContent: "space-between",
-  //           alignItems: "center",
-  //         }}
-  //         colors={["#DDA033", "#0D97AC"]}
-  //         start={{ x: 0.1, y: 0.2 }}
-  //       >
-  //         <Text style={{ fontSize: 20 }}>{item.bookName}</Text>
-  //         <MaterialCommunityIcons
-  //           style={{ marginRight: 10 }}
-  //           name="arrow-right-thin"
-  //           size={24}
-  //           color="black"
-  //         />
-  //       </LinearGradient>
-  //     </TouchableOpacity>
-  //   );
-  // };
-
-  // const filteredBooks = borrowedBooks.filter((book) => {
-  //   if (book.issuedTo.schoolID === currentUser.schoolID) {
-  //     return book;
-  //   }
-  // });
-
   return (
     <View
       style={{
@@ -146,6 +84,10 @@ const Home = ({ route, navigation }) => {
       <StatusBar
         backgroundColor={smoke ? "#B40001" : "#f16b00"}
         style="light"
+      />
+      <BottomModal
+        modalVisible={modalVisible}
+        closeModal={() => setModalVisible(false)}
       />
       {loading && (
         <LottieView
@@ -166,17 +108,34 @@ const Home = ({ route, navigation }) => {
             marginTop: 10,
           }}
         >
-          <Text
+          <View
             style={{
-              alignSelf: "flex-start",
-              fontSize: 25,
-              color: "white",
-              fontWeight: "bold",
-              marginHorizontal: 15,
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "space-between",
             }}
           >
-            {getGreeting()}
-          </Text>
+            <Text
+              style={{
+                fontSize: 25,
+                color: "white",
+                fontWeight: "bold",
+                textAlign: "left",
+                marginHorizontal: 15,
+              }}
+            >
+              {getGreeting()}
+            </Text>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <FontAwesome
+                style={{ marginHorizontal: 15 }}
+                name="user-circle"
+                size={30}
+                color="white"
+              />
+            </TouchableOpacity>
+          </View>
+
           <LottieView
             autoPlay
             style={{
