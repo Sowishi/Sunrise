@@ -10,6 +10,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import Thermal from "./screen/thermal";
 import { Entypo } from "@expo/vector-icons";
 import About from "./screen/about";
+import { MyProvider } from "./utils/smokeContext";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -61,15 +62,18 @@ export default function App() {
 
   return (
     <>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="main" component={MainScreen} />
+      <MyProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="main" component={MainScreen} />
 
-          <Stack.Screen name="landing" component={Landing} />
-          <Stack.Screen name="register" component={Register} />
-          <Stack.Screen name="login" component={Login} />
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen name="landing" component={Landing} />
+            <Stack.Screen name="register" component={Register} />
+            <Stack.Screen name="login" component={Login} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </MyProvider>
+
       <Toast />
     </>
   );

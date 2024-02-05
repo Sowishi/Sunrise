@@ -22,11 +22,13 @@ import { onValue, ref } from "firebase/database";
 import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomModal from "../components/bottomModal";
+import { useMyContext } from "../utils/smokeContext";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
-  const [smoke, setSmoke] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { smoke, updateData } = useMyContext();
 
   const splash = useRef();
 
@@ -43,10 +45,10 @@ const Home = ({ route, navigation }) => {
     onValue(smokeRef, (snapshot) => {
       const data = snapshot.val();
       if (data == 1) {
-        setSmoke(true);
         showToast("error", "Smoke Detected!");
+        updateData(true);
       } else {
-        setSmoke(false);
+        updateData(false);
       }
     });
   }, []);

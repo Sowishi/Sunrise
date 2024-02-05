@@ -6,9 +6,7 @@ const BottomModal = ({ modalVisible, closeModal }) => {
       animationType="slide"
       transparent={true}
       visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
+      onRequestClose={closeModal}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
