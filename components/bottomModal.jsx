@@ -9,8 +9,48 @@ import {
 import TitleComponent from "./titleComponent";
 import { Ionicons } from "@expo/vector-icons";
 import SmallButton from "./smallButton";
+import { useEffect, useState } from "react";
+import { database } from "../firebase";
+import { onValue, ref, update } from "firebase/database";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const BottomModal = ({ modalVisible, closeModal, children }) => {
+  const [owner, setOwner] = useState("");
+  const [emergency, setEmergency] = useState("");
+  const [bfp, setBfp] = useState("");
+  const [newOwner, setNewOwner] = useState("");
+  const [newBfp, setNewBfp] = useState("");
+
+  const ownerRef = ref(database, "/owner");
+  const emergencyRef = ref(database, "/emergency");
+  const bfpRef = ref(database, "/bfp");
+
+  useEffect(() => {
+    onValue(bfpRef, (snapshot) => {
+      const data = snapshot.val();
+      setBfp(data);
+    });
+
+    onValue(ownerRef, (snapshot) => {
+      const data = snapshot.val();
+      setOwner(data);
+    });
+    onValue(emergencyRef, (snapshot) => {
+      const data = snapshot.val();
+      setEmergency(data);
+    });
+  }, []);
+
+  const updateInfo = () => {
+    update(ref(database, "/"), {
+      owner: newOwner.length <= 0 ? owner : newOwner.toString(),
+    });
+    update(ref(database, "/"), {
+      bfp: newBfp.length <= 0 ? bfp : newBfp.toString(),
+    });
+  };
+
   return (
     <Modal
       animationType="slide"
@@ -21,11 +61,42 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <TitleComponent
-            title={"Personal Details"}
+            title={"Device Details"}
             titleColor={"black"}
             noBG={true}
           />
           <View style={{ flex: 1, width: "100%" }}>
+            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+              <Text style={{ color: "gray", marginBottom: 3 }}>
+                Emergency Contact Number
+              </Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 3,
+                  borderRadius: 3,
+                  paddingHorizontal: 10,
+                  backgroundColor: "white",
+                  borderRadius: 10,
+                }}
+              >
+                <MaterialIcons name="sos" size={24} color="gray" />
+                <TextInput
+                  editable={false}
+                  placeholder={emergency}
+                  style={{
+                    flex: 1,
+                    paddingVertical: 9,
+                    paddingHorizontal: 10,
+                  }}
+                />
+              </View>
+            </View>
             <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
               <Text style={{ color: "gray", marginBottom: 3 }}>Owner</Text>
               <View
@@ -43,9 +114,10 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                   borderRadius: 10,
                 }}
               >
-                <Ionicons name="mail" size={24} color="#999999" />
+                <MaterialCommunityIcons name="account" size={24} color="gray" />
                 <TextInput
-                  placeholder="Emergency Number"
+                  onChangeText={(text) => setNewOwner(text)}
+                  placeholder={owner}
                   style={{
                     flex: 1,
                     paddingVertical: 9,
@@ -54,9 +126,10 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                 />
               </View>
             </View>
+
             <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
               <Text style={{ color: "gray", marginBottom: 3 }}>
-                Emergency Contact Number
+                Bureau of Fire Protection{" "}
               </Text>
               <View
                 style={{
@@ -73,39 +146,10 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                   borderRadius: 10,
                 }}
               >
-                <Ionicons name="mail" size={24} color="#999999" />
+                <MaterialCommunityIcons name="fire" size={24} color="gray" />
                 <TextInput
-                  placeholder="Emergency Number"
-                  style={{
-                    flex: 1,
-                    paddingVertical: 9,
-                    paddingHorizontal: 10,
-                  }}
-                />
-              </View>
-            </View>
-            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-              <Text style={{ color: "gray", marginBottom: 3 }}>
-                Emergency Contact Number
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 2,
-                  elevation: 3,
-                  borderRadius: 3,
-                  paddingHorizontal: 10,
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                }}
-              >
-                <Ionicons name="mail" size={24} color="#999999" />
-                <TextInput
-                  placeholder="Emergency Number"
+                  onChangeText={(text) => setNewBfp(text)}
+                  placeholder={bfp}
                   style={{
                     flex: 1,
                     paddingVertical: 9,
@@ -126,7 +170,11 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                 text="Cancel"
                 bgColor={"#232D3F"}
               />
-              <SmallButton text="Update" bgColor={"#0B60B0"} />
+              <SmallButton
+                event={updateInfo}
+                text="Update"
+                bgColor={"#0B60B0"}
+              />
             </View>
           </View>
         </View>
