@@ -12,10 +12,10 @@
     "slug": "super-laco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/vinzons-logo.png",
+    "icon": "./assets/logo-sinfero.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-sinfero.png",
       "resizeMode": "contain",
       "backgroundColor": "#F9F7F8"
     },
@@ -29,7 +29,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/vinzons-logo.png",
+        "foregroundImage": "./assets/logo-sinfero.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"],
