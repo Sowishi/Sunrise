@@ -11,7 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SmallButton from "./smallButton";
 import { useEffect, useRef, useState } from "react";
 import { database } from "../firebase";
-import { onValue, ref, update } from "firebase/database";
+import { get, onValue, ref, update } from "firebase/database";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -35,6 +35,9 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   const bfpRef = ref(database, `uids/${uid}/bfp`);
 
   const deviceRef = useRef();
+  const emergencyInputRef = useRef();
+  const bfpInputRef = useRef();
+  const ownerInputRef = useRef();
 
   useEffect(() => {
     onValue(bfpRef, (snapshot) => {
@@ -52,35 +55,43 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
     });
   }, [uid]);
 
+  const blur = () => {
+    emergencyInputRef.current.blur();
+    bfpInputRef.current.blur();
+    ownerInputRef.current.blur();
+  };
+
   const handleUpdateInfo = () => {
-    // if(!isNaN(newBfp) || !isNaN()){
-    //   showToast("error")
-    // }
-
-    update(ref(database, `/uids/${uid}`), {
-      owner: newOwner.length <= 0 ? owner : newOwner.toString(),
-    });
-    update(ref(database, `/uids/${uid}`), {
-      bfp: newBfp.length <= 0 ? bfp : parseInt(newBfp),
-    });
-
-    update(ref(database, `/uids/${uid}`), {
-      emergency: newEmergency.length <= 0 ? emergency : parseInt(newEmergency),
-    });
+    if (isNaN(newBfp)) {
+      showToast(
+        "error",
+        "Please input an integer in Bureau of Fire Protection."
+      );
+      blur();
+      return;
+    } else if (isNaN(newEmergency)) {
+      showToast("error", "Please input an integer in Emergency Contact Number");
+      blur();
+      return;
+    } else {
+      update(ref(database, `/uids/${uid}`), {
+        owner: newOwner.length <= 0 ? owner : newOwner.toString(),
+      });
+      update(ref(database, `/uids/${uid}`), {
+        bfp: newBfp.length <= 0 ? bfp : parseInt(newBfp),
+      });
+      update(ref(database, `/uids/${uid}`), {
+        emergency:
+          newEmergency.length <= 0 ? emergency : parseInt(newEmergency),
+      });
+      showToast("success", "Updated Successfully.");
+      blur();
+    }
   };
 
   const handleUpdateUid = () => {
     if (!isNaN(newUid)) {
-      const isValid = checkIfUidExist(newUid);
-      if (isValid) {
-        let number = parseFloat(newUid);
-        updateUid(number);
-        deviceRef.current.blur();
-        showToast("success", "Connected Successfully.");
-      } else {
-        showToast("error", "Device UID is not exist.");
-        deviceRef.current.blur();
-      }
+      checkIfUidExist(newUid);
     } else {
       deviceRef.current.blur();
 
@@ -88,18 +99,26 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
     }
   };
 
-  const checkIfUidExist = (uid) => {
-    let isExist = false;
-
-    onValue(ref(database, "/uids"), (snapshot) => {
-      snapshot.forEach((doc) => {
-        if (parseInt(doc.key) == parseInt(uid)) {
-          isExist = true;
+  const checkIfUidExist = async (uid) => {
+    let found = false;
+    const snapshot = await get(ref(database, "/uids"));
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        const key = childSnapshot.key;
+        if (parseInt(key) == parseInt(uid)) {
+          let number = parseFloat(newUid);
+          updateUid(number);
+          deviceRef.current.blur();
+          showToast("success", "Connected Successfully.");
+          found = true;
+        } else {
+          if (!found) {
+            showToast("error", "Device UID is not exist.");
+            deviceRef.current.blur();
+          }
         }
       });
-    });
-
-    return isExist;
+    }
   };
 
   return (
@@ -163,6 +182,37 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
             </View>
 
             <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+              <Text style={{ color: "gray", marginBottom: 3 }}>Owner</Text>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 1 },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 2,
+                  elevation: 3,
+                  borderRadius: 3,
+                  paddingHorizontal: 10,
+                  backgroundColor: "white",
+                  borderRadius: 10,
+                }}
+              >
+                <MaterialCommunityIcons name="account" size={24} color="gray" />
+                <TextInput
+                  ref={ownerInputRef}
+                  onChangeText={(text) => setNewOwner(text)}
+                  placeholder={owner.toString()}
+                  style={{
+                    flex: 1,
+                    paddingVertical: 9,
+                    paddingHorizontal: 10,
+                  }}
+                />
+              </View>
+            </View>
+
+            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
               <Text style={{ color: "gray", marginBottom: 3 }}>
                 Emergency Contact Number
               </Text>
@@ -183,37 +233,9 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
               >
                 <MaterialIcons name="sos" size={24} color="gray" />
                 <TextInput
+                  ref={emergencyInputRef}
                   onChangeText={(text) => setNewEmergency(text)}
                   placeholder={emergency.toString()}
-                  style={{
-                    flex: 1,
-                    paddingVertical: 9,
-                    paddingHorizontal: 10,
-                  }}
-                />
-              </View>
-            </View>
-            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-              <Text style={{ color: "gray", marginBottom: 3 }}>Owner</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 2,
-                  elevation: 3,
-                  borderRadius: 3,
-                  paddingHorizontal: 10,
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                }}
-              >
-                <MaterialCommunityIcons name="account" size={24} color="gray" />
-                <TextInput
-                  onChangeText={(text) => setNewOwner(text)}
-                  placeholder={owner.toString()}
                   style={{
                     flex: 1,
                     paddingVertical: 9,
@@ -244,6 +266,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
               >
                 <MaterialCommunityIcons name="fire" size={24} color="gray" />
                 <TextInput
+                  ref={bfpInputRef}
                   onChangeText={(text) => setNewBfp(text)}
                   placeholder={bfp.toString()}
                   style={{
@@ -263,7 +286,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
             >
               <SmallButton
                 event={closeModal}
-                text="Cancel"
+                text="Close"
                 bgColor={"#232D3F"}
               />
               <SmallButton
