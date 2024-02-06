@@ -26,6 +26,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   const [newOwner, setNewOwner] = useState("");
   const [newBfp, setNewBfp] = useState("");
   const [newUid, setNewUid] = useState();
+  const [newEmergency, setNewEmergency] = useState();
 
   const { uid, updateUid } = useSmokeContext();
 
@@ -52,24 +53,53 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   }, [uid]);
 
   const handleUpdateInfo = () => {
+    // if(!isNaN(newBfp) || !isNaN()){
+    //   showToast("error")
+    // }
+
     update(ref(database, `/uids/${uid}`), {
       owner: newOwner.length <= 0 ? owner : newOwner.toString(),
     });
     update(ref(database, `/uids/${uid}`), {
       bfp: newBfp.length <= 0 ? bfp : parseInt(newBfp),
     });
+
+    update(ref(database, `/uids/${uid}`), {
+      emergency: newEmergency.length <= 0 ? emergency : parseInt(newEmergency),
+    });
   };
 
   const handleUpdateUid = () => {
     if (!isNaN(newUid)) {
-      let number = parseFloat(newUid);
-      updateUid(number);
-      deviceRef.current.blur();
+      const isValid = checkIfUidExist(newUid);
+      if (isValid) {
+        let number = parseFloat(newUid);
+        updateUid(number);
+        deviceRef.current.blur();
+        showToast("success", "Connected Successfully.");
+      } else {
+        showToast("error", "Device UID is not exist.");
+        deviceRef.current.blur();
+      }
     } else {
       deviceRef.current.blur();
 
       showToast("error", "Device uid is not a number.");
     }
+  };
+
+  const checkIfUidExist = (uid) => {
+    let isExist = false;
+
+    onValue(ref(database, "/uids"), (snapshot) => {
+      snapshot.forEach((doc) => {
+        if (parseInt(doc.key) == parseInt(uid)) {
+          isExist = true;
+        }
+      });
+    });
+
+    return isExist;
   };
 
   return (
@@ -153,7 +183,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
               >
                 <MaterialIcons name="sos" size={24} color="gray" />
                 <TextInput
-                  editable={false}
+                  onChangeText={(text) => setNewEmergency(text)}
                   placeholder={emergency.toString()}
                   style={{
                     flex: 1,
