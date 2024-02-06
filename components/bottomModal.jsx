@@ -22,9 +22,9 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   const [newOwner, setNewOwner] = useState("");
   const [newBfp, setNewBfp] = useState("");
 
-  const ownerRef = ref(database, "/owner");
-  const emergencyRef = ref(database, "/emergency");
-  const bfpRef = ref(database, "/bfp");
+  const ownerRef = ref(database, "uids/23/owner");
+  const emergencyRef = ref(database, "uids/23/emergency");
+  const bfpRef = ref(database, "uids/23/bfp");
 
   useEffect(() => {
     onValue(bfpRef, (snapshot) => {
@@ -43,11 +43,11 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   }, []);
 
   const updateInfo = () => {
-    update(ref(database, "/"), {
+    update(ref(database, "/uids/23"), {
       owner: newOwner.length <= 0 ? owner : newOwner.toString(),
     });
-    update(ref(database, "/"), {
-      bfp: newBfp.length <= 0 ? bfp : newBfp.toString(),
+    update(ref(database, "/uids/23"), {
+      bfp: newBfp.length <= 0 ? bfp : parseInt(newBfp),
     });
   };
 
@@ -88,7 +88,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                 <MaterialIcons name="sos" size={24} color="gray" />
                 <TextInput
                   editable={false}
-                  placeholder={emergency}
+                  placeholder={emergency.toString()}
                   style={{
                     flex: 1,
                     paddingVertical: 9,
@@ -117,7 +117,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                 <MaterialCommunityIcons name="account" size={24} color="gray" />
                 <TextInput
                   onChangeText={(text) => setNewOwner(text)}
-                  placeholder={owner}
+                  placeholder={owner.toString()}
                   style={{
                     flex: 1,
                     paddingVertical: 9,
@@ -149,7 +149,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                 <MaterialCommunityIcons name="fire" size={24} color="gray" />
                 <TextInput
                   onChangeText={(text) => setNewBfp(text)}
-                  placeholder={bfp}
+                  placeholder={bfp.toString()}
                   style={{
                     flex: 1,
                     paddingVertical: 9,

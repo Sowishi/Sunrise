@@ -39,10 +39,12 @@ const Home = ({ route, navigation }) => {
       setLoading(false);
     }, 2000);
 
-    const smokeRef = ref(database, "/smoke");
+    const smokeRef = ref(database, "/uids/23/smoke");
 
     onValue(smokeRef, (snapshot) => {
       const data = snapshot.val();
+
+      console.log(data);
       if (data == 1) {
         showToast("error", "Smoke Detected!");
         updateData(true);

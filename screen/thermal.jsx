@@ -10,7 +10,7 @@ const Thermal = () => {
 
   const [thermalImage, setThermalImage] = useState("");
 
-  const thermalImageRef = ref(database, "thermal_img");
+  const thermalImageRef = ref(database, "uids/23/thermal_img");
 
   useEffect(() => {
     onValue(thermalImageRef, (snapshot) => {
