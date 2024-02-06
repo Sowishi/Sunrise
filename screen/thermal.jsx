@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import { onValue, ref, update } from "firebase/database";
 import { database } from "../firebase";
 import { useSmokeContext } from "../utils/smokeContext";
+import TitleComponent from "../components/titleComponent";
+import LineComponent from "../components/line";
+import Constants from "expo-constants";
 
-const Thermal = () => {
+const Thermal = ({ navigation }) => {
   const { smoke, uid } = useSmokeContext();
 
   const [thermalImage, setThermalImage] = useState("");
@@ -24,31 +27,71 @@ const Thermal = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#FAF5FC" }}>
-      <View>
-        {thermalImage.length >= 1 ? (
-          <Image
-            style={{ width: "100%", height: "92%" }}
-            source={{
-              uri: thermalImage,
+    <View
+      style={{
+        flex: 1,
+        marginTop: Constants.statusBarHeight,
+        backgroundColor: "#FAF5FC",
+      }}
+    >
+      <View style={{ flex: 1, backgroundColor: smoke ? "#B40001" : "#f16b00" }}>
+        <View
+          style={{
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+          }}
+        >
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "center",
             }}
-          />
-        ) : (
-          <Text>Getting Image</Text>
-        )}
-      </View>
-      <View
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Button
-          event={requestImage}
-          isDisable={smoke}
-          text="Request"
-          bgColor={"#0B60B0"}
-        />
+          >
+            <Text
+              style={{
+                fontSize: 25,
+                color: "white",
+                fontWeight: "bold",
+                textAlign: "center",
+                marginHorizontal: 15,
+              }}
+            >
+              Thermal Image 🌡️
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "#FAF5FC",
+            marginTop: 40,
+            borderTopRightRadius: 100,
+            borderTopLeftRadius: 100,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {thermalImage && (
+            <Image
+              style={{ width: 300, height: 400, borderRadius: 10 }}
+              source={{
+                uri: thermalImage,
+              }}
+            />
+          )}
+          <View style={{ marginTop: 20 }}>
+            <Button
+              text="Request"
+              bgColor={"#0B60B0"}
+              event={requestImage}
+              isDisable={smoke}
+            />
+          </View>
+        </View>
       </View>
     </View>
   );

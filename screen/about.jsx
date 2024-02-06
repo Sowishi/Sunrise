@@ -48,6 +48,17 @@ const About = ({ navigation }) => {
         >
           <LineComponent />
         </View>
+        <Text
+          style={{
+            textAlign: "center",
+            marginVertical: 10,
+            color: "white",
+          }}
+        >
+          Proponents:{"\n"}
+          {"\n"}Montejo Sofia Denise E.{"\n"}Presbitero John Erlov S.
+          {"\n"}Lopez Shine Xandrea G.{"\n"}Cabezudo Kyla G.
+        </Text>
         <View
           style={{
             alignItems: "center",
@@ -57,8 +68,8 @@ const About = ({ navigation }) => {
           <LottieView
             autoPlay
             style={{
-              width: 350,
-              height: 400,
+              width: 300,
+              height: 250,
               borderWidth: 1,
             }}
             source={require("../assets/team.json")}

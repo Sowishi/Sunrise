@@ -19,7 +19,7 @@ const Landing = ({ navigation }) => {
         }}
       >
         <View style={{ marginTop: 50 }}>
-          <TitleComponent title={"Sinferno VPHS"} noBG={true} />
+          <TitleComponent title={"SINFERNO"} noBG={true} />
           <Text
             style={{
               textAlign: "center",
@@ -27,10 +27,8 @@ const Landing = ({ navigation }) => {
               color: "white",
             }}
           >
-            Experience peace of mind with our Smoke Detector — providing early
-            warnings for swift actions. Safeguard your space with advanced
-            detection technology, ensuring a rapid response to potential fire
-            hazards. Your safety is our priority
+            Solar Innovated Network for Fire Emergency Response and Notification
+            Optimization with IoT- based systems.
           </Text>
         </View>
 

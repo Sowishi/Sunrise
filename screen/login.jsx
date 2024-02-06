@@ -65,10 +65,7 @@ const Login = ({ navigation }) => {
           paddingTop: 15,
         }}
       >
-        <TitleComponent
-          titleColor={"black"}
-          title={"Log in to our smoke detector"}
-        />
+        <TitleComponent titleColor={"black"} title={"Log in to SINFERNO"} />
         <View
           style={{
             justifyContent: "center",
