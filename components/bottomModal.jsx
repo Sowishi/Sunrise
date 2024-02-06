@@ -163,6 +163,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                 >
                   <FontAwesome5 name="robot" size={17} color="gray" />
                   <TextInput
+                    inputMode="numeric"
                     ref={deviceRef}
                     onChangeText={(text) => setNewUid(text)}
                     placeholder={"#" + uid.toString()}
@@ -233,6 +234,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
               >
                 <MaterialIcons name="sos" size={24} color="gray" />
                 <TextInput
+                  inputMode="numeric"
                   ref={emergencyInputRef}
                   onChangeText={(text) => setNewEmergency(text)}
                   placeholder={emergency.toString()}
@@ -266,6 +268,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
               >
                 <MaterialCommunityIcons name="fire" size={24} color="gray" />
                 <TextInput
+                  inputMode="numeric"
                   ref={bfpInputRef}
                   onChangeText={(text) => setNewBfp(text)}
                   placeholder={bfp.toString()}
