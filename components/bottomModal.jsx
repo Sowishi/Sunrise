@@ -15,16 +15,16 @@ import { onValue, ref, update } from "firebase/database";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const BottomModal = ({ modalVisible, closeModal, children }) => {
+const BottomModal = ({ modalVisible, closeModal, children, uid }) => {
   const [owner, setOwner] = useState("");
   const [emergency, setEmergency] = useState("");
   const [bfp, setBfp] = useState("");
   const [newOwner, setNewOwner] = useState("");
   const [newBfp, setNewBfp] = useState("");
 
-  const ownerRef = ref(database, "uids/23/owner");
-  const emergencyRef = ref(database, "uids/23/emergency");
-  const bfpRef = ref(database, "uids/23/bfp");
+  const ownerRef = ref(database, `uids/${uid}/owner`);
+  const emergencyRef = ref(database, `uids/${uid}/emergency`);
+  const bfpRef = ref(database, `uids/${uid}/bfp`);
 
   useEffect(() => {
     onValue(bfpRef, (snapshot) => {
@@ -43,10 +43,10 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   }, []);
 
   const updateInfo = () => {
-    update(ref(database, "/uids/23"), {
+    update(ref(database, `/uids/${uid}`), {
       owner: newOwner.length <= 0 ? owner : newOwner.toString(),
     });
-    update(ref(database, "/uids/23"), {
+    update(ref(database, `/uids/${uid}`), {
       bfp: newBfp.length <= 0 ? bfp : parseInt(newBfp),
     });
   };

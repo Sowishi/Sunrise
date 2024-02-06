@@ -27,7 +27,7 @@ const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { smoke, updateData } = useSmokeContext();
+  const { smoke, updateData, uid } = useSmokeContext();
 
   const splash = useRef();
 
@@ -39,7 +39,7 @@ const Home = ({ route, navigation }) => {
       setLoading(false);
     }, 2000);
 
-    const smokeRef = ref(database, "/uids/23/smoke");
+    const smokeRef = ref(database, `/uids/${uid}/smoke`);
 
     onValue(smokeRef, (snapshot) => {
       const data = snapshot.val();
@@ -89,6 +89,7 @@ const Home = ({ route, navigation }) => {
         style="light"
       />
       <BottomModal
+        uid={uid}
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
       ></BottomModal>

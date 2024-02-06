@@ -6,11 +6,11 @@ import { database } from "../firebase";
 import { useSmokeContext } from "../utils/smokeContext";
 
 const Thermal = () => {
-  const { smoke } = useSmokeContext();
+  const { smoke, uid } = useSmokeContext();
 
   const [thermalImage, setThermalImage] = useState("");
 
-  const thermalImageRef = ref(database, "uids/23/thermal_img");
+  const thermalImageRef = ref(database, `uids/${uid}/thermal_img`);
 
   useEffect(() => {
     onValue(thermalImageRef, (snapshot) => {
