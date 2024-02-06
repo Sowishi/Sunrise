@@ -9,22 +9,31 @@ import {
 import TitleComponent from "./titleComponent";
 import { Ionicons } from "@expo/vector-icons";
 import SmallButton from "./smallButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { database } from "../firebase";
 import { onValue, ref, update } from "firebase/database";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import LineComponent from "./line";
+import { showToast } from "./toast";
+import { useSmokeContext } from "../utils/smokeContext";
 
-const BottomModal = ({ modalVisible, closeModal, children, uid }) => {
+const BottomModal = ({ modalVisible, closeModal, children }) => {
   const [owner, setOwner] = useState("");
   const [emergency, setEmergency] = useState("");
   const [bfp, setBfp] = useState("");
   const [newOwner, setNewOwner] = useState("");
   const [newBfp, setNewBfp] = useState("");
+  const [newUid, setNewUid] = useState();
+
+  const { uid, updateUid } = useSmokeContext();
 
   const ownerRef = ref(database, `uids/${uid}/owner`);
   const emergencyRef = ref(database, `uids/${uid}/emergency`);
   const bfpRef = ref(database, `uids/${uid}/bfp`);
+
+  const deviceRef = useRef();
 
   useEffect(() => {
     onValue(bfpRef, (snapshot) => {
@@ -40,15 +49,27 @@ const BottomModal = ({ modalVisible, closeModal, children, uid }) => {
       const data = snapshot.val();
       setEmergency(data);
     });
-  }, []);
+  }, [uid]);
 
-  const updateInfo = () => {
+  const handleUpdateInfo = () => {
     update(ref(database, `/uids/${uid}`), {
       owner: newOwner.length <= 0 ? owner : newOwner.toString(),
     });
     update(ref(database, `/uids/${uid}`), {
       bfp: newBfp.length <= 0 ? bfp : parseInt(newBfp),
     });
+  };
+
+  const handleUpdateUid = () => {
+    if (!isNaN(newUid)) {
+      let number = parseFloat(newUid);
+      updateUid(number);
+      deviceRef.current.blur();
+    } else {
+      deviceRef.current.blur();
+
+      showToast("error", "Device uid is not a number.");
+    }
   };
 
   return (
@@ -66,6 +87,51 @@ const BottomModal = ({ modalVisible, closeModal, children, uid }) => {
             noBG={true}
           />
           <View style={{ flex: 1, width: "100%" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "flex-end",
+              }}
+            >
+              <View style={{ paddingHorizontal: 10, marginTop: 30, flex: 1 }}>
+                <Text style={{ color: "gray", marginBottom: 3 }}>
+                  Device UID
+                </Text>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 3,
+                    borderRadius: 3,
+                    paddingHorizontal: 10,
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                  }}
+                >
+                  <FontAwesome5 name="robot" size={17} color="gray" />
+                  <TextInput
+                    ref={deviceRef}
+                    onChangeText={(text) => setNewUid(text)}
+                    placeholder={"#" + uid.toString()}
+                    style={{
+                      flex: 1,
+                      paddingVertical: 9,
+                      paddingHorizontal: 10,
+                    }}
+                  />
+                </View>
+              </View>
+              <SmallButton
+                event={handleUpdateUid}
+                text="Connect"
+                bgColor={"#F77000"}
+              />
+            </View>
+
             <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
               <Text style={{ color: "gray", marginBottom: 3 }}>
                 Emergency Contact Number
@@ -171,7 +237,7 @@ const BottomModal = ({ modalVisible, closeModal, children, uid }) => {
                 bgColor={"#232D3F"}
               />
               <SmallButton
-                event={updateInfo}
+                event={handleUpdateInfo}
                 text="Update"
                 bgColor={"#0B60B0"}
               />
@@ -189,12 +255,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
     marginTop: 22,
-    backgroundColor: "#24252699",
   },
   modalView: {
     backgroundColor: "#FAF5FC",
     width: "100%",
-    height: 500,
+    height: 560,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",

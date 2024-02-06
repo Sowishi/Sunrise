@@ -17,7 +17,7 @@ const Thermal = () => {
       const data = snapshot.val();
       setThermalImage(data);
     });
-  }, []);
+  }, [uid]);
 
   const requestImage = () => {
     update(ref(database, "/"), { requesting_img: true });

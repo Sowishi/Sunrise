@@ -4,7 +4,7 @@ const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
   const [smoke, setData] = useState(false);
-  const [uid, setUid] = useState(23);
+  const [uid, setUid] = useState(0);
 
   const updateData = (newData) => {
     setData(newData);

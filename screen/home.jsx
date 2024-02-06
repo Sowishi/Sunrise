@@ -27,7 +27,7 @@ const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { smoke, updateData, uid } = useSmokeContext();
+  const { smoke, updateData, uid, updateUid } = useSmokeContext();
 
   const splash = useRef();
 
@@ -52,7 +52,7 @@ const Home = ({ route, navigation }) => {
         updateData(false);
       }
     });
-  }, []);
+  }, [uid]);
 
   function getGreeting() {
     const now = new Date();
@@ -90,6 +90,7 @@ const Home = ({ route, navigation }) => {
       />
       <BottomModal
         uid={uid}
+        updateUid={updateUid}
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
       ></BottomModal>
@@ -174,7 +175,7 @@ const Home = ({ route, navigation }) => {
               >
                 Smoke Detected
               </Text>
-              <Ionicons name="warning" size={70} color="#B40001" />
+              <Ionicons name="warning" size={40} color="#B40001" />
             </View>
           )}
 
