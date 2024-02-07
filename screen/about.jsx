@@ -9,7 +9,7 @@ import LottieView from "lottie-react-native";
 import { useSmokeContext } from "../utils/smokeContext";
 
 const About = ({ navigation }) => {
-  const { smoke, updateData } = useSmokeContext();
+  const { updateAuth, smoke } = useSmokeContext();
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -78,7 +78,10 @@ const About = ({ navigation }) => {
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Button
             navigation={navigation}
-            event={() => navigation.navigate("login")}
+            event={() => {
+              updateAuth(null);
+              navigation.navigate("login");
+            }}
             icon="login"
             text="Log out"
             bgColor={"#0B60B0"}

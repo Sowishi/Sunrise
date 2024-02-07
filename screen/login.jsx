@@ -21,11 +21,14 @@ import { onValue, ref } from "firebase/database";
 import LogoComponent from "../components/logoComponent";
 import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
+import { useSmokeContext } from "../utils/smokeContext";
 
 const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { updateAuth } = useSmokeContext();
 
   const handleLogin = () => {
     let userFound = false;
@@ -35,9 +38,9 @@ const Login = ({ navigation }) => {
       onValue(ref(database, "/users"), (snapshot) => {
         snapshot.forEach((doc) => {
           const data = doc.val();
-          console.log(data.email, data.password);
-          console.log("inpputted", email, password);
+          console.log(data);
           if (data.email == email && data.password == password) {
+            updateAuth({ ...data, id: doc.key });
             showToast("success", "login successfully!");
             navigation.navigate("main");
             userFound = true;

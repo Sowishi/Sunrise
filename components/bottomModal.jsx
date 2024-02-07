@@ -18,6 +18,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import LineComponent from "./line";
 import { showToast } from "./toast";
 import { useSmokeContext } from "../utils/smokeContext";
+import { DevSettings } from "react-native";
 
 const BottomModal = ({ modalVisible, closeModal, children }) => {
   const [owner, setOwner] = useState("");
@@ -28,7 +29,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   const [newUid, setNewUid] = useState();
   const [newEmergency, setNewEmergency] = useState();
 
-  const { uid, updateUid } = useSmokeContext();
+  const { uid, updateUid, auth } = useSmokeContext();
 
   const ownerRef = ref(database, `uids/${uid}/owner`);
   const emergencyRef = ref(database, `uids/${uid}/emergency`);
@@ -106,10 +107,14 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
       snapshot.forEach((childSnapshot) => {
         const key = childSnapshot.key;
         if (parseInt(key) == parseInt(uid)) {
-          let number = parseFloat(newUid);
-          updateUid(number);
+          let number = parseInt(newUid);
+          update(ref(database, `users/${auth.id}`), {
+            uid: number,
+          });
           deviceRef.current.blur();
+          updateUid(number);
           showToast("success", "Connected Successfully.");
+
           found = true;
         } else {
           if (!found) {
@@ -164,9 +169,9 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
                   <FontAwesome5 name="robot" size={17} color="gray" />
                   <TextInput
                     inputMode="numeric"
+                    placeholder="Enter UID"
                     ref={deviceRef}
                     onChangeText={(text) => setNewUid(text)}
-                    placeholder={"#" + uid.toString()}
                     style={{
                       flex: 1,
                       paddingVertical: 9,
@@ -182,122 +187,142 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
               />
             </View>
 
-            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-              <Text style={{ color: "gray", marginBottom: 3 }}>Owner</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 2,
-                  elevation: 3,
-                  borderRadius: 3,
-                  paddingHorizontal: 10,
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                }}
-              >
-                <MaterialCommunityIcons name="account" size={24} color="gray" />
-                <TextInput
-                  ref={ownerInputRef}
-                  onChangeText={(text) => setNewOwner(text)}
-                  placeholder={owner.toString()}
-                  style={{
-                    flex: 1,
-                    paddingVertical: 9,
-                    paddingHorizontal: 10,
-                  }}
-                />
-              </View>
-            </View>
+            {uid !== undefined && (
+              <>
+                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                  <Text style={{ color: "gray", marginBottom: 3 }}>Owner</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.8,
+                      shadowRadius: 2,
+                      elevation: 3,
+                      borderRadius: 3,
+                      paddingHorizontal: 10,
+                      backgroundColor: "white",
+                      borderRadius: 10,
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="account"
+                      size={24}
+                      color="gray"
+                    />
+                    <TextInput
+                      ref={ownerInputRef}
+                      onChangeText={(text) => setNewOwner(text)}
+                      placeholder={
+                        owner == undefined ? "Unknown" : owner.toString()
+                      }
+                      style={{
+                        flex: 1,
+                        paddingVertical: 9,
+                        paddingHorizontal: 10,
+                      }}
+                    />
+                  </View>
+                </View>
 
-            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-              <Text style={{ color: "gray", marginBottom: 3 }}>
-                Emergency Contact Number
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 2,
-                  elevation: 3,
-                  borderRadius: 3,
-                  paddingHorizontal: 10,
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                }}
-              >
-                <MaterialIcons name="sos" size={24} color="gray" />
-                <TextInput
-                  inputMode="numeric"
-                  ref={emergencyInputRef}
-                  onChangeText={(text) => setNewEmergency(text)}
-                  placeholder={emergency.toString()}
-                  style={{
-                    flex: 1,
-                    paddingVertical: 9,
-                    paddingHorizontal: 10,
-                  }}
-                />
-              </View>
-            </View>
+                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                  <Text style={{ color: "gray", marginBottom: 3 }}>
+                    Emergency Contact Number
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.8,
+                      shadowRadius: 2,
+                      elevation: 3,
+                      borderRadius: 3,
+                      paddingHorizontal: 10,
+                      backgroundColor: "white",
+                      borderRadius: 10,
+                    }}
+                  >
+                    <MaterialIcons name="sos" size={24} color="gray" />
+                    <TextInput
+                      inputMode="numeric"
+                      ref={emergencyInputRef}
+                      onChangeText={(text) => setNewEmergency(text)}
+                      placeholder={
+                        emergency == undefined
+                          ? "Unknown"
+                          : emergency.toString()
+                      }
+                      style={{
+                        flex: 1,
+                        paddingVertical: 9,
+                        paddingHorizontal: 10,
+                      }}
+                    />
+                  </View>
+                </View>
 
-            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-              <Text style={{ color: "gray", marginBottom: 3 }}>
-                Bureau of Fire Protection{" "}
-              </Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 2,
-                  elevation: 3,
-                  borderRadius: 3,
-                  paddingHorizontal: 10,
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                }}
-              >
-                <MaterialCommunityIcons name="fire" size={24} color="gray" />
-                <TextInput
-                  inputMode="numeric"
-                  ref={bfpInputRef}
-                  onChangeText={(text) => setNewBfp(text)}
-                  placeholder={bfp.toString()}
+                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                  <Text style={{ color: "gray", marginBottom: 3 }}>
+                    Bureau of Fire Protection{" "}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.8,
+                      shadowRadius: 2,
+                      elevation: 3,
+                      borderRadius: 3,
+                      paddingHorizontal: 10,
+                      backgroundColor: "white",
+                      borderRadius: 10,
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="fire"
+                      size={24}
+                      color="gray"
+                    />
+                    <TextInput
+                      inputMode="numeric"
+                      ref={bfpInputRef}
+                      onChangeText={(text) => setNewBfp(text)}
+                      placeholder={
+                        bfp == undefined ? "Unknown" : bfp.toString()
+                      }
+                      style={{
+                        flex: 1,
+                        paddingVertical: 9,
+                        paddingHorizontal: 10,
+                      }}
+                    />
+                  </View>
+                </View>
+                <View
                   style={{
-                    flex: 1,
-                    paddingVertical: 9,
-                    paddingHorizontal: 10,
+                    flexDirection: "row",
+                    marginVertical: 20,
+                    justifyContent: "space-between",
                   }}
-                />
-              </View>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                marginVertical: 20,
-                justifyContent: "space-between",
-              }}
-            >
-              <SmallButton
-                event={closeModal}
-                text="Close"
-                bgColor={"#232D3F"}
-              />
-              <SmallButton
-                event={handleUpdateInfo}
-                text="Update"
-                bgColor={"#0B60B0"}
-              />
-            </View>
+                >
+                  <SmallButton
+                    event={closeModal}
+                    text="Close"
+                    bgColor={"#232D3F"}
+                  />
+                  <SmallButton
+                    event={handleUpdateInfo}
+                    text="Update"
+                    bgColor={"#0B60B0"}
+                  />
+                </View>
+              </>
+            )}
           </View>
         </View>
       </View>

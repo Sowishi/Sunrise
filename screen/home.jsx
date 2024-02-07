@@ -15,7 +15,7 @@ import { database, db } from "../firebase";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "../components/toast";
-import { onValue, ref } from "firebase/database";
+import { get, off, onValue, ref } from "firebase/database";
 import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomModal from "../components/bottomModal";
@@ -27,7 +27,7 @@ const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { smoke, updateData, uid, updateUid } = useSmokeContext();
+  const { smoke, updateData, uid, updateUid, auth } = useSmokeContext();
 
   const splash = useRef();
 
@@ -39,20 +39,38 @@ const Home = ({ route, navigation }) => {
       setLoading(false);
     }, 2000);
 
-    const smokeRef = ref(database, `/uids/${uid}/smoke`);
+    async function fetchUid() {
+      const userRef = ref(database, `users/${auth.id}`);
+      const snapshot = await get(userRef);
+      const data = snapshot.val();
+      if (data.uid == undefined) {
+        updateUid(undefined);
+      } else {
+        updateUid(data.uid);
+      }
+    }
+
+    fetchUid();
+
+    fetchSmoke();
+  }, [uid]);
+
+  function fetchSmoke() {
+    const smokeRef = ref(database, `/uids/${uid}`);
+
+    console.log(auth, "test");
 
     onValue(smokeRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data, uid);
-      console.log(data);
-      if (data == 1) {
+
+      if (data.smoke === 1) {
         showToast("error", "Smoke Detected!");
         updateData(true);
       } else {
         updateData(false);
       }
     });
-  }, [uid]);
+  }
 
   function getGreeting() {
     const now = new Date();

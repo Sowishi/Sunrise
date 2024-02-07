@@ -4,7 +4,8 @@ const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
   const [smoke, setData] = useState(false);
-  const [uid, setUid] = useState(0);
+  const [uid, setUid] = useState(undefined);
+  const [auth, setAuth] = useState(null);
 
   const updateData = (newData) => {
     setData(newData);
@@ -14,8 +15,14 @@ export const MyProvider = ({ children }) => {
     setUid(newData);
   };
 
+  const updateAuth = (newData) => {
+    setAuth(newData);
+  };
+
   return (
-    <MyContext.Provider value={{ smoke, updateData, uid, updateUid }}>
+    <MyContext.Provider
+      value={{ smoke, updateData, uid, updateUid, auth, updateAuth }}
+    >
       {children}
     </MyContext.Provider>
   );
