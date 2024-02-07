@@ -5,8 +5,25 @@ import { LinearGradient } from "expo-linear-gradient";
 import LogoComponent from "../components/logoComponent";
 import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { useSmokeContext } from "../utils/smokeContext";
 
 const Landing = ({ navigation }) => {
+  const { updateAuth } = useSmokeContext();
+
+  useEffect(() => {
+    async function loadData() {
+      const value = await AsyncStorage.getItem("user");
+      const auth = JSON.parse(value);
+      if (auth) {
+        updateAuth(auth);
+        navigation.navigate("main");
+      }
+    }
+    loadData();
+  }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar backgroundColor={"#f16b00"} style="light" />

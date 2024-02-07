@@ -18,9 +18,10 @@ import { showToast } from "../components/toast";
 import { get, onValue, ref } from "firebase/database";
 import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
-import BottomModal from "../components/bottomModal";
+import ConnectionModal from "../components/connectionModal";
 import { useSmokeContext } from "../utils/smokeContext";
 import { BackHandler } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -55,6 +56,11 @@ const Home = ({ route, navigation }) => {
   }, [uid]);
 
   useEffect(() => {
+    async function saveData() {
+      await AsyncStorage.setItem("user", JSON.stringify(auth));
+      console.log("sdfjdslfjdslkfjkldsj");
+    }
+    saveData();
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       () => {
@@ -120,12 +126,12 @@ const Home = ({ route, navigation }) => {
         backgroundColor={smoke ? "#B40001" : "#f16b00"}
         style="light"
       />
-      <BottomModal
+      <ConnectionModal
         uid={uid}
         updateUid={updateUid}
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
-      ></BottomModal>
+      ></ConnectionModal>
       {loading && (
         <LottieView
           ref={splash}
@@ -228,7 +234,11 @@ const Home = ({ route, navigation }) => {
           {!smoke && (
             <View>
               <TitleComponent
-                title={uid ? "Detecting Smoke..." : "No Connected Device"}
+                title={
+                  uid !== undefined
+                    ? "Detecting Smoke..."
+                    : "No Connected Device"
+                }
                 titleColor={"black"}
               />
 
