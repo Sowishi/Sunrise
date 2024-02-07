@@ -26,6 +26,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [deviceData, setDeviceData] = useState(undefined);
 
   const { smoke, updateData, uid, updateUid, auth } = useSmokeContext();
 
@@ -39,19 +40,8 @@ const Home = ({ route, navigation }) => {
       setLoading(false);
     }, 2000);
 
-    async function fetchUid() {
-      const userRef = ref(database, `users/${auth.id}`);
-      const snapshot = await get(userRef);
-      const data = snapshot.val();
-      if (data.uid == undefined) {
-        updateUid(undefined);
-      } else {
-        updateUid(data.uid);
-      }
-    }
-
+    fetchTempHumi();
     fetchUid();
-
     fetchSmoke();
   }, [uid]);
 
@@ -64,12 +54,10 @@ const Home = ({ route, navigation }) => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       () => {
-        // Disable the back button
         return true;
       }
     );
 
-    // Cleanup the event listener when the component is unmounted
     return () => {
       backHandler.remove();
     };
@@ -77,8 +65,6 @@ const Home = ({ route, navigation }) => {
 
   function fetchSmoke() {
     const smokeRef = ref(database, `/uids/${uid}/smoke`);
-
-    console.log(auth, "auth");
 
     onValue(smokeRef, (snapshot) => {
       const data = snapshot.val();
@@ -89,6 +75,26 @@ const Home = ({ route, navigation }) => {
       } else {
         updateData(false);
       }
+    });
+  }
+
+  async function fetchUid() {
+    const userRef = ref(database, `users/${auth.id}`);
+    const snapshot = await get(userRef);
+    const data = snapshot.val();
+    if (data.uid == undefined) {
+      updateUid(undefined);
+    } else {
+      updateUid(data.uid);
+    }
+  }
+
+  function fetchTempHumi() {
+    const dataRef = ref(database, `/uids/${uid}`);
+
+    onValue(dataRef, (snapshot) => {
+      const data = snapshot.val();
+      setDeviceData(data);
     });
   }
 
@@ -203,6 +209,23 @@ const Home = ({ route, navigation }) => {
           />
         </View>
 
+        {deviceData && (
+          <View
+            style={{
+              alignItems: "flex-start",
+              justifyContent: "center",
+              paddingHorizontal: 20,
+            }}
+          >
+            <Text style={{ color: "white", fontSize: 15 }}>
+              Temperature: {deviceData.temp} 🌡️
+            </Text>
+            <Text style={{ color: "white", fontSize: 15 }}>
+              Humidity: {deviceData.humid} 💧
+            </Text>
+          </View>
+        )}
+
         <View
           style={{
             flex: 1,
@@ -255,8 +278,8 @@ const Home = ({ route, navigation }) => {
             <LottieView
               autoPlay
               style={{
-                width: 400,
-                height: 400,
+                width: 300,
+                height: 300,
               }}
               source={require("../assets/smoke.json")}
             />
@@ -265,8 +288,8 @@ const Home = ({ route, navigation }) => {
             <LottieView
               autoPlay
               style={{
-                width: 300,
-                height: 300,
+                width: 250,
+                height: 250,
               }}
               source={require("../assets/orange-2.json")}
             />

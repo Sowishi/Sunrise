@@ -46,34 +46,38 @@ const About = ({ navigation }) => {
           modalVisible={show}
         >
           <View style={{ flex: 1, width: "100%" }}>
-            <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-              <Text style={{ color: "gray", marginBottom: 3 }}>Email Use</Text>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 1 },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 2,
-                  elevation: 3,
-                  borderRadius: 3,
-                  paddingHorizontal: 10,
-                  backgroundColor: "white",
-                  borderRadius: 10,
-                }}
-              >
-                <TextInput
-                  value={auth.email}
-                  editable={false}
+            {auth.email && (
+              <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                <Text style={{ color: "gray", marginBottom: 3 }}>
+                  Email Use
+                </Text>
+                <View
                   style={{
-                    flex: 1,
-                    paddingVertical: 9,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 1 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    elevation: 3,
+                    borderRadius: 3,
                     paddingHorizontal: 10,
+                    backgroundColor: "white",
+                    borderRadius: 10,
                   }}
-                />
+                >
+                  <TextInput
+                    value={auth.email}
+                    editable={false}
+                    style={{
+                      flex: 1,
+                      paddingVertical: 9,
+                      paddingHorizontal: 10,
+                    }}
+                  />
+                </View>
               </View>
-            </View>
+            )}
             <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
               <Text style={{ color: "gray", marginBottom: 3 }}>Device UID</Text>
               <View
@@ -91,17 +95,20 @@ const About = ({ navigation }) => {
                   borderRadius: 10,
                 }}
               >
-                <TextInput
-                  value={uid.toString()}
-                  editable={false}
-                  style={{
-                    flex: 1,
-                    paddingVertical: 9,
-                    paddingHorizontal: 10,
-                  }}
-                />
+                {uid !== undefined && (
+                  <TextInput
+                    value={uid.toString()}
+                    editable={false}
+                    style={{
+                      flex: 1,
+                      paddingVertical: 9,
+                      paddingHorizontal: 10,
+                    }}
+                  />
+                )}
               </View>
             </View>
+            <View></View>
             <View
               style={{
                 justifyContent: "center",

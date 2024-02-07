@@ -64,34 +64,48 @@ const Thermal = ({ navigation }) => {
           </View>
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "#FAF5FC",
-            marginTop: 40,
-            borderTopRightRadius: 100,
-            borderTopLeftRadius: 100,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {thermalImage && (
-            <Image
-              style={{ width: 300, height: 400, borderRadius: 10 }}
-              source={{
-                uri: thermalImage,
-              }}
-            />
-          )}
-          <View style={{ marginTop: 20 }}>
-            <Button
-              text="Request"
-              bgColor={"#0B60B0"}
-              event={requestImage}
-              isDisable={smoke}
-            />
+        {uid !== undefined ? (
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#FAF5FC",
+              marginTop: 40,
+              borderTopRightRadius: 100,
+              borderTopLeftRadius: 100,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {thermalImage && (
+              <Image
+                style={{
+                  width: 300,
+                  height: 400,
+                  borderRadius: 10,
+                  borderTopRightRadius: 100,
+                  borderTopLeftRadius: 100,
+                }}
+                source={{
+                  uri: thermalImage,
+                }}
+              />
+            )}
+            <View style={{ marginTop: 20 }}>
+              <Button
+                text="Request"
+                bgColor={"#0B60B0"}
+                event={requestImage}
+                isDisable={smoke}
+              />
+            </View>
           </View>
-        </View>
+        ) : (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <TitleComponent noBG={true} title={"No Connected Device"} />
+          </View>
+        )}
       </View>
     </View>
   );
