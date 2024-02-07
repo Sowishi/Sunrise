@@ -43,7 +43,7 @@ const Home = ({ route, navigation }) => {
 
     onValue(smokeRef, (snapshot) => {
       const data = snapshot.val();
-
+      console.log(data, uid);
       console.log(data);
       if (data == 1) {
         showToast("error", "Smoke Detected!");
@@ -131,13 +131,27 @@ const Home = ({ route, navigation }) => {
             >
               {getGreeting()}
             </Text>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <TouchableOpacity
+              onPress={() => setModalVisible(true)}
+              style={{ justifyContent: "center", alignItems: "center" }}
+            >
               <FontAwesome
                 style={{ marginHorizontal: 15 }}
                 name="user-circle"
                 size={30}
                 color="white"
               />
+              <Text
+                style={{
+                  fontSize: 10,
+                  color: "white",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  marginHorizontal: 15,
+                }}
+              >
+                Device UID: #{uid}
+              </Text>
             </TouchableOpacity>
           </View>
 

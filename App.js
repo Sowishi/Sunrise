@@ -31,6 +31,14 @@ export default function App() {
         }}
       >
         <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: () => <Entypo name="home" size={24} color="#001F47" />,
+            tabBarShowLabel: false,
+          }}
+        />
+        <Tab.Screen
           name="Thermal"
           component={Thermal}
           options={{
@@ -40,14 +48,7 @@ export default function App() {
             tabBarShowLabel: false,
           }}
         />
-        <Tab.Screen
-          name="Home"
-          component={Home}
-          options={{
-            tabBarIcon: () => <Entypo name="home" size={24} color="#001F47" />,
-            tabBarShowLabel: false,
-          }}
-        />
+
         <Tab.Screen
           name="About"
           component={About}
