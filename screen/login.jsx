@@ -38,7 +38,6 @@ const Login = ({ navigation }) => {
       onValue(ref(database, "/users"), (snapshot) => {
         snapshot.forEach((doc) => {
           const data = doc.val();
-          console.log(data);
           if (data.email == email && data.password == password) {
             updateAuth({ ...data, id: doc.key });
             showToast("success", "login successfully!");

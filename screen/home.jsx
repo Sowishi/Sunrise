@@ -11,17 +11,16 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
-import { database, db } from "../firebase";
+import { database } from "../firebase";
 import LottieView from "lottie-react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "../components/toast";
-import { get, off, onValue, ref } from "firebase/database";
+import { get, onValue, ref } from "firebase/database";
 import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomModal from "../components/bottomModal";
 import { useSmokeContext } from "../utils/smokeContext";
-import Button from "../components/button";
-import SmallButton from "../components/smallButton";
+import { BackHandler } from "react-native";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -55,15 +54,30 @@ const Home = ({ route, navigation }) => {
     fetchSmoke();
   }, [uid]);
 
-  function fetchSmoke() {
-    const smokeRef = ref(database, `/uids/${uid}`);
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        // Disable the back button
+        return true;
+      }
+    );
 
-    console.log(auth, "test");
+    // Cleanup the event listener when the component is unmounted
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
+
+  function fetchSmoke() {
+    const smokeRef = ref(database, `/uids/${uid}/smoke`);
+
+    console.log(auth, "auth");
 
     onValue(smokeRef, (snapshot) => {
       const data = snapshot.val();
 
-      if (data.smoke === 1) {
+      if (data === 1) {
         showToast("error", "Smoke Detected!");
         updateData(true);
       } else {
@@ -214,7 +228,7 @@ const Home = ({ route, navigation }) => {
           {!smoke && (
             <View>
               <TitleComponent
-                title={"Detecting Smoke..."}
+                title={uid ? "Detecting Smoke..." : "No Connected Device"}
                 titleColor={"black"}
               />
 

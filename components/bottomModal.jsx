@@ -27,7 +27,7 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
   const [newOwner, setNewOwner] = useState("");
   const [newBfp, setNewBfp] = useState("");
   const [newUid, setNewUid] = useState();
-  const [newEmergency, setNewEmergency] = useState();
+  const [newEmergency, setNewEmergency] = useState("");
 
   const { uid, updateUid, auth } = useSmokeContext();
 
@@ -112,8 +112,8 @@ const BottomModal = ({ modalVisible, closeModal, children }) => {
             uid: number,
           });
           deviceRef.current.blur();
-          updateUid(number);
-          showToast("success", "Connected Successfully.");
+          DevSettings.reload();
+          showToast("success", "Connected Successfully, please wait...");
 
           found = true;
         } else {

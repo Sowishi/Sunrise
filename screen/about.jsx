@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, DevSettings } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Button from "../components/button";
 import { LinearGradient } from "expo-linear-gradient";
@@ -7,9 +7,10 @@ import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
 import LottieView from "lottie-react-native";
 import { useSmokeContext } from "../utils/smokeContext";
+import { showToast } from "../components/toast";
 
 const About = ({ navigation }) => {
-  const { updateAuth, smoke } = useSmokeContext();
+  const { updateAuth, smoke, updateUid } = useSmokeContext();
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -79,8 +80,8 @@ const About = ({ navigation }) => {
           <Button
             navigation={navigation}
             event={() => {
-              updateAuth(null);
-              navigation.navigate("login");
+              showToast("success", "Logging out, please wait...");
+              DevSettings.reload();
             }}
             icon="login"
             text="Log out"
