@@ -18,7 +18,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import LineComponent from "./line";
 import { showToast } from "./toast";
 import { useSmokeContext } from "../utils/smokeContext";
-import { DevSettings } from "react-native";
+import { Restart } from "fiction-expo-restart";
 
 const ConnectionModal = ({ modalVisible, closeModal, children }) => {
   const [owner, setOwner] = useState("");
@@ -112,7 +112,7 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
             uid: number,
           });
           deviceRef.current.blur();
-          DevSettings.reload();
+          Restart();
           showToast("success", "Connected Successfully, please wait...");
 
           found = true;
