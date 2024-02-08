@@ -19,7 +19,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";
 import BottomModal from "../components/bottomModal";
 import { useState } from "react";
-import { Restart } from "fiction-expo-restart";
+import * as Updates from "expo-updates";
 
 const About = ({ navigation }) => {
   const { updateAuth, smoke, updateUid, auth, uid } = useSmokeContext();
@@ -121,7 +121,7 @@ const About = ({ navigation }) => {
                 event={async () => {
                   showToast("success", "Logging out, please wait...");
                   await AsyncStorage.removeItem("user");
-                  Restart();
+                  await Updates.reloadAsync();
                 }}
                 icon="login"
                 text="Log out"

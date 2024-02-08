@@ -18,7 +18,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import LineComponent from "./line";
 import { showToast } from "./toast";
 import { useSmokeContext } from "../utils/smokeContext";
-import { Restart } from "fiction-expo-restart";
+import * as Updates from "expo-updates";
 
 const ConnectionModal = ({ modalVisible, closeModal, children }) => {
   const [owner, setOwner] = useState("");
@@ -112,8 +112,8 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
             uid: number,
           });
           deviceRef.current.blur();
-          Restart();
           showToast("success", "Connected Successfully, please wait...");
+          Updates.reloadAsync();
 
           found = true;
         } else {
