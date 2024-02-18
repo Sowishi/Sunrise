@@ -22,13 +22,13 @@ import ConnectionModal from "../components/connectionModal";
 import { useSmokeContext } from "../utils/smokeContext";
 import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MapView from "react-native-maps";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [deviceData, setDeviceData] = useState(undefined);
 
-  const { smoke, updateData, uid, updateUid, auth } = useSmokeContext();
+  const { smoke, uid, updateUid, auth } = useSmokeContext();
 
   const splash = useRef();
 
@@ -40,15 +40,13 @@ const Home = ({ route, navigation }) => {
       setLoading(false);
     }, 2000);
 
-    fetchTempHumi();
+    fetchUidValue();
     fetchUid();
-    fetchSmoke();
   }, [uid]);
 
   useEffect(() => {
     async function saveData() {
       await AsyncStorage.setItem("user", JSON.stringify(auth));
-      console.log("sdfjdslfjdslkfjkldsj");
     }
     saveData();
     const backHandler = BackHandler.addEventListener(
@@ -63,21 +61,6 @@ const Home = ({ route, navigation }) => {
     };
   }, []);
 
-  function fetchSmoke() {
-    const smokeRef = ref(database, `/uids/${uid}/smoke`);
-
-    onValue(smokeRef, (snapshot) => {
-      const data = snapshot.val();
-
-      if (data === 1) {
-        showToast("error", "Smoke Detected!");
-        updateData(true);
-      } else {
-        updateData(false);
-      }
-    });
-  }
-
   async function fetchUid() {
     const userRef = ref(database, `users/${auth.id}`);
     const snapshot = await get(userRef);
@@ -89,12 +72,12 @@ const Home = ({ route, navigation }) => {
     }
   }
 
-  function fetchTempHumi() {
+  function fetchUidValue() {
     const dataRef = ref(database, `/uids/${uid}`);
 
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
-      setDeviceData(data);
+      console.log(data);
     });
   }
 
@@ -106,17 +89,6 @@ const Home = ({ route, navigation }) => {
       return "Good morning! 🌞";
     } else {
       return "Good Evening. 🌛";
-    }
-  }
-
-  function getGreetingAnimation() {
-    const now = new Date();
-    const currentHour = now.getHours();
-
-    if (currentHour >= 5 && currentHour < 18) {
-      return require("../assets/Goodevening.json");
-    } else {
-      return require("../assets/Goodmorning.json");
     }
   }
 
@@ -198,102 +170,15 @@ const Home = ({ route, navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-
-          <LottieView
-            autoPlay
-            style={{
-              width: 100,
-              height: 100,
-            }}
-            source={getGreetingAnimation()}
-          />
         </View>
-
-        {deviceData && (
-          <View
-            style={{
-              alignItems: "flex-start",
-              justifyContent: "center",
-              paddingHorizontal: 20,
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 15 }}>
-              Temperature: {deviceData.temp} 🌡️
-            </Text>
-            <Text style={{ color: "white", fontSize: 15 }}>
-              Humidity: {deviceData.humid} 💧
-            </Text>
-          </View>
-        )}
-
         <View
           style={{
             flex: 1,
-            backgroundColor: "#FAF5FC",
-            marginTop: 40,
-            borderTopRightRadius: 100,
-            borderTopLeftRadius: 100,
-            justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: "white",
+            margin: 10,
           }}
         >
-          {smoke && (
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 30,
-                  color: "black",
-                  marginTop: 30,
-                  fontWeight: "bold",
-                }}
-              >
-                Smoke Detected
-              </Text>
-              <Ionicons name="warning" size={40} color="#B40001" />
-            </View>
-          )}
-
-          {!smoke && (
-            <View>
-              <TitleComponent
-                title={
-                  uid !== undefined
-                    ? "Detecting Smoke..."
-                    : "No Connected Device"
-                }
-                titleColor={"black"}
-              />
-
-              <Ionicons
-                style={{ opacity: 0 }}
-                name="warning"
-                size={70}
-                color="#B40001"
-              />
-            </View>
-          )}
-
-          {smoke && (
-            <LottieView
-              autoPlay
-              style={{
-                width: 300,
-                height: 300,
-              }}
-              source={require("../assets/smoke.json")}
-            />
-          )}
-          {!smoke && (
-            <LottieView
-              autoPlay
-              style={{
-                width: 250,
-                height: 250,
-              }}
-              source={require("../assets/orange-2.json")}
-            />
-          )}
+          <MapView style={{ width: "100%", height: "100%" }} />
         </View>
       </View>
     </View>

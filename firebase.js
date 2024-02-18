@@ -3,14 +3,12 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBgt9w5juZPEGy7idwEcQCjQsnmi5LSSrA",
-  authDomain: "sinfero-vphs.firebaseapp.com",
-  databaseURL:
-    "https://sinfero-vphs-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "sinfero-vphs",
-  storageBucket: "sinfero-vphs.appspot.com",
-  messagingSenderId: "885902784733",
-  appId: "1:885902784733:web:0906f4fd9179b5ae040334",
+  apiKey: "AIzaSyAdcI7sZdvDEevuJmn87XeHs8XK4bNzdig",
+  authDomain: "alzhietech.firebaseapp.com",
+  projectId: "alzhietech",
+  storageBucket: "alzhietech.appspot.com",
+  messagingSenderId: "80440733140",
+  appId: "1:80440733140:web:110de167757df0b8897a41",
 };
 
 const app = initializeApp(firebaseConfig);
