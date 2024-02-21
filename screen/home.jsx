@@ -24,13 +24,16 @@ import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Callout } from "react-native-maps";
 import { Marker, Circle } from "react-native-maps";
+import SmallButton from "../components/smallButton";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [mapReady, setMapReady] = useState(false);
+  const [mapType, setMapType] = useState("standard");
+  const [deviceValue, setDeviceValue] = useState(undefined);
 
-  const { uid, updateUid, auth } = useSmokeContext();
+  const { uid, updateUid, auth, MASTER_NAME, SLAVE_NAME } = useSmokeContext();
 
   const splash = useRef();
 
@@ -80,7 +83,7 @@ const Home = ({ route, navigation }) => {
 
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
+      setDeviceValue(data);
     });
   }
 
@@ -120,7 +123,7 @@ const Home = ({ route, navigation }) => {
       )}
 
       <View style={{ flex: 1 }}>
-        {mapReady && (
+        {deviceValue !== undefined && (
           <View
             style={{
               flex: 1,
@@ -129,7 +132,15 @@ const Home = ({ route, navigation }) => {
             }}
           >
             <View
-              style={{ position: "absolute", top: 20, right: 10, zIndex: 2 }}
+              style={{
+                position: "absolute",
+                top: 20,
+                right: 10,
+                zIndex: 2,
+                backgroundColor: "#fefefe99",
+                padding: 5,
+                borderRadius: 5,
+              }}
             >
               <TouchableOpacity
                 onPress={() => setModalVisible(true)}
@@ -138,15 +149,45 @@ const Home = ({ route, navigation }) => {
                   alignItems: "center",
                 }}
               >
-                <FontAwesome
-                  style={{ marginHorizontal: 15 }}
-                  name="user-circle"
-                  size={30}
-                  color="black"
-                />
+                <FontAwesome name="user-circle" size={30} color="#F77000" />
               </TouchableOpacity>
             </View>
+
+            <View
+              style={{
+                position: "absolute",
+                bottom: 20,
+                zIndex: 2,
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: "#fefefe99",
+                  width: "90%",
+                  padding: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  borderRadius: 5,
+                }}
+              >
+                <SmallButton
+                  event={() => setMapType("hybrid")}
+                  text="Satellite"
+                  bgColor={"#F77000"}
+                />
+                <SmallButton
+                  event={() => setMapType("standard")}
+                  text="Standard"
+                  bgColor={"#232D3F"}
+                />
+              </View>
+            </View>
+
             <MapView
+              mapType={mapType}
               showsMyLocationButton={true}
               style={{ width: "100%", height: "100%" }}
               initialRegion={{
@@ -157,17 +198,26 @@ const Home = ({ route, navigation }) => {
               }}
             >
               <Marker
-                coordinate={{ latitude: 14.0996, longitude: 122.925 }}
-                title="Master"
+                coordinate={{
+                  latitude: deviceValue.master.lat,
+                  longitude: deviceValue.master.long,
+                }}
+                title={MASTER_NAME}
               />
 
               <Marker
-                coordinate={{ latitude: 14.0996, longitude: 122.955 }}
-                title="Slave"
+                coordinate={{
+                  latitude: deviceValue.slave.lat,
+                  longitude: deviceValue.slave.long,
+                }}
+                title={SLAVE_NAME}
                 pinColor="#0D1117"
               />
               <Circle
-                center={{ latitude: 14.0996, longitude: 122.925 }}
+                center={{
+                  latitude: deviceValue.master.lat,
+                  longitude: deviceValue.master.long,
+                }}
                 radius={5000}
                 fillColor="#CC000040"
                 strokeColor="#CC000040"

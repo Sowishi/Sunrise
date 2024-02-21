@@ -27,7 +27,8 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
   const [newSlaveName, setNewSlaveName] = useState("");
   const [newUid, setNewUid] = useState();
 
-  const { uid, updateUid, auth } = useSmokeContext();
+  const { uid, updateUid, auth, updateMasterName, updateSlaveName } =
+    useSmokeContext();
 
   const masterRef = ref(database, `uids/${uid}/masterName`);
   const slaveRef = ref(database, `uids/${uid}/slaveName`);
@@ -40,10 +41,12 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
     onValue(masterRef, (snapshot) => {
       const data = snapshot.val();
       setMasterName(data);
+      updateMasterName(data);
     });
     onValue(slaveRef, (snapshot) => {
       const data = snapshot.val();
       setSlaveName(data);
+      updateSlaveName(data);
     });
   }, [uid]);
 
