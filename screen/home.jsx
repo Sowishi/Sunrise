@@ -32,7 +32,8 @@ const Home = ({ route, navigation }) => {
   const [mapType, setMapType] = useState("standard");
   const [deviceValue, setDeviceValue] = useState(null);
 
-  const { uid, updateUid, auth, MASTER_NAME, SLAVE_NAME } = useSmokeContext();
+  const { uid, updateUid, auth, MASTER_NAME, SLAVE_NAME, RADIUS } =
+    useSmokeContext();
 
   const splash = useRef();
 
@@ -217,7 +218,7 @@ const Home = ({ route, navigation }) => {
                   latitude: deviceValue.master.lat,
                   longitude: deviceValue.master.long,
                 }}
-                radius={5000}
+                radius={RADIUS * 1000}
                 fillColor="#CC000040"
                 strokeColor="#CC000040"
               />

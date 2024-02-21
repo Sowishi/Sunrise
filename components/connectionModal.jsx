@@ -26,16 +26,26 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
   const [newMasterName, setNewMasterName] = useState("");
   const [newSlaveName, setNewSlaveName] = useState("");
   const [newUid, setNewUid] = useState();
+  const [radius, setRadius] = useState();
+  const [newRadius, setNewRadius] = useState();
 
-  const { uid, updateUid, auth, updateMasterName, updateSlaveName } =
-    useSmokeContext();
+  const {
+    uid,
+    updateUid,
+    auth,
+    updateMasterName,
+    updateSlaveName,
+    updateRadius,
+  } = useSmokeContext();
 
   const masterRef = ref(database, `uids/${uid}/masterName`);
   const slaveRef = ref(database, `uids/${uid}/slaveName`);
+  const radiusRef = ref(database, `uids/${uid}/radius`);
 
   const masterInputRef = useRef();
   const slaveInputRef = useRef();
   const deviceRef = useRef();
+  const radiusInputRef = useRef();
 
   useEffect(() => {
     onValue(masterRef, (snapshot) => {
@@ -48,14 +58,24 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
       setSlaveName(data);
       updateSlaveName(data);
     });
+    onValue(radiusRef, (snapshot) => {
+      const data = snapshot.val();
+      setRadius(data);
+      updateRadius(data);
+    });
   }, [uid]);
 
   const blur = () => {
     masterInputRef.current.blur();
     slaveInputRef.current.blur();
+    radiusInputRef.current.blur();
   };
 
   const handleUpdateInfo = () => {
+    update(ref(database, `/uids/${uid}`), {
+      radius: newRadius.length <= 0 ? radius : parseInt(newRadius),
+    });
+
     update(ref(database, `/uids/${uid}`), {
       masterName:
         newMasterName.length <= 0 ? masterName : newMasterName.toString(),
@@ -240,6 +260,45 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
                           ? "Unknown"
                           : slaveName.toString()
                       }
+                      style={{
+                        flex: 1,
+                        paddingVertical: 9,
+                        paddingHorizontal: 10,
+                      }}
+                    />
+                  </View>
+                </View>
+                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                  <Text style={{ color: "gray", marginBottom: 3 }}>
+                    Radius (km)
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      shadowColor: "#000",
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.8,
+                      shadowRadius: 2,
+                      elevation: 3,
+                      borderRadius: 3,
+                      paddingHorizontal: 10,
+                      backgroundColor: "white",
+                      borderRadius: 10,
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      name="account"
+                      size={24}
+                      color="gray"
+                    />
+                    <TextInput
+                      ref={radiusInputRef}
+                      onChangeText={(text) => setNewRadius(text)}
+                      placeholder={
+                        radius == undefined ? "Unknown" : radius.toString()
+                      }
+                      keyboardType="numeric"
                       style={{
                         flex: 1,
                         paddingVertical: 9,

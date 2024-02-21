@@ -7,6 +7,7 @@ export const MyProvider = ({ children }) => {
   const [auth, setAuth] = useState(null);
   const [MASTER_NAME, SET_MASTER_NAME] = useState();
   const [SLAVE_NAME, SET_SLAVE_NAME] = useState();
+  const [RADIUS, SET_RADIUS] = useState();
 
   const updateUid = (newData) => {
     setUid(newData);
@@ -24,6 +25,10 @@ export const MyProvider = ({ children }) => {
     SET_SLAVE_NAME(newData);
   };
 
+  const updateRadius = (newData) => {
+    SET_RADIUS(newData);
+  };
+
   return (
     <MyContext.Provider
       value={{
@@ -33,8 +38,10 @@ export const MyProvider = ({ children }) => {
         updateAuth,
         MASTER_NAME,
         SLAVE_NAME,
+        RADIUS,
         updateMasterName,
         updateSlaveName,
+        updateRadius,
       }}
     >
       {children}
