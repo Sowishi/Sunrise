@@ -21,73 +21,49 @@ import { useSmokeContext } from "../utils/appContext";
 import * as Updates from "expo-updates";
 
 const ConnectionModal = ({ modalVisible, closeModal, children }) => {
-  const [owner, setOwner] = useState("");
-  const [emergency, setEmergency] = useState("");
-  const [bfp, setBfp] = useState("");
-  const [newOwner, setNewOwner] = useState("");
-  const [newBfp, setNewBfp] = useState("");
+  const [masterName, setMasterName] = useState("");
+  const [slaveName, setSlaveName] = useState("");
+  const [newMasterName, setNewMasterName] = useState("");
+  const [newSlaveName, setNewSlaveName] = useState("");
   const [newUid, setNewUid] = useState();
-  const [newEmergency, setNewEmergency] = useState("");
 
   const { uid, updateUid, auth } = useSmokeContext();
 
-  const ownerRef = ref(database, `uids/${uid}/owner`);
-  const emergencyRef = ref(database, `uids/${uid}/emergency`);
-  const bfpRef = ref(database, `uids/${uid}/bfp`);
+  const masterRef = ref(database, `uids/${uid}/masterName`);
+  const slaveRef = ref(database, `uids/${uid}/slaveName`);
 
+  const masterInputRef = useRef();
+  const slaveInputRef = useRef();
   const deviceRef = useRef();
-  const emergencyInputRef = useRef();
-  const bfpInputRef = useRef();
-  const ownerInputRef = useRef();
 
   useEffect(() => {
-    onValue(bfpRef, (snapshot) => {
+    onValue(masterRef, (snapshot) => {
       const data = snapshot.val();
-      setBfp(data);
+      setMasterName(data);
     });
-
-    onValue(ownerRef, (snapshot) => {
+    onValue(slaveRef, (snapshot) => {
       const data = snapshot.val();
-      setOwner(data);
-    });
-    onValue(emergencyRef, (snapshot) => {
-      const data = snapshot.val();
-      setEmergency(data);
+      setSlaveName(data);
     });
   }, [uid]);
 
   const blur = () => {
-    emergencyInputRef.current.blur();
-    bfpInputRef.current.blur();
-    ownerInputRef.current.blur();
+    masterInputRef.current.blur();
+    slaveInputRef.current.blur();
   };
 
   const handleUpdateInfo = () => {
-    if (isNaN(newBfp)) {
-      showToast(
-        "error",
-        "Please input an integer in Bureau of Fire Protection."
-      );
-      blur();
-      return;
-    } else if (isNaN(newEmergency)) {
-      showToast("error", "Please input an integer in Emergency Contact Number");
-      blur();
-      return;
-    } else {
-      update(ref(database, `/uids/${uid}`), {
-        owner: newOwner.length <= 0 ? owner : newOwner.toString(),
-      });
-      update(ref(database, `/uids/${uid}`), {
-        bfp: newBfp.length <= 0 ? bfp : parseInt(newBfp),
-      });
-      update(ref(database, `/uids/${uid}`), {
-        emergency:
-          newEmergency.length <= 0 ? emergency : parseInt(newEmergency),
-      });
-      showToast("success", "Updated Successfully.");
-      blur();
-    }
+    update(ref(database, `/uids/${uid}`), {
+      masterName:
+        newMasterName.length <= 0 ? masterName : newMasterName.toString(),
+    });
+
+    update(ref(database, `/uids/${uid}`), {
+      slaveName: newSlaveName.length <= 0 ? slaveName : newSlaveName.toString(),
+    });
+
+    showToast("success", "Updated Successfully.");
+    blur();
   };
 
   const handleUpdateUid = () => {
@@ -190,7 +166,9 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
             {uid !== undefined && (
               <>
                 <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-                  <Text style={{ color: "gray", marginBottom: 3 }}>Owner</Text>
+                  <Text style={{ color: "gray", marginBottom: 3 }}>
+                    Master Name
+                  </Text>
                   <View
                     style={{
                       flexDirection: "row",
@@ -212,48 +190,12 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
                       color="gray"
                     />
                     <TextInput
-                      ref={ownerInputRef}
-                      onChangeText={(text) => setNewOwner(text)}
+                      ref={masterInputRef}
+                      onChangeText={(text) => setNewMasterName(text)}
                       placeholder={
-                        owner == undefined ? "Unknown" : owner.toString()
-                      }
-                      style={{
-                        flex: 1,
-                        paddingVertical: 9,
-                        paddingHorizontal: 10,
-                      }}
-                    />
-                  </View>
-                </View>
-
-                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
-                  <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Emergency Contact Number
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      shadowColor: "#000",
-                      shadowOffset: { width: 0, height: 1 },
-                      shadowOpacity: 0.8,
-                      shadowRadius: 2,
-                      elevation: 3,
-                      borderRadius: 3,
-                      paddingHorizontal: 10,
-                      backgroundColor: "white",
-                      borderRadius: 10,
-                    }}
-                  >
-                    <MaterialIcons name="sos" size={24} color="gray" />
-                    <TextInput
-                      inputMode="numeric"
-                      ref={emergencyInputRef}
-                      onChangeText={(text) => setNewEmergency(text)}
-                      placeholder={
-                        emergency == undefined
+                        masterName == undefined
                           ? "Unknown"
-                          : emergency.toString()
+                          : masterName.toString()
                       }
                       style={{
                         flex: 1,
@@ -263,10 +205,9 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
                     />
                   </View>
                 </View>
-
                 <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Bureau of Fire Protection{" "}
+                    Slave Name
                   </Text>
                   <View
                     style={{
@@ -284,16 +225,17 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
                     }}
                   >
                     <MaterialCommunityIcons
-                      name="fire"
+                      name="account"
                       size={24}
                       color="gray"
                     />
                     <TextInput
-                      inputMode="numeric"
-                      ref={bfpInputRef}
-                      onChangeText={(text) => setNewBfp(text)}
+                      ref={slaveInputRef}
+                      onChangeText={(text) => setNewSlaveName(text)}
                       placeholder={
-                        bfp == undefined ? "Unknown" : bfp.toString()
+                        slaveName == undefined
+                          ? "Unknown"
+                          : slaveName.toString()
                       }
                       style={{
                         flex: 1,

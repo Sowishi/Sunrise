@@ -9,7 +9,6 @@ import {
 import { StatusBar } from "expo-status-bar";
 import Button from "../components/button";
 import { LinearGradient } from "expo-linear-gradient";
-import LogoComponent from "../components/logoComponent";
 import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
 import LottieView from "lottie-react-native";
