@@ -17,7 +17,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import LineComponent from "./line";
 import { showToast } from "./toast";
-import { useSmokeContext } from "../utils/smokeContext";
+import { useSmokeContext } from "../utils/appContext";
 import * as Updates from "expo-updates";
 
 const ConnectionModal = ({ modalVisible, closeModal, children }) => {

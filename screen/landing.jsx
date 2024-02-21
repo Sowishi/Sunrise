@@ -7,7 +7,7 @@ import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
-import { useSmokeContext } from "../utils/smokeContext";
+import { useSmokeContext } from "../utils/appContext";
 
 const Landing = ({ navigation }) => {
   const { updateAuth } = useSmokeContext();

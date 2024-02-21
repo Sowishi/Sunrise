@@ -13,7 +13,7 @@ import LogoComponent from "../components/logoComponent";
 import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
 import LottieView from "lottie-react-native";
-import { useSmokeContext } from "../utils/smokeContext";
+import { useSmokeContext } from "../utils/appContext";
 import { showToast } from "../components/toast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FontAwesome } from "@expo/vector-icons";

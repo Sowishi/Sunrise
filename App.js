@@ -7,10 +7,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import Login from "./screen/login";
 import Home from "./screen/home";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Thermal from "./screen/thermal";
 import { Entypo } from "@expo/vector-icons";
 import About from "./screen/about";
-import { MyProvider } from "./utils/smokeContext";
+import { MyProvider } from "./utils/appContext";
 
 export default function App() {
   const Stack = createStackNavigator();

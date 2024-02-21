@@ -21,7 +21,7 @@ import { onValue, ref } from "firebase/database";
 import LogoComponent from "../components/logoComponent";
 import LineComponent from "../components/line";
 import TitleComponent from "../components/titleComponent";
-import { useSmokeContext } from "../utils/smokeContext";
+import { useSmokeContext } from "../utils/appContext";
 
 const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);

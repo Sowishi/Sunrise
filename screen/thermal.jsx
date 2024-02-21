@@ -3,7 +3,7 @@ import Button from "../components/button";
 import { useEffect, useState } from "react";
 import { onValue, ref, update } from "firebase/database";
 import { database } from "../firebase";
-import { useSmokeContext } from "../utils/smokeContext";
+import { useSmokeContext } from "../utils/appContext";
 import TitleComponent from "../components/titleComponent";
 import LineComponent from "../components/line";
 import Constants from "expo-constants";

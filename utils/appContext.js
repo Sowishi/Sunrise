@@ -3,13 +3,8 @@ import React, { createContext, useContext, useState } from "react";
 const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
-  const [smoke, setData] = useState(false);
   const [uid, setUid] = useState(undefined);
   const [auth, setAuth] = useState(null);
-
-  const updateData = (newData) => {
-    setData(newData);
-  };
 
   const updateUid = (newData) => {
     setUid(newData);
@@ -20,9 +15,7 @@ export const MyProvider = ({ children }) => {
   };
 
   return (
-    <MyContext.Provider
-      value={{ smoke, updateData, uid, updateUid, auth, updateAuth }}
-    >
+    <MyContext.Provider value={{ uid, updateUid, auth, updateAuth }}>
       {children}
     </MyContext.Provider>
   );

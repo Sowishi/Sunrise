@@ -19,7 +19,7 @@ import { get, onValue, ref } from "firebase/database";
 import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import ConnectionModal from "../components/connectionModal";
-import { useSmokeContext } from "../utils/smokeContext";
+import { useSmokeContext } from "../utils/appContext";
 import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Callout } from "react-native-maps";
@@ -30,7 +30,7 @@ const Home = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mapReady, setMapReady] = useState(false);
 
-  const { smoke, uid, updateUid, auth } = useSmokeContext();
+  const { uid, updateUid, auth } = useSmokeContext();
 
   const splash = useRef();
 
@@ -92,10 +92,7 @@ const Home = ({ route, navigation }) => {
         backgroundColor: "#FAF5FC",
       }}
     >
-      <StatusBar
-        backgroundColor={smoke ? "#B40001" : "#f16b00"}
-        style="light"
-      />
+      <StatusBar style="light" />
       <ConnectionModal
         uid={uid}
         updateUid={updateUid}
