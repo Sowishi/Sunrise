@@ -29,9 +29,8 @@ import SmallButton from "../components/smallButton";
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const [mapReady, setMapReady] = useState(false);
   const [mapType, setMapType] = useState("standard");
-  const [deviceValue, setDeviceValue] = useState(undefined);
+  const [deviceValue, setDeviceValue] = useState(null);
 
   const { uid, updateUid, auth, MASTER_NAME, SLAVE_NAME } = useSmokeContext();
 
@@ -43,7 +42,6 @@ const Home = ({ route, navigation }) => {
     }
     setTimeout(() => {
       setLoading(false);
-      setMapReady(true);
     }, 2000);
 
     fetchUidValue();
@@ -74,7 +72,7 @@ const Home = ({ route, navigation }) => {
     if (data.uid == undefined) {
       updateUid(undefined);
     } else {
-      updateUid(data.uid);
+      updateUid(data.uid, "device value");
     }
   }
 
@@ -83,6 +81,7 @@ const Home = ({ route, navigation }) => {
 
     onValue(dataRef, (snapshot) => {
       const data = snapshot.val();
+      console.log(data);
       setDeviceValue(data);
     });
   }
@@ -123,7 +122,7 @@ const Home = ({ route, navigation }) => {
       )}
 
       <View style={{ flex: 1 }}>
-        {deviceValue !== undefined && (
+        {deviceValue !== null && (
           <View
             style={{
               flex: 1,
