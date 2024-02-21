@@ -22,11 +22,13 @@ import ConnectionModal from "../components/connectionModal";
 import { useSmokeContext } from "../utils/smokeContext";
 import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapView from "react-native-maps";
+import MapView, { Callout } from "react-native-maps";
+import { Marker, Circle } from "react-native-maps";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
+  const [mapReady, setMapReady] = useState(false);
 
   const { smoke, uid, updateUid, auth } = useSmokeContext();
 
@@ -38,6 +40,7 @@ const Home = ({ route, navigation }) => {
     }
     setTimeout(() => {
       setLoading(false);
+      setMapReady(true);
     }, 2000);
 
     fetchUidValue();
@@ -81,17 +84,6 @@ const Home = ({ route, navigation }) => {
     });
   }
 
-  function getGreeting() {
-    const now = new Date();
-    const currentHour = now.getHours();
-
-    if (currentHour >= 5 && currentHour < 18) {
-      return "Good morning! 🌞";
-    } else {
-      return "Good Evening. 🌛";
-    }
-  }
-
   return (
     <View
       style={{
@@ -111,75 +103,81 @@ const Home = ({ route, navigation }) => {
         closeModal={() => setModalVisible(false)}
       ></ConnectionModal>
       {loading && (
-        <LottieView
-          ref={splash}
+        <View
           style={{
             width: "100%",
             height: "100%",
-          }}
-          source={require("../assets/animation_lo08fpgc.json")}
-        />
-      )}
-      <View style={{ flex: 1, backgroundColor: smoke ? "#B40001" : "#f16b00" }}>
-        <View
-          style={{
-            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 10,
           }}
         >
+          <LottieView
+            style={{
+              width: "70%",
+              height: "70%",
+            }}
+            ref={splash}
+            source={require("../assets/maps.json")}
+          />
+        </View>
+      )}
+
+      <View style={{ flex: 1 }}>
+        {mapReady && (
           <View
             style={{
-              width: "100%",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flex: 1,
+              backgroundColor: "white",
+              position: "relative",
             }}
           >
-            <Text
-              style={{
-                fontSize: 25,
-                color: "white",
-                fontWeight: "bold",
-                textAlign: "left",
-                marginHorizontal: 15,
-              }}
+            <View
+              style={{ position: "absolute", top: 20, right: 10, zIndex: 2 }}
             >
-              {getGreeting()}
-            </Text>
-            <TouchableOpacity
-              onPress={() => setModalVisible(true)}
-              style={{ justifyContent: "center", alignItems: "center" }}
-            >
-              <FontAwesome
-                style={{ marginHorizontal: 15 }}
-                name="user-circle"
-                size={30}
-                color="white"
-              />
-              <Text
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
                 style={{
-                  fontSize: 10,
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  marginHorizontal: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                Device UID: #{uid}
-              </Text>
-            </TouchableOpacity>
+                <FontAwesome
+                  style={{ marginHorizontal: 15 }}
+                  name="user-circle"
+                  size={30}
+                  color="black"
+                />
+              </TouchableOpacity>
+            </View>
+            <MapView
+              showsMyLocationButton={true}
+              style={{ width: "100%", height: "100%" }}
+              initialRegion={{
+                latitude: 14.0996,
+                longitude: 122.955,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+              }}
+            >
+              <Marker
+                coordinate={{ latitude: 14.0996, longitude: 122.925 }}
+                title="Master"
+              />
+
+              <Marker
+                coordinate={{ latitude: 14.0996, longitude: 122.955 }}
+                title="Slave"
+                pinColor="#0D1117"
+              />
+              <Circle
+                center={{ latitude: 14.0996, longitude: 122.925 }}
+                radius={5000}
+                fillColor="#CC000040"
+                strokeColor="#CC000040"
+              />
+            </MapView>
           </View>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "white",
-            margin: 10,
-          }}
-        >
-          <MapView style={{ width: "100%", height: "100%" }} />
-        </View>
+        )}
       </View>
     </View>
   );

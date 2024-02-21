@@ -1,13 +1,5 @@
 {
   "expo": {
-    "plugins": [
-      [
-        "expo-barcode-scanner",
-        {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
-        }
-      ]
-    ],
     "name": "Alzhietech",
     "slug": "super-laco",
     "version": "1.0.0",

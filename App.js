@@ -38,16 +38,6 @@ export default function App() {
             tabBarShowLabel: false,
           }}
         />
-        <Tab.Screen
-          name="Thermal"
-          component={Thermal}
-          options={{
-            tabBarIcon: () => (
-              <Entypo name="image-inverted" size={24} color="#001F47" />
-            ),
-            tabBarShowLabel: false,
-          }}
-        />
 
         <Tab.Screen
           name="About"
