@@ -31,6 +31,7 @@ const Home = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [mapType, setMapType] = useState("standard");
   const [deviceValue, setDeviceValue] = useState(null);
+  const [distance, setDistance] = useState();
 
   const { uid, updateUid, auth, MASTER_NAME, SLAVE_NAME, RADIUS } =
     useSmokeContext();
@@ -67,6 +68,10 @@ const Home = ({ route, navigation }) => {
     };
   }, []);
 
+  useEffect(() => {
+    calculateDistance();
+  }, [deviceValue]);
+
   async function fetchUid() {
     const userRef = ref(database, `users/${auth.id}`);
     const snapshot = await get(userRef);
@@ -97,6 +102,38 @@ const Home = ({ route, navigation }) => {
         longitudeDelta: 0.0421,
       });
     }
+  }
+
+  function calculateDistance() {
+    if (deviceValue) {
+      const output = haversineDistance(deviceValue.master, deviceValue.slave);
+      if (output > RADIUS) {
+        showToast("error", "Slave is out of reach!");
+      }
+    }
+  }
+
+  function haversineDistance(coord1, coord2) {
+    function toRadians(degrees) {
+      return degrees * (Math.PI / 180);
+    }
+
+    const R = 6371; // Earth radius in kilometers
+    const dLat = toRadians(coord2.lat - coord1.lat);
+    const dLon = toRadians(coord2.long - coord1.long);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRadians(coord1.lat)) *
+        Math.cos(toRadians(coord2.lat)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    const distance = R * c * 1000; // Distance in kilometers
+
+    return distance;
   }
 
   return (
@@ -136,7 +173,7 @@ const Home = ({ route, navigation }) => {
       )}
 
       <View style={{ flex: 1 }}>
-        {deviceValue !== null && deviceValue.master && (
+        {deviceValue !== null && (
           <View
             style={{
               flex: 1,
@@ -209,44 +246,46 @@ const Home = ({ route, navigation }) => {
               </View>
             </View>
 
-            <MapView
-              ref={mapRef}
-              mapType={mapType}
-              showsMyLocationButton={true}
-              style={{ width: "100%", height: "100%" }}
-              initialRegion={{
-                latitude: deviceValue.master.lat,
-                longitude: deviceValue.master.long,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
-              }}
-            >
-              <Marker
-                coordinate={{
+            {deviceValue.master && deviceValue.slave && (
+              <MapView
+                ref={mapRef}
+                mapType={mapType}
+                showsMyLocationButton={true}
+                style={{ flex: 1, minHeight: 500, minWidth: 500 }}
+                initialRegion={{
                   latitude: deviceValue.master.lat,
                   longitude: deviceValue.master.long,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
                 }}
-                title={MASTER_NAME}
-              />
+              >
+                <Marker
+                  coordinate={{
+                    latitude: deviceValue.master.lat,
+                    longitude: deviceValue.master.long,
+                  }}
+                  title={MASTER_NAME}
+                />
 
-              <Marker
-                coordinate={{
-                  latitude: deviceValue.slave.lat,
-                  longitude: deviceValue.slave.long,
-                }}
-                title={SLAVE_NAME}
-                pinColor="#0D1117"
-              />
-              <Circle
-                center={{
-                  latitude: deviceValue.master.lat,
-                  longitude: deviceValue.master.long,
-                }}
-                radius={RADIUS}
-                fillColor="#CC000040"
-                strokeColor="#CC000040"
-              />
-            </MapView>
+                <Marker
+                  coordinate={{
+                    latitude: deviceValue.slave.lat,
+                    longitude: deviceValue.slave.long,
+                  }}
+                  title={SLAVE_NAME}
+                  pinColor="#0D1117"
+                />
+                <Circle
+                  center={{
+                    latitude: deviceValue.master.lat,
+                    longitude: deviceValue.master.long,
+                  }}
+                  radius={RADIUS}
+                  fillColor="#CC000040"
+                  strokeColor="#CC000040"
+                />
+              </MapView>
+            )}
           </View>
         )}
       </View>
