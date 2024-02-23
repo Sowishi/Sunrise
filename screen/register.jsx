@@ -27,64 +27,6 @@ const Register = ({ navigation }) => {
 
   const usersRef = ref(database, "/users");
 
-  // const register = () => {
-  //   const userRef = collection(db, "users");
-  //   onSnapshot(userRef, (snapshot) => {
-  //     const IDS = [];
-  //     snapshot.forEach((doc) => {
-  //       const user = doc.data();
-  //       IDS.push(user.schoolID);
-  //     });
-  //     setIDS(IDS);
-  //   });
-
-  //   if (schoolID.length === 0) {
-  //     showToast("error", "School ID must not be empty!");
-  //   } else if (IDS.includes(schoolID)) {
-  //     showToast("error", "School ID already registered");
-  //   } else if (firstName.length === 0) {
-  //     showToast("error", "First name must not be empty!");
-  //   } else if (lastName.length === 0) {
-  //     showToast("error", "Last name must not be empty!");
-  //   } else if (gender.length === 0) {
-  //     showToast("error", "Please select a gender!");
-  //   } else if (course.length === 0) {
-  //     showToast("error", "Please select a course!");
-  //   } else if (yearLevel.length === 0) {
-  //     showToast("error", "Please specify your year level!");
-  //   } else if (password.length === 0) {
-  //     showToast("error", "Password must not be empty!");
-  //   } else if (password.length <= 5) {
-  //     showToast("error", "Password must be greater than 5 characters!");
-  //   } else if (password2.length === 0) {
-  //     showToast("error", "Re-enter password is empty");
-  //   } else if (password2 !== password) {
-  //     showToast("error", "Your password did not match!");
-  //   } else {
-  //     setLoading(true);
-  //     const data = {
-  //       schoolID: schoolID,
-  //       firstName: firstName,
-  //       middleName,
-  //       middleName,
-  //       lastName,
-  //       lastName,
-  //       gender: gender,
-  //       course: course,
-  //       yearLevel: yearLevel,
-  //       password: password,
-  //       createdAt: serverTimestamp(),
-  //       role: "client",
-  //     };
-  //     const userRef = collection(db, "users");
-  //     addDoc(userRef, data).then(() => {
-  //       setLoading(false);
-  //       showToast("success", "Successfully Registered");
-  //       navigation.navigate("login");
-  //     });
-  //   }
-  // };
-
   const handleRegister = async () => {
     if (email.length <= 0) {
       showToast("error", "Invalid Email!");
