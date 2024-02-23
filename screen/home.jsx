@@ -25,6 +25,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MapView, { Callout } from "react-native-maps";
 import { Marker, Circle } from "react-native-maps";
 import SmallButton from "../components/smallButton";
+import { PROVIDER_GOOGLE } from "react-native-maps";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -248,6 +249,7 @@ const Home = ({ route, navigation }) => {
 
             {deviceValue.master && deviceValue.slave && (
               <MapView
+                provider={PROVIDER_GOOGLE}
                 ref={mapRef}
                 mapType={mapType}
                 showsMyLocationButton={true}

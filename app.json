@@ -25,7 +25,12 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"],
-      "package": "com.sowishi.superlaco"
+      "package": "com.sowishi.superlaco",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBul8g__S5ndzaXGqjk0lE16s_WjkMV7Yg"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

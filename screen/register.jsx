@@ -42,10 +42,12 @@ const Register = ({ navigation }) => {
     if (emailExist) {
       showToast("error", "Email Already exist!");
     } else {
-      push(usersRef, { email: email, password: password }).then((res) => {
-        showToast("success", "You can now login!");
-        navigation.navigate("login");
-      });
+      push(usersRef, { email: email, password: password, uid: 23 }).then(
+        (res) => {
+          showToast("success", "You can now login!");
+          navigation.navigate("login");
+        }
+      );
     }
   };
 
