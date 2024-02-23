@@ -20,7 +20,7 @@ import { showToast } from "./toast";
 import { useSmokeContext } from "../utils/appContext";
 import * as Updates from "expo-updates";
 
-const ConnectionModal = ({ modalVisible, closeModal, children }) => {
+const ConnectionModal = ({ modalVisible, closeModal, setMapType }) => {
   const [masterName, setMasterName] = useState("");
   const [slaveName, setSlaveName] = useState("");
   const [newMasterName, setNewMasterName] = useState("");
@@ -190,6 +190,46 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
               <>
                 <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
+                    Map Type
+                  </Text>
+                  <View
+                    style={{
+                      width: "100%",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{
+                        backgroundColor: "#fefefe99",
+                        width: "90%",
+                        padding: 10,
+                        flexDirection: "row",
+                        justifyContent: "space-around",
+                        borderRadius: 5,
+                      }}
+                    >
+                      <SmallButton
+                        event={() => {
+                          setMapType("hybrid");
+                          closeModal();
+                        }}
+                        text="Satellite"
+                        bgColor={"#F77000"}
+                      />
+                      <SmallButton
+                        event={() => {
+                          setMapType("standard");
+                          closeModal();
+                        }}
+                        text="Standard"
+                        bgColor={"#232D3F"}
+                      />
+                    </View>
+                  </View>
+                </View>
+                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                  <Text style={{ color: "gray", marginBottom: 3 }}>
                     Master Name
                   </Text>
                   <View
@@ -270,7 +310,7 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
                 </View>
                 <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Radius (km)
+                    Radius (meter)
                   </Text>
                   <View
                     style={{
@@ -288,7 +328,7 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
                     }}
                   >
                     <MaterialCommunityIcons
-                      name="account"
+                      name="circle"
                       size={24}
                       color="gray"
                     />
@@ -307,6 +347,7 @@ const ConnectionModal = ({ modalVisible, closeModal, children }) => {
                     />
                   </View>
                 </View>
+
                 <View
                   style={{
                     flexDirection: "row",
@@ -344,7 +385,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "#FAF5FC",
     width: "100%",
-    height: 560,
+    height: 670,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",

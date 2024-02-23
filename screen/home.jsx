@@ -36,6 +36,7 @@ const Home = ({ route, navigation }) => {
     useSmokeContext();
 
   const splash = useRef();
+  const mapRef = useRef();
 
   useEffect(() => {
     if (splash.current !== null) {
@@ -87,6 +88,17 @@ const Home = ({ route, navigation }) => {
     });
   }
 
+  function jumpToMarker(coordinate) {
+    if (mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
+  }
+
   return (
     <View
       style={{
@@ -101,6 +113,7 @@ const Home = ({ route, navigation }) => {
         updateUid={updateUid}
         modalVisible={modalVisible}
         closeModal={() => setModalVisible(false)}
+        setMapType={setMapType}
       ></ConnectionModal>
       {loading && (
         <View
@@ -123,7 +136,7 @@ const Home = ({ route, navigation }) => {
       )}
 
       <View style={{ flex: 1 }}>
-        {deviceValue !== null && (
+        {deviceValue !== null && deviceValue.master && (
           <View
             style={{
               flex: 1,
@@ -175,12 +188,17 @@ const Home = ({ route, navigation }) => {
               >
                 <SmallButton
                   event={() => setMapType("hybrid")}
-                  text="Satellite"
+                  text="Master"
                   bgColor={"#F77000"}
                 />
                 <SmallButton
-                  event={() => setMapType("standard")}
-                  text="Standard"
+                  event={() => {
+                    jumpToMarker({
+                      latitude: deviceValue.slave.lat,
+                      longitude: deviceValue.slave.long,
+                    });
+                  }}
+                  text="Slave"
                   bgColor={"#232D3F"}
                 />
               </View>
@@ -191,8 +209,8 @@ const Home = ({ route, navigation }) => {
               showsMyLocationButton={true}
               style={{ width: "100%", height: "100%" }}
               initialRegion={{
-                latitude: 14.0996,
-                longitude: 122.955,
+                latitude: deviceValue.master.lat,
+                longitude: deviceValue.master.long,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
               }}
@@ -218,7 +236,7 @@ const Home = ({ route, navigation }) => {
                   latitude: deviceValue.master.lat,
                   longitude: deviceValue.master.long,
                 }}
-                radius={RADIUS * 1000}
+                radius={RADIUS}
                 fillColor="#CC000040"
                 strokeColor="#CC000040"
               />
