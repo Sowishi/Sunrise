@@ -187,7 +187,12 @@ const Home = ({ route, navigation }) => {
                 }}
               >
                 <SmallButton
-                  event={() => setMapType("hybrid")}
+                  event={() => {
+                    jumpToMarker({
+                      latitude: deviceValue.master.lat,
+                      longitude: deviceValue.master.long,
+                    });
+                  }}
                   text="Master"
                   bgColor={"#F77000"}
                 />
@@ -205,6 +210,7 @@ const Home = ({ route, navigation }) => {
             </View>
 
             <MapView
+              ref={mapRef}
               mapType={mapType}
               showsMyLocationButton={true}
               style={{ width: "100%", height: "100%" }}

@@ -26,17 +26,11 @@ const ConnectionModal = ({ modalVisible, closeModal, setMapType }) => {
   const [newMasterName, setNewMasterName] = useState("");
   const [newSlaveName, setNewSlaveName] = useState("");
   const [newUid, setNewUid] = useState();
-  const [radius, setRadius] = useState();
-  const [newRadius, setNewRadius] = useState();
+  const [radius, setRadius] = useState("");
+  const [newRadius, setNewRadius] = useState("");
 
-  const {
-    uid,
-    updateUid,
-    auth,
-    updateMasterName,
-    updateSlaveName,
-    updateRadius,
-  } = useSmokeContext();
+  const { uid, auth, updateMasterName, updateSlaveName, updateRadius } =
+    useSmokeContext();
 
   const masterRef = ref(database, `uids/${uid}/masterName`);
   const slaveRef = ref(database, `uids/${uid}/slaveName`);
