@@ -14,6 +14,7 @@ const Button = ({ text, icon, bgColor, event, isDisable }) => {
         alignItems: "center",
         flexDirection: "row",
         marginHorizontal: 10,
+        marginVertical: 10,
       }}
       disabled={isDisable}
     >

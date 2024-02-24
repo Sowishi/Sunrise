@@ -27,6 +27,8 @@ const Landing = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
+      <StatusBar backgroundColor={"#4C3488"} style="light" />
+
       <LinearGradient
         colors={["#4C3488", "#FCF2F6", "#EEF6FE"]}
         style={{

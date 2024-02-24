@@ -71,7 +71,7 @@ const Register = ({ navigation }) => {
       {loading && <Loader />}
 
       <View style={{ flex: 1, backgroundColor: "#FAF5FC" }}>
-        <StatusBar />
+        <StatusBar backgroundColor={"#4C3488"} style="light" />
         <LogoComponent />
       </View>
       <TitleComponent title={"Register"} titleColor={"black"} />

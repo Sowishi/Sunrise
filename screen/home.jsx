@@ -148,6 +148,8 @@ const Home = ({ route, navigation }) => {
         backgroundColor: "#FAF5FC",
       }}
     >
+      <StatusBar backgroundColor={"#4C3488"} style="light" />
+
       <ConnectionModal
         uid={uid}
         updateUid={updateUid}

@@ -58,7 +58,7 @@ const Login = ({ navigation }) => {
       {loading && <Loader />}
 
       <LogoComponent />
-
+      <StatusBar backgroundColor={"#4C3488"} style="light" />
       <View
         style={{
           flex: 1.2,
@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
           paddingTop: 15,
         }}
       >
-        <TitleComponent titleColor={"black"} title={"Log in to SINFERNO"} />
+        <TitleComponent titleColor={"black"} title={"Log in to ALZHEITECH"} />
         <View
           style={{
             justifyContent: "center",
@@ -143,9 +143,16 @@ const Login = ({ navigation }) => {
           <Button
             icon="login"
             text="Login"
-            bgColor={"#0B60B0"}
+            bgColor={"#0064E0"}
             navigation={navigation}
             event={handleLogin}
+          />
+
+          <Button
+            text="Register"
+            bgColor={"#344854"}
+            navigation={navigation}
+            event={() => navigation.navigate("register")}
           />
         </View>
       </View>
