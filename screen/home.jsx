@@ -13,19 +13,18 @@ import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
 import { database } from "../firebase";
 import LottieView from "lottie-react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { showToast } from "../components/toast";
 import { get, onValue, ref } from "firebase/database";
-import TitleComponent from "../components/titleComponent";
 import { FontAwesome } from "@expo/vector-icons";
 import ConnectionModal from "../components/connectionModal";
 import { useSmokeContext } from "../utils/appContext";
 import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapView, { Callout } from "react-native-maps";
+import MapView from "react-native-maps";
 import { Marker, Circle } from "react-native-maps";
 import SmallButton from "../components/smallButton";
 import { PROVIDER_GOOGLE } from "react-native-maps";
+import { Entypo } from "@expo/vector-icons";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -33,6 +32,7 @@ const Home = ({ route, navigation }) => {
   const [mapType, setMapType] = useState("standard");
   const [deviceValue, setDeviceValue] = useState(null);
   const [distance, setDistance] = useState();
+  const [danger, setDanger] = useState(false);
 
   const { uid, updateUid, auth, MASTER_NAME, SLAVE_NAME, RADIUS } =
     useSmokeContext();
@@ -99,8 +99,8 @@ const Home = ({ route, navigation }) => {
       mapRef.current.animateToRegion({
         latitude: coordinate.latitude,
         longitude: coordinate.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.009,
+        longitudeDelta: 0.009,
       });
     }
   }
@@ -110,6 +110,9 @@ const Home = ({ route, navigation }) => {
       const output = haversineDistance(deviceValue.master, deviceValue.slave);
       if (output > RADIUS) {
         showToast("error", "Slave is out of reach!");
+        setDanger(true);
+      } else {
+        setDanger(false);
       }
     }
   }
@@ -145,7 +148,6 @@ const Home = ({ route, navigation }) => {
         backgroundColor: "#FAF5FC",
       }}
     >
-      <StatusBar style="light" />
       <ConnectionModal
         uid={uid}
         updateUid={updateUid}
@@ -246,6 +248,34 @@ const Home = ({ route, navigation }) => {
                 />
               </View>
             </View>
+            {danger && (
+              <View
+                style={{
+                  position: "absolute",
+                  top: 70,
+                  zIndex: 2,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "#F7000099",
+                    width: "90%",
+                    padding: 10,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    borderRadius: 5,
+                  }}
+                >
+                  <Text style={{ color: "white", fontSize: 16 }}>
+                    {SLAVE_NAME} is out of reach.{" "}
+                    <Entypo name="warning" size={16} color="white" />
+                  </Text>
+                </View>
+              </View>
+            )}
 
             {deviceValue.master && deviceValue.slave && (
               <MapView
@@ -257,8 +287,8 @@ const Home = ({ route, navigation }) => {
                 initialRegion={{
                   latitude: deviceValue.master.lat,
                   longitude: deviceValue.master.long,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421,
+                  latitudeDelta: 0.009,
+                  longitudeDelta: 0.009,
                 }}
               >
                 <Marker
