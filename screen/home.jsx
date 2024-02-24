@@ -99,8 +99,8 @@ const Home = ({ route, navigation }) => {
       mapRef.current.animateToRegion({
         latitude: coordinate.latitude,
         longitude: coordinate.longitude,
-        latitudeDelta: 0.009,
-        longitudeDelta: 0.009,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
       });
     }
   }
@@ -279,6 +279,7 @@ const Home = ({ route, navigation }) => {
 
             {deviceValue.master && deviceValue.slave && (
               <MapView
+                showsTraffic={true}
                 provider={PROVIDER_GOOGLE}
                 ref={mapRef}
                 mapType={mapType}
@@ -287,8 +288,8 @@ const Home = ({ route, navigation }) => {
                 initialRegion={{
                   latitude: deviceValue.master.lat,
                   longitude: deviceValue.master.long,
-                  latitudeDelta: 0.009,
-                  longitudeDelta: 0.009,
+                  latitudeDelta: 0.1,
+                  longitudeDelta: 0.1,
                 }}
               >
                 <Marker
@@ -297,6 +298,7 @@ const Home = ({ route, navigation }) => {
                     longitude: deviceValue.master.long,
                   }}
                   title={MASTER_NAME}
+                  description="Master Device"
                 />
 
                 <Marker
@@ -305,6 +307,7 @@ const Home = ({ route, navigation }) => {
                     longitude: deviceValue.slave.long,
                   }}
                   title={SLAVE_NAME}
+                  description="Slave Device"
                   pinColor="#0D1117"
                 />
                 <Circle

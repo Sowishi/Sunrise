@@ -8,6 +8,7 @@ import TitleComponent from "../components/titleComponent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { useSmokeContext } from "../utils/appContext";
+import LottieView from "lottie-react-native";
 
 const Landing = ({ navigation }) => {
   const { updateAuth } = useSmokeContext();
@@ -26,45 +27,40 @@ const Landing = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor={"#f16b00"} style="light" />
       <LinearGradient
-        colors={["#FC6736", "#0C2D57"]}
+        colors={["#4C3488", "#FCF2F6", "#EEF6FE"]}
         style={{
-          flex: 1.5,
+          flex: 1,
           paddingHorizontal: 15,
           paddingVertical: 30,
         }}
       >
-        <View style={{ marginTop: 50 }}>
-          <TitleComponent title={"SINFERNO"} noBG={true} />
-          <Text
+        <View style={{ flex: 1 }}>
+          <LottieView
             style={{
-              textAlign: "center",
-              marginVertical: 10,
-              color: "white",
+              width: "100%",
+              height: "100%",
             }}
-          >
-            Solar Innovated Network for Fire Emergency Response and Notification
-            Optimization with IoT- based systems.
-          </Text>
+            autoPlay
+            source={require("../assets/landing.json")}
+          />
         </View>
 
         <View
           style={{
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 10,
+            flex: 0.5,
           }}
         >
-          <LineComponent />
-        </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+          <Text style={{ fontSize: 25, letterSpacing: 10, fontWeight: "bold" }}>
+            ALZHEITECH
+          </Text>
+          <Text style={{ textAlign: "center", fontSize: 10 }}>
+            AN ALZHEIMER’S MULTIFUNCTIONAL ARDUINO-BASED AND ESP IOT SYSTEM
+            EMERGENCY NECKLACE WITH GPS TRACKER, QUICK-RESPONSE CODE AND SMS
+            NOTIFICATION
+          </Text>
           <View
             style={{
               justifyContent: "center",
@@ -74,26 +70,10 @@ const Landing = ({ navigation }) => {
           >
             <Button
               icon="login"
-              text="Go to login!"
-              bgColor={"#0B60B0"}
+              text="Continue"
+              bgColor={"#0064E0"}
               navigation={navigation}
               event={() => navigation.navigate("login")}
-            />
-          </View>
-
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginVertical: 20,
-            }}
-          >
-            <Button
-              text="Register"
-              bgColor={"#232D3F"}
-              navigation={navigation}
-              event={() => navigation.navigate("register")}
-              icon={"account-arrow-up"}
             />
           </View>
         </View>

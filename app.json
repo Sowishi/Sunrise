@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Alzhietech",
-    "slug": "super-laco",
+    "slug": "alzhietech",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo-sinfero.png",
@@ -25,7 +25,7 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"],
-      "package": "com.sowishi.superlaco",
+      "package": "com.sowishi.alzhietech",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyBul8g__S5ndzaXGqjk0lE16s_WjkMV7Yg"
