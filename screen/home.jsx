@@ -8,6 +8,9 @@ import {
   Modal,
   Pressable,
   TextInput,
+  Button,
+  Vibration,
+  Platform,
 } from "react-native";
 import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
@@ -105,12 +108,24 @@ const Home = ({ route, navigation }) => {
     }
   }
 
+  function vibrate(counter) {
+    if (counter > 5) {
+      return;
+    }
+    Vibration.vibrate(PATTERN);
+
+    setTimeout(() => {
+      vibrate(counter + 1);
+    }, 2000);
+  }
+
   function calculateDistance() {
     if (deviceValue) {
       const output = haversineDistance(deviceValue.master, deviceValue.slave);
       if (output > RADIUS) {
         showToast("error", "Slave is out of reach!");
         setDanger(true);
+        vibrate(0);
       } else {
         setDanger(false);
       }
@@ -139,6 +154,14 @@ const Home = ({ route, navigation }) => {
 
     return distance;
   }
+
+  const ONE_SECOND_IN_MS = 1000;
+
+  const PATTERN = [
+    1 * ONE_SECOND_IN_MS,
+    2 * ONE_SECOND_IN_MS,
+    3 * ONE_SECOND_IN_MS,
+  ];
 
   return (
     <View
@@ -276,6 +299,14 @@ const Home = ({ route, navigation }) => {
                     <Entypo name="warning" size={16} color="white" />
                   </Text>
                 </View>
+                <LottieView
+                  style={{
+                    width: 70,
+                    height: 70,
+                  }}
+                  autoPlay
+                  source={require("../assets/alert.json")}
+                />
               </View>
             )}
 

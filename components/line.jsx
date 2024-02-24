@@ -3,7 +3,7 @@ import { View } from "react-native";
 const LineComponent = () => {
   return (
     <View
-      style={{ backgroundColor: "#344854", width: "80%", height: 5 }}
+      style={{ backgroundColor: "#FFC71F", width: "80%", height: 5 }}
     ></View>
   );
 };

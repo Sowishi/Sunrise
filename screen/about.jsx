@@ -23,13 +23,12 @@ import * as Updates from "expo-updates";
 const About = ({ navigation }) => {
   const { updateAuth, smoke, updateUid, auth, uid } = useSmokeContext();
   const [show, setShow] = useState(false);
-  console.log(auth);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar backgroundColor={"#4C3488"} style="light" />
       <LinearGradient
-        colors={["#FC6736", "#0C2D57"]}
+        colors={["#4C3488", "#344854", "#222222"]}
         style={{
           flex: 1.5,
           paddingHorizontal: 15,
@@ -138,13 +137,13 @@ const About = ({ navigation }) => {
             borderRadius: 5,
           }}
         >
-          <Text style={{ color: "white" }}> SINFERNO © 2024 </Text>
+          <Text style={{ color: "white" }}> ALZHEITECH © 2024 </Text>
           <TouchableOpacity onPress={() => setShow(true)}>
             <FontAwesome name="gear" size={27} color="white" />
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: 20 }}>
-          <TitleComponent title={"SINFERNO"} noBG={true} />
+          <TitleComponent title={"ALZHEITECH"} noBG={true} />
           <Text
             style={{
               textAlign: "center",
@@ -152,8 +151,9 @@ const About = ({ navigation }) => {
               color: "white",
             }}
           >
-            Solar Innovated Network for Fire Emergency Response and Notification
-            Optimization with IoT- based systems
+            AN ALZHEIMER’S MULTIFUNCTIONAL ARDUINO-BASED AND ESP IOT SYSTEM
+            EMERGENCY NECKLACE WITH GPS TRACKER, QUICK-RESPONSE CODE AND SMS
+            NOTIFICATION
           </Text>
         </View>
 
@@ -174,10 +174,16 @@ const About = ({ navigation }) => {
           }}
         >
           Proponents:{"\n"}
-          {"\n"}Shine Xandrea G. Montejo
-          {"\n"}Sofia Denise E. Presbitero
-          {"\n"}John Erlov S. Cabezudo
-          {"\n"}Kyla G. Lopez
+          {"\n"}Asis, Mary Ann
+          {"\n"}Benitez, Mark Joven
+          {"\n"}Caro, Rizalina
+          {"\n"}Juan, Prince Jheck
+          {"\n"}Nepomuceno, Lovely
+          {"\n"}Par, Jesusa
+          {"\n"}Placido, John Paul
+          {"\n"}Recreo, Ais
+          {"\n"}Rendon, Michael
+          {"\n"}Velasco, Bea Emmarie
         </Text>
         <View
           style={{
@@ -195,6 +201,9 @@ const About = ({ navigation }) => {
             source={require("../assets/team.json")}
           />
         </View>
+        <Text style={{ color: "white", fontSize: 15, fontWeight: "bold" }}>
+          Function and Design
+        </Text>
         <Text
           style={{
             textAlign: "left",
@@ -202,13 +211,27 @@ const About = ({ navigation }) => {
             color: "white",
           }}
         >
-          Introducing SINFERNO, the Solar Innovated Network for Fire Emergency
-          Response and Notification Optimization. This pioneering project
-          harnesses the power of an Internet of Things (IoT)-based system to
-          revolutionize the speed and efficiency of fire detection and
-          suppression.
+          The device AlzheiTech, whose main objective is monitoring and tracking
+          the Alzheimer's patient and securing an immediate response in case of
+          emergency, hence also increasing the patient’s safety. AlzheiTech
+          integrates different features and functions such as the Global
+          Positioning System (GPS) (1) which tracks and locates the patient, SMS
+          (2) Emergency alert system, which notifies and provides necessary
+          information. QR Code (3) contains basic information such as the
+          contact numbers in which they can communicate with the caretakers or
+          relatives in case that someone encounters the patient who got lost.
+          The Event Stream Processes (ESP) Basepoint (4) serves as a reference
+          for the device, triggering an alarm when it exceeds a designated range
+          from the basepoint. This proximity-based alarm system ensured timely
+          notifications if the wearable device ventured too far from the
+          established distance threshold. Then, a custom-made Application (5)
+          was developed, exclusive for use to provide the necessary profile,
+          collect and receive information from the GPS. Eventually, the
+          information gathered using the mentioned features was processed by
+          AlzhieTech to provide a location and information about the patient
+          with Alzheimer's.
         </Text>
-        <Text
+        {/* <Text
           style={{
             textAlign: "left",
             marginVertical: 10,
@@ -261,7 +284,7 @@ const About = ({ navigation }) => {
           technology with user-driven customization, SINFERNO sets a new
           standard for safety and protection in the face of potential fire
           emergencies.
-        </Text>
+        </Text> */}
       </LinearGradient>
     </ScrollView>
   );
