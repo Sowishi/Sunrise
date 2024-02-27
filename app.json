@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "Alzhietech",
-    "slug": "alzhietech",
+    "slug": "super-laco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo-sinfero.png",
+    "icon": "./assets/a-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash-sinfero.png",
+      "image": "./assets/a-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#F9F7F8"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-sinfero.png",
+        "foregroundImage": "./assets/a-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"],

@@ -332,6 +332,7 @@ const Home = ({ route, navigation }) => {
                   }}
                   title={MASTER_NAME}
                   description="Master Device"
+                  pinColor="#F77000"
                 />
 
                 <Marker
@@ -341,7 +342,7 @@ const Home = ({ route, navigation }) => {
                   }}
                   title={SLAVE_NAME}
                   description="Slave Device"
-                  pinColor="#0D1117"
+                  pinColor="#232D3F"
                 />
                 <Circle
                   center={{

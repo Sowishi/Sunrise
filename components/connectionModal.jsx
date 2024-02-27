@@ -129,7 +129,7 @@ const ConnectionModal = ({ modalVisible, closeModal, setMapType }) => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <TitleComponent
-            title={"Device Details"}
+            title={`Device Details #${uid}`}
             titleColor={"black"}
             noBG={true}
           />
