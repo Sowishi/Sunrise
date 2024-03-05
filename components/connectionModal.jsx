@@ -20,7 +20,12 @@ import { showToast } from "./toast";
 import { useSmokeContext } from "../utils/appContext";
 import * as Updates from "expo-updates";
 
-const ConnectionModal = ({ modalVisible, closeModal, setMapType }) => {
+const ConnectionModal = ({
+  modalVisible,
+  closeModal,
+  setMapType,
+  navigation,
+}) => {
   const [masterName, setMasterName] = useState("");
   const [slaveName, setSlaveName] = useState("");
   const [newMasterName, setNewMasterName] = useState("");
@@ -179,6 +184,13 @@ const ConnectionModal = ({ modalVisible, closeModal, setMapType }) => {
                 bgColor={"#F77000"}
               />
             </View>
+            <SmallButton
+              event={() => {
+                navigation.navigate("scanner");
+              }}
+              text="Scan"
+              bgColor={"#F77000"}
+            />
 
             {uid !== undefined && (
               <>

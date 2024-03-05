@@ -174,6 +174,7 @@ const Home = ({ route, navigation }) => {
       <StatusBar backgroundColor={"#4C3488"} style="light" />
 
       <ConnectionModal
+        navigation={navigation}
         uid={uid}
         updateUid={updateUid}
         modalVisible={modalVisible}
