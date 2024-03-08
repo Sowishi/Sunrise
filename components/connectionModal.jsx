@@ -96,7 +96,7 @@ const ConnectionModal = ({
       checkIfUidExist(uid);
     } else {
       deviceRef.current.blur();
-
+      setShowScanner(false);
       showToast("error", "Device uid is not a number.");
     }
   };
@@ -121,6 +121,7 @@ const ConnectionModal = ({
           if (!found) {
             showToast("error", "Device UID is not exist.");
             deviceRef.current.blur();
+            setShowScanner(false);
           }
         }
       });
@@ -172,6 +173,7 @@ const ConnectionModal = ({
                     inputMode="numeric"
                     placeholder={`UID: ${uid} `}
                     ref={deviceRef}
+                    editable={false}
                     onChangeText={(text) => setNewUid(text)}
                     style={{
                       flex: 1,
@@ -200,7 +202,7 @@ const ConnectionModal = ({
 
             {uid !== undefined && (
               <>
-                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
                     Map Type
                   </Text>
@@ -240,7 +242,7 @@ const ConnectionModal = ({
                     </View>
                   </View>
                 </View>
-                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
                     Master Name
                   </Text>
@@ -280,7 +282,7 @@ const ConnectionModal = ({
                     />
                   </View>
                 </View>
-                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
                     Slave Name
                   </Text>
@@ -320,7 +322,7 @@ const ConnectionModal = ({
                     />
                   </View>
                 </View>
-                <View style={{ paddingHorizontal: 10, marginTop: 30 }}>
+                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
                     Radius (meter)
                   </Text>
@@ -397,7 +399,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "#FAF5FC",
     width: "100%",
-    height: 670,
+    height: 620,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
