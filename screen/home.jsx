@@ -28,6 +28,7 @@ import { Marker, Circle, Polyline } from "react-native-maps";
 import SmallButton from "../components/smallButton";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
+import { Audio } from "expo-av";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -36,6 +37,7 @@ const Home = ({ route, navigation }) => {
   const [deviceValue, setDeviceValue] = useState(null);
   const [distance, setDistance] = useState();
   const [danger, setDanger] = useState(false);
+  const [sound, setSound] = useState();
 
   const { uid, updateUid, auth, MASTER_NAME, SLAVE_NAME, RADIUS } =
     useSmokeContext();
@@ -126,6 +128,7 @@ const Home = ({ route, navigation }) => {
       if (output > RADIUS) {
         showToast("error", "Slave is out of reach!");
         setDanger(true);
+        playSound();
         vibrate(0);
       } else {
         setDanger(false);
@@ -163,6 +166,26 @@ const Home = ({ route, navigation }) => {
     2 * ONE_SECOND_IN_MS,
     3 * ONE_SECOND_IN_MS,
   ];
+
+  async function playSound() {
+    console.log("Loading Sound");
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/warning-2.mp3")
+    );
+    setSound(sound);
+
+    console.log("Playing Sound");
+    await sound.playAsync();
+  }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   return (
     <View
