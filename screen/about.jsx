@@ -90,7 +90,7 @@ const About = ({ navigation }) => {
               >
                 {uid !== undefined && (
                   <TextInput
-                    value={uid.toString()}
+                    value={uid !== null ? uid.toString() : "Unknown"}
                     editable={false}
                     style={{
                       flex: 1,

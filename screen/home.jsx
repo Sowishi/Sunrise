@@ -123,7 +123,7 @@ const Home = ({ route, navigation }) => {
   }
 
   function calculateDistance() {
-    if (deviceValue) {
+    if (deviceValue && uid) {
       const output = haversineDistance(deviceValue.master, deviceValue.slave);
       setDistance(parseInt(output));
       if (output > RADIUS) {
@@ -259,7 +259,7 @@ const Home = ({ route, navigation }) => {
             </View>
 
             {/* Bottom Navigation      */}
-            {uid !== undefined && (
+            {uid !== null && (
               <View
                 style={{
                   position: "absolute",

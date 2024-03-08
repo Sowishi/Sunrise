@@ -213,7 +213,7 @@ const ConnectionModal = ({
               <Scanner handleUpdateUid={handleUpdateUid} />
             </BottomModal>
 
-            {uid !== undefined && (
+            {uid !== null && (
               <>
                 <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
