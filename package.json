@@ -33,7 +33,8 @@
     "react-native-tab-view": "^3.5.2",
     "react-native-toast-message": "^2.1.6",
     "expo-av": "~13.10.5",
-    "expo-camera": "~14.0.6"
+    "expo-camera": "~14.0.6",
+    "expo-barcode-scanner": "~12.9.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

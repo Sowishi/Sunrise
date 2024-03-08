@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
-import { Camera } from "expo-camera";
+import { BarCodeScanner } from "expo-barcode-scanner";
 
 export default function Scanner({ handleUpdateUid }) {
-  const [permission, requestPermission] = Camera.useCameraPermissions();
+  const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
   const handleBarCodeScanned = ({ type, data }) => {
@@ -13,13 +13,21 @@ export default function Scanner({ handleUpdateUid }) {
     handleUpdateUid(uid);
   };
 
-  if (permission === null) {
+  useEffect(() => {
+    const getBarCodeScannerPermissions = async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === "granted");
+    };
+
+    getBarCodeScannerPermissions();
+  }, []);
+
+  if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
-  if (permission === false) {
+  if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-
   return (
     <View
       style={{
@@ -28,12 +36,11 @@ export default function Scanner({ handleUpdateUid }) {
         alignItems: "center",
       }}
     >
-      {permission && (
-        <Camera
-          onBarCodeScanned={handleBarCodeScanned}
-          style={{ width: Dimensions.get("window").width, height: 500 }}
-        ></Camera>
-      )}
+      <BarCodeScanner
+        onBarCodeScanned={handleBarCodeScanned}
+        style={{ width: Dimensions.get("window").width, height: 500 }}
+      ></BarCodeScanner>
+
       <LottieView
         style={{
           width: 200,
