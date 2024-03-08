@@ -4,7 +4,7 @@
     "slug": "super-laco",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/a-icon.png",
+    "icon": "./assets/bigger-logo.png",
     "userInterfaceStyle": "light",
     "plugins": [
       [
@@ -29,7 +29,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/a-icon.png",
+        "foregroundImage": "./assets/bigger-logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": ["android.permission.CAMERA"],

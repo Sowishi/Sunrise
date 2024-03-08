@@ -128,14 +128,12 @@ const ConnectionModal = ({
             uid: number,
           });
 
-          deviceRef.current.blur();
           showToast("success", "Connected Successfully, please wait...");
           Updates.reloadAsync();
           found = true;
         } else {
           if (!found) {
             showToast("error", `Device UID: ${uid} is not exist.`);
-            deviceRef.current.blur();
             setShowScanner(false);
             closeModal();
           }
