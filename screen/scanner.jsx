@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
-import { Camera, CameraType } from "expo-camera";
+import { Camera } from "expo-camera";
 
 export default function Scanner({ handleUpdateUid }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
