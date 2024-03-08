@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
-import { BarCodeScanner } from "expo-barcode-scanner";
+import { Text, View, StyleSheet, Button, Dimensions } from "react-native";
 import LottieView from "lottie-react-native";
-import Constants from "expo-constants";
-import TitleComponent from "../components/titleComponent";
+import { Camera, CameraType } from "expo-camera";
 
 export default function Scanner({ handleUpdateUid }) {
-  const [hasPermission, setHasPermission] = useState(null);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
   const [scanned, setScanned] = useState(false);
-
-  useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    };
-
-    getBarCodeScannerPermissions();
-  }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
@@ -24,10 +13,10 @@ export default function Scanner({ handleUpdateUid }) {
     handleUpdateUid(uid);
   };
 
-  if (hasPermission === null) {
+  if (permission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
-  if (hasPermission === false) {
+  if (permission === false) {
     return <Text>No access to camera</Text>;
   }
 
@@ -39,25 +28,23 @@ export default function Scanner({ handleUpdateUid }) {
         alignItems: "center",
       }}
     >
-      <BarCodeScanner
-        style={{ flex: 1, width: 360, height: 500 }}
-        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-      />
+      {permission && (
+        <Camera
+          onBarCodeScanned={handleBarCodeScanned}
+          style={{ width: Dimensions.get("window").width, height: 500 }}
+        ></Camera>
+      )}
       <LottieView
         style={{
           width: 200,
           height: 200,
           position: "absolute",
-          left: "30%",
-          top: "33%",
+          left: "28%",
+          top: "28%",
         }}
         autoPlay
         source={require("../assets/scanner.json")}
       />
-
-      {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
     </View>
   );
 }
