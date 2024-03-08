@@ -29,6 +29,7 @@ import SmallButton from "../components/smallButton";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
 import { Audio } from "expo-av";
+import { LinearGradient } from "expo-linear-gradient";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -83,7 +84,7 @@ const Home = ({ route, navigation }) => {
     const snapshot = await get(userRef);
     const data = snapshot.val();
     if (data.uid == undefined) {
-      updateUid(undefined);
+      updateUid(null);
     } else {
       updateUid(data.uid, "device value");
     }
@@ -226,7 +227,7 @@ const Home = ({ route, navigation }) => {
       )}
 
       <View style={{ flex: 1 }}>
-        {deviceValue !== null && (
+        {uid !== undefined && (
           <View
             style={{
               flex: 1,
@@ -234,6 +235,7 @@ const Home = ({ route, navigation }) => {
               position: "relative",
             }}
           >
+            {/* User Control Navigation */}
             <View
               style={{
                 position: "absolute",
@@ -256,60 +258,66 @@ const Home = ({ route, navigation }) => {
               </TouchableOpacity>
             </View>
 
-            <View
-              style={{
-                position: "absolute",
-                bottom: 20,
-                zIndex: 2,
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            {/* Bottom Navigation      */}
+            {uid !== undefined && (
               <View
                 style={{
-                  backgroundColor: "#fefefe99",
-                  width: "90%",
-                  padding: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  borderRadius: 5,
+                  position: "absolute",
+                  bottom: 20,
+                  zIndex: 2,
+                  width: "100%",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <Text>Patient Distance: {distance} meters</Text>
-              </View>
-              <View
-                style={{
-                  backgroundColor: "#fefefe99",
-                  width: "90%",
-                  padding: 10,
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  borderRadius: 5,
-                }}
-              >
-                <SmallButton
-                  event={() => {
-                    jumpToMarker({
-                      latitude: deviceValue.master.lat,
-                      longitude: deviceValue.master.long,
-                    });
+                <View
+                  style={{
+                    backgroundColor: "#fefefe99",
+                    width: "90%",
+                    padding: 10,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    borderRadius: 5,
                   }}
-                  text="Base Point"
-                  bgColor={"#F77000"}
-                />
-                <SmallButton
-                  event={() => {
-                    jumpToMarker({
-                      latitude: deviceValue.slave.lat,
-                      longitude: deviceValue.slave.long,
-                    });
+                >
+                  <Text>Patient Distance: {distance} meters</Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: "#fefefe99",
+                    width: "90%",
+                    padding: 10,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    borderRadius: 5,
                   }}
-                  text="Patient"
-                  bgColor={"#232D3F"}
-                />
+                >
+                  <SmallButton
+                    event={() => {
+                      jumpToMarker({
+                        latitude: deviceValue.master.lat,
+                        longitude: deviceValue.master.long,
+                      });
+                    }}
+                    text="Base Point"
+                    bgColor={"#F77000"}
+                  />
+                  <SmallButton
+                    event={() => {
+                      jumpToMarker({
+                        latitude: deviceValue.slave.lat,
+                        longitude: deviceValue.slave.long,
+                      });
+                    }}
+                    text="Patient"
+                    bgColor={"#232D3F"}
+                  />
+                </View>
               </View>
-            </View>
+            )}
+
+            {/* The warning message at the top of the map */}
+
             {danger && (
               <View
                 style={{
@@ -347,72 +355,101 @@ const Home = ({ route, navigation }) => {
                 />
               </View>
             )}
-
-            {deviceValue.master && deviceValue.slave && (
-              <MapView
-                showsTraffic={true}
-                provider={PROVIDER_GOOGLE}
-                ref={mapRef}
-                mapType={mapType}
-                showsMyLocationButton={true}
-                style={{ flex: 1, minHeight: 500, minWidth: 500 }}
-                initialRegion={{
-                  latitude: deviceValue.master.lat,
-                  longitude: deviceValue.master.long,
-                  latitudeDelta: 0.1,
-                  longitudeDelta: 0.1,
+            {uid == null && (
+              <LinearGradient
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
+                colors={["#4C3488", "#AFBAF8"]}
               >
-                <Marker
-                  coordinate={{
-                    latitude: deviceValue.master.lat,
-                    longitude: deviceValue.master.long,
+                <Text
+                  style={{
+                    fontSize: 40,
+                    color: "white",
+                    textAlign: "center",
+                    marginBottom: 10,
                   }}
-                  title={MASTER_NAME}
-                  description={`Patient Distance: ${distance} meters`}
-                  pinColor="#F77000"
+                >
+                  Please scan your device 🕵️
+                </Text>
+                <SmallButton
+                  event={() => {
+                    setModalVisible(true);
+                  }}
+                  text="Scan"
+                  bgColor={"#232D3F"}
                 />
+              </LinearGradient>
+            )}
 
-                <Marker
-                  coordinate={{
-                    latitude: deviceValue.slave.lat,
-                    longitude: deviceValue.slave.long,
-                  }}
-                  title={SLAVE_NAME}
-                  description="Patient Device"
-                  pinColor="#232D3F"
-                />
-                <Circle
-                  center={{
+            {/* The maps */}
+
+            {deviceValue !== null &&
+              uid !== null &&
+              deviceValue.master &&
+              deviceValue.slave && (
+                <MapView
+                  showsTraffic={true}
+                  provider={PROVIDER_GOOGLE}
+                  ref={mapRef}
+                  mapType={mapType}
+                  showsMyLocationButton={true}
+                  style={{ flex: 1, minHeight: 500, minWidth: 500 }}
+                  initialRegion={{
                     latitude: deviceValue.master.lat,
                     longitude: deviceValue.master.long,
+                    latitudeDelta: 0.1,
+                    longitudeDelta: 0.1,
                   }}
-                  radius={RADIUS}
-                  fillColor="#CC000040"
-                  strokeColor="#CC000040"
-                />
-                <Polyline
-                  coordinates={[
-                    {
+                >
+                  <Marker
+                    coordinate={{
                       latitude: deviceValue.master.lat,
                       longitude: deviceValue.master.long,
-                    },
-                    {
+                    }}
+                    title={MASTER_NAME}
+                    description={`Patient Distance: ${distance} meters`}
+                    pinColor="#F77000"
+                  />
+
+                  <Marker
+                    coordinate={{
                       latitude: deviceValue.slave.lat,
                       longitude: deviceValue.slave.long,
-                    },
-                  ]}
-                  strokeWidth={5}
-                  geodesic={true}
-                  strokeColor="#E4005E"
-                  lineDashPattern={[2]}
-                >
-                  <Callout>
-                    <Text>dkjfsldfj</Text>
-                  </Callout>
-                </Polyline>
-              </MapView>
-            )}
+                    }}
+                    title={SLAVE_NAME}
+                    description="Patient Device"
+                    pinColor="#232D3F"
+                  />
+                  <Circle
+                    center={{
+                      latitude: deviceValue.master.lat,
+                      longitude: deviceValue.master.long,
+                    }}
+                    radius={RADIUS}
+                    fillColor="#CC000040"
+                    strokeColor="#CC000040"
+                  />
+                  <Polyline
+                    coordinates={[
+                      {
+                        latitude: deviceValue.master.lat,
+                        longitude: deviceValue.master.long,
+                      },
+                      {
+                        latitude: deviceValue.slave.lat,
+                        longitude: deviceValue.slave.long,
+                      },
+                    ]}
+                    strokeWidth={5}
+                    geodesic={true}
+                    strokeColor="#E4005E"
+                    lineDashPattern={[2]}
+                  ></Polyline>
+                </MapView>
+              )}
           </View>
         )}
       </View>
