@@ -19,6 +19,8 @@ import LineComponent from "./line";
 import { showToast } from "./toast";
 import { useSmokeContext } from "../utils/appContext";
 import * as Updates from "expo-updates";
+import BottomModal from "./bottomModal";
+import Scanner from "../screen/scanner";
 
 const ConnectionModal = ({
   modalVisible,
@@ -33,6 +35,7 @@ const ConnectionModal = ({
   const [newUid, setNewUid] = useState();
   const [radius, setRadius] = useState("");
   const [newRadius, setNewRadius] = useState("");
+  const [showScanner, setShowScanner] = useState(false);
 
   const { uid, auth, updateMasterName, updateSlaveName, updateRadius } =
     useSmokeContext();
@@ -88,9 +91,9 @@ const ConnectionModal = ({
     blur();
   };
 
-  const handleUpdateUid = () => {
-    if (!isNaN(newUid)) {
-      checkIfUidExist(newUid);
+  const handleUpdateUid = (uid) => {
+    if (!isNaN(uid)) {
+      checkIfUidExist(uid);
     } else {
       deviceRef.current.blur();
 
@@ -105,14 +108,14 @@ const ConnectionModal = ({
       snapshot.forEach((childSnapshot) => {
         const key = childSnapshot.key;
         if (parseInt(key) == parseInt(uid)) {
-          let number = parseInt(newUid);
+          let number = parseInt(uid);
           update(ref(database, `users/${auth.id}`), {
             uid: number,
           });
+
           deviceRef.current.blur();
           showToast("success", "Connected Successfully, please wait...");
           Updates.reloadAsync();
-
           found = true;
         } else {
           if (!found) {
@@ -167,7 +170,7 @@ const ConnectionModal = ({
                   <FontAwesome5 name="robot" size={17} color="gray" />
                   <TextInput
                     inputMode="numeric"
-                    placeholder="Enter UID"
+                    placeholder={`UID: ${uid} `}
                     ref={deviceRef}
                     onChangeText={(text) => setNewUid(text)}
                     style={{
@@ -179,18 +182,21 @@ const ConnectionModal = ({
                 </View>
               </View>
               <SmallButton
-                event={handleUpdateUid}
-                text="Connect"
+                event={() => {
+                  setShowScanner(true);
+                }}
+                text="Scan UID"
                 bgColor={"#F77000"}
               />
             </View>
-            <SmallButton
-              event={() => {
-                navigation.navigate("scanner");
-              }}
-              text="Scan"
-              bgColor={"#F77000"}
-            />
+
+            <BottomModal
+              closeModal={() => setShowScanner(false)}
+              heightPx={500}
+              modalVisible={showScanner}
+            >
+              <Scanner handleUpdateUid={handleUpdateUid} />
+            </BottomModal>
 
             {uid !== undefined && (
               <>

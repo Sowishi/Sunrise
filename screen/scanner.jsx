@@ -5,7 +5,7 @@ import LottieView from "lottie-react-native";
 import Constants from "expo-constants";
 import TitleComponent from "../components/titleComponent";
 
-export default function Scanner() {
+export default function Scanner({ handleUpdateUid }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -20,7 +20,8 @@ export default function Scanner() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    const uid = parseInt(data);
+    handleUpdateUid(uid);
   };
 
   if (hasPermission === null) {
@@ -39,7 +40,7 @@ export default function Scanner() {
       }}
     >
       <BarCodeScanner
-        style={{ flex: 1, width: "100%", height: "100%" }}
+        style={{ flex: 1, width: 360, height: 500 }}
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
       />
       <LottieView
@@ -47,7 +48,7 @@ export default function Scanner() {
           width: 200,
           height: 200,
           position: "absolute",
-          left: "23%",
+          left: "30%",
           top: "33%",
         }}
         autoPlay

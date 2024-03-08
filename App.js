@@ -10,7 +10,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Entypo } from "@expo/vector-icons";
 import About from "./screen/about";
 import { MyProvider } from "./utils/appContext";
-import Scanner from "./screen/scanner";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -60,11 +59,6 @@ export default function App() {
             <Stack.Screen name="register" component={Register} />
             <Stack.Screen name="login" component={Login} />
             <Stack.Screen name="main" component={MainScreen} />
-            <Stack.Screen
-              options={{ headerShown: true, headerTitle: "Scan your device" }}
-              name="scanner"
-              component={Scanner}
-            />
           </Stack.Navigator>
         </NavigationContainer>
       </MyProvider>
