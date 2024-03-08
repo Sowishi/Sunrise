@@ -164,7 +164,7 @@ const ConnectionModal = ({
                     elevation: 3,
                     borderRadius: 3,
                     paddingHorizontal: 10,
-                    backgroundColor: "white",
+                    backgroundColor: "#E0D2C7",
                     borderRadius: 10,
                   }}
                 >
@@ -244,7 +244,7 @@ const ConnectionModal = ({
                 </View>
                 <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Master Name
+                    Base Point Name
                   </Text>
                   <View
                     style={{
@@ -284,7 +284,7 @@ const ConnectionModal = ({
                 </View>
                 <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Slave Name
+                    Patient Name
                   </Text>
                   <View
                     style={{

@@ -23,8 +23,8 @@ import ConnectionModal from "../components/connectionModal";
 import { useSmokeContext } from "../utils/appContext";
 import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapView from "react-native-maps";
-import { Marker, Circle } from "react-native-maps";
+import MapView, { Callout } from "react-native-maps";
+import { Marker, Circle, Polyline } from "react-native-maps";
 import SmallButton from "../components/smallButton";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
@@ -122,6 +122,7 @@ const Home = ({ route, navigation }) => {
   function calculateDistance() {
     if (deviceValue) {
       const output = haversineDistance(deviceValue.master, deviceValue.slave);
+      setDistance(parseInt(output));
       if (output > RADIUS) {
         showToast("error", "Slave is out of reach!");
         setDanger(true);
@@ -150,7 +151,7 @@ const Home = ({ route, navigation }) => {
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = R * c * 1000; // Distance in kilometers
+    const distance = R * c * 1000; // Distance in meters
 
     return distance;
   }
@@ -252,6 +253,18 @@ const Home = ({ route, navigation }) => {
                   borderRadius: 5,
                 }}
               >
+                <Text>Patient Distance: {distance} meters</Text>
+              </View>
+              <View
+                style={{
+                  backgroundColor: "#fefefe99",
+                  width: "90%",
+                  padding: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  borderRadius: 5,
+                }}
+              >
                 <SmallButton
                   event={() => {
                     jumpToMarker({
@@ -259,7 +272,7 @@ const Home = ({ route, navigation }) => {
                       longitude: deviceValue.master.long,
                     });
                   }}
-                  text="Master"
+                  text="Base Point"
                   bgColor={"#F77000"}
                 />
                 <SmallButton
@@ -269,7 +282,7 @@ const Home = ({ route, navigation }) => {
                       longitude: deviceValue.slave.long,
                     });
                   }}
-                  text="Slave"
+                  text="Patient"
                   bgColor={"#232D3F"}
                 />
               </View>
@@ -300,6 +313,7 @@ const Home = ({ route, navigation }) => {
                     <Entypo name="warning" size={16} color="white" />
                   </Text>
                 </View>
+
                 <LottieView
                   style={{
                     width: 70,
@@ -332,7 +346,7 @@ const Home = ({ route, navigation }) => {
                     longitude: deviceValue.master.long,
                   }}
                   title={MASTER_NAME}
-                  description="Master Device"
+                  description={`Patient Distance: ${distance} meters`}
                   pinColor="#F77000"
                 />
 
@@ -342,7 +356,7 @@ const Home = ({ route, navigation }) => {
                     longitude: deviceValue.slave.long,
                   }}
                   title={SLAVE_NAME}
-                  description="Slave Device"
+                  description="Patient Device"
                   pinColor="#232D3F"
                 />
                 <Circle
@@ -354,6 +368,26 @@ const Home = ({ route, navigation }) => {
                   fillColor="#CC000040"
                   strokeColor="#CC000040"
                 />
+                <Polyline
+                  coordinates={[
+                    {
+                      latitude: deviceValue.master.lat,
+                      longitude: deviceValue.master.long,
+                    },
+                    {
+                      latitude: deviceValue.slave.lat,
+                      longitude: deviceValue.slave.long,
+                    },
+                  ]}
+                  strokeWidth={5}
+                  geodesic={true}
+                  strokeColor="#E4005E"
+                  lineDashPattern={[2]}
+                >
+                  <Callout>
+                    <Text>dkjfsldfj</Text>
+                  </Callout>
+                </Polyline>
               </MapView>
             )}
           </View>
