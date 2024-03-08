@@ -176,7 +176,6 @@ const ConnectionModal = ({
                     shadowOpacity: 0.8,
                     shadowRadius: 2,
                     elevation: 3,
-                    borderRadius: 3,
                     paddingHorizontal: 10,
                     backgroundColor: "#E0D2C7",
                     borderRadius: 10,
@@ -269,10 +268,9 @@ const ConnectionModal = ({
                       shadowOpacity: 0.8,
                       shadowRadius: 2,
                       elevation: 3,
-                      borderRadius: 3,
+                      borderRadius: 10,
                       paddingHorizontal: 10,
                       backgroundColor: "white",
-                      borderRadius: 10,
                     }}
                   >
                     <MaterialCommunityIcons
@@ -308,7 +306,6 @@ const ConnectionModal = ({
                       shadowOpacity: 0.8,
                       shadowRadius: 2,
                       elevation: 3,
-                      borderRadius: 3,
                       paddingHorizontal: 10,
                       backgroundColor: "white",
                       borderRadius: 10,
@@ -348,7 +345,6 @@ const ConnectionModal = ({
                       shadowOpacity: 0.8,
                       shadowRadius: 2,
                       elevation: 3,
-                      borderRadius: 3,
                       paddingHorizontal: 10,
                       backgroundColor: "white",
                       borderRadius: 10,
@@ -388,7 +384,6 @@ const ConnectionModal = ({
                       shadowOpacity: 0.8,
                       shadowRadius: 2,
                       elevation: 3,
-                      borderRadius: 3,
                       paddingHorizontal: 10,
                       backgroundColor: "white",
                       borderRadius: 10,
