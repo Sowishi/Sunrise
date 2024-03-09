@@ -46,6 +46,16 @@ const Home = ({ route, navigation }) => {
   const splash = useRef();
   const mapRef = useRef();
 
+  const ONE_SECOND_IN_MS = 1000;
+
+  const PATTERN = [
+    1 * ONE_SECOND_IN_MS,
+    2 * ONE_SECOND_IN_MS,
+    3 * ONE_SECOND_IN_MS,
+  ];
+
+  // Displaying the animated loader then fetching uid and and deviceValue
+
   useEffect(() => {
     if (splash.current !== null) {
       splash.current.play();
@@ -57,6 +67,8 @@ const Home = ({ route, navigation }) => {
     fetchUidValue();
     fetchUid();
   }, [uid]);
+
+  //Disable the back button functionality
 
   useEffect(() => {
     async function saveData() {
@@ -75,9 +87,22 @@ const Home = ({ route, navigation }) => {
     };
   }, []);
 
+  //For calculating the distance of basepoint and patient by harvistine formula
+
   useEffect(() => {
     calculateDistance();
   }, [deviceValue]);
+
+  //For the unloading of the sound
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   async function fetchUid() {
     const userRef = ref(database, `users/${auth.id}`);
@@ -123,7 +148,7 @@ const Home = ({ route, navigation }) => {
   }
 
   function calculateDistance() {
-    if (deviceValue && uid) {
+    if (deviceValue && uid !== null) {
       const output = haversineDistance(deviceValue.master, deviceValue.slave);
       setDistance(parseInt(output));
       if (output > RADIUS) {
@@ -160,14 +185,6 @@ const Home = ({ route, navigation }) => {
     return distance;
   }
 
-  const ONE_SECOND_IN_MS = 1000;
-
-  const PATTERN = [
-    1 * ONE_SECOND_IN_MS,
-    2 * ONE_SECOND_IN_MS,
-    3 * ONE_SECOND_IN_MS,
-  ];
-
   async function playSound() {
     console.log("Loading Sound");
     const { sound } = await Audio.Sound.createAsync(
@@ -178,15 +195,6 @@ const Home = ({ route, navigation }) => {
     console.log("Playing Sound");
     await sound.playAsync();
   }
-
-  useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
 
   return (
     <View
