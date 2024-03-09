@@ -256,7 +256,9 @@ const Home = ({ route, navigation }) => {
               }}
             >
               <TouchableOpacity
-                onPress={() => setModalVisible(true)}
+                onPress={() => {
+                  setModalVisible(true);
+                }}
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
@@ -288,7 +290,9 @@ const Home = ({ route, navigation }) => {
                     borderRadius: 5,
                   }}
                 >
-                  <Text>Patient Distance: {distance} meters</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    Patient Distance: {distance} meters
+                  </Text>
                 </View>
                 <View
                   style={{

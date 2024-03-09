@@ -34,7 +34,8 @@
     "react-native-toast-message": "^2.1.6",
     "expo-av": "~13.10.5",
     "expo-camera": "~14.0.6",
-    "expo-barcode-scanner": "~12.9.3"
+    "expo-barcode-scanner": "~12.9.3",
+    "expo-haptics": "~12.8.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
