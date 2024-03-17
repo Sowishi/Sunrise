@@ -9,8 +9,9 @@ export default function Scanner({ handleUpdateUid }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    const uid = parseInt(data);
-    handleUpdateUid(uid);
+    const res = JSON.parse(data);
+    const resUID = res["UID"];
+    handleUpdateUid(resUID);
   };
 
   useEffect(() => {

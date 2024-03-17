@@ -106,14 +106,7 @@ const ConnectionModal = ({
   };
 
   const handleUpdateUid = (uid) => {
-    if (!isNaN(uid)) {
-      checkIfUidExist(uid);
-    } else {
-      deviceRef.current.blur();
-      setShowScanner(false);
-      closeModal();
-      showToast("error", `Device UID: ${uid} is not a number.`);
-    }
+    checkIfUidExist(uid);
   };
 
   const checkIfUidExist = async (uid) => {
@@ -122,8 +115,8 @@ const ConnectionModal = ({
     if (snapshot.exists()) {
       snapshot.forEach((childSnapshot) => {
         const key = childSnapshot.key;
-        if (parseInt(key) == parseInt(uid)) {
-          let number = parseInt(uid);
+        if (key.toString() == uid.toString()) {
+          let number = uid.toString();
           update(ref(database, `users/${auth.id}`), {
             uid: number,
           });
@@ -447,7 +440,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "#FAF5FC",
     width: "100%",
-    height: 700,
+    height: 725,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",
