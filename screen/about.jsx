@@ -28,7 +28,7 @@ const About = ({ navigation }) => {
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar backgroundColor={"#4C3488"} style="light" />
       <LinearGradient
-        colors={["#4C3488", "#344854", "#222222"]}
+        colors={["#F7A200", "#F74B00"]}
         style={{
           flex: 1.5,
           paddingHorizontal: 15,
@@ -129,19 +129,19 @@ const About = ({ navigation }) => {
             justifyContent: "space-between",
             marginTop: 10,
             flexDirection: "row",
-            backgroundColor: "#0C2D57",
+            backgroundColor: "#F70000",
             padding: 8,
             paddingHorizontal: 20,
             borderRadius: 5,
           }}
         >
-          <Text style={{ color: "white" }}> ALZHEITECH © 2024 </Text>
+          <Text style={{ color: "white" }}> SUNRISE © 2024 </Text>
           <TouchableOpacity onPress={() => setShow(true)}>
             <FontAwesome name="gear" size={27} color="white" />
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: 20 }}>
-          <TitleComponent title={"ALZHEITECH"} noBG={true} />
+          <TitleComponent title={"SUNRISE"} noBG={true} />
           <Text
             style={{
               textAlign: "center",
