@@ -5,7 +5,7 @@ const LogoComponent = () => {
   return (
     <LinearGradient
       end={{ x: 1, y: 1 }}
-      colors={["#4C3488", "#AFBAF8"]}
+      colors={["#F7A200", "#F74B00"]}
       style={{
         flex: 0.8,
         borderBottomLeftRadius: 150,

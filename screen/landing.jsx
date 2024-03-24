@@ -27,10 +27,10 @@ const Landing = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor={"#4C3488"} style="light" />
+      <StatusBar backgroundColor={"#F7A200"} style="light" />
 
       <LinearGradient
-        colors={["#4C3488", "#FCF2F6", "#EEF6FE"]}
+        colors={["#F7A200", "#FCF2F6", "#EEF6FE"]}
         style={{
           flex: 1,
           paddingHorizontal: 15,
@@ -44,7 +44,7 @@ const Landing = ({ navigation }) => {
               height: "100%",
             }}
             autoPlay
-            source={require("../assets/landing.json")}
+            source={require("../assets/spaceship-up.json")}
           />
         </View>
 
@@ -56,12 +56,12 @@ const Landing = ({ navigation }) => {
           }}
         >
           <Text style={{ fontSize: 25, letterSpacing: 10, fontWeight: "bold" }}>
-            ALZHEITECH
+            SUNRISE
           </Text>
           <Text style={{ textAlign: "center", fontSize: 10 }}>
-            AN ALZHEIMER’S MULTIFUNCTIONAL ARDUINO-BASED AND ESP IOT SYSTEM
-            EMERGENCY NECKLACE WITH GPS TRACKER, QUICK-RESPONSE CODE AND SMS
-            NOTIFICATION
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta
+            cupiditate ut, rerum deserunt nesciunt et facilis accusantium fugit
+            eius at?
           </Text>
           <View
             style={{
@@ -73,7 +73,7 @@ const Landing = ({ navigation }) => {
             <Button
               icon="login"
               text="Continue"
-              bgColor={"#0064E0"}
+              bgColor={"#F70000"}
               navigation={navigation}
               event={() => navigation.navigate("login")}
             />

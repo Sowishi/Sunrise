@@ -151,7 +151,7 @@ const Register = ({ navigation }) => {
           <Button
             icon="login"
             text="Register"
-            bgColor={"#0B60B0"}
+            bgColor={"#F70000"}
             navigation={navigation}
             event={handleRegister}
           />

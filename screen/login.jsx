@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
           paddingTop: 15,
         }}
       >
-        <TitleComponent titleColor={"black"} title={"Log in to ALZHEITECH"} />
+        <TitleComponent titleColor={"black"} title={"Log in to SUNRISE"} />
         <View
           style={{
             justifyContent: "center",
@@ -141,7 +141,7 @@ const Login = ({ navigation }) => {
           <Button
             icon="login"
             text="Login"
-            bgColor={"#0064E0"}
+            bgColor={"#F70000"}
             navigation={navigation}
             event={handleLogin}
           />
