@@ -10,6 +10,8 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Entypo } from "@expo/vector-icons";
 import About from "./screen/about";
 import { MyProvider } from "./utils/appContext";
+import { MaterialIcons } from "@expo/vector-icons";
+import Control from "./screen/control";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -34,6 +36,16 @@ export default function App() {
           component={Home}
           options={{
             tabBarIcon: () => <Entypo name="home" size={24} color="#001F47" />,
+            tabBarShowLabel: false,
+          }}
+        />
+        <Tab.Screen
+          name="Joystick"
+          component={Control}
+          options={{
+            tabBarIcon: () => (
+              <MaterialIcons name="control-camera" size={24} color="001F47" />
+            ),
             tabBarShowLabel: false,
           }}
         />

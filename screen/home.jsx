@@ -30,6 +30,7 @@ import { PROVIDER_GOOGLE } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
 import { Audio } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
+import JoystickComponent from "../components/joystickComponent";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
