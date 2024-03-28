@@ -1,17 +1,26 @@
-import Landing from "./screen/landing";
-import Register from "./screen/register";
-import "react-native-gesture-handler";
+//Other Imports
 import Toast from "react-native-toast-message";
+import { MyProvider } from "./utils/appContext";
+
+//Navigator
+
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+
+//Icons
+
+import { MaterialIcons } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
+
+//Screens
+
 import Login from "./screen/login";
 import Home from "./screen/home";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Entypo } from "@expo/vector-icons";
-import About from "./screen/about";
-import { MyProvider } from "./utils/appContext";
-import { MaterialIcons } from "@expo/vector-icons";
 import Control from "./screen/control";
+import Landing from "./screen/landing";
+import Register from "./screen/register";
+import About from "./screen/about";
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -20,6 +29,7 @@ export default function App() {
   function MainScreen() {
     return (
       <Tab.Navigator
+        tabBarBounces={true}
         tabBarPosition="bottom"
         screenOptions={{
           tabBarStyle: {
@@ -49,7 +59,6 @@ export default function App() {
             tabBarShowLabel: false,
           }}
         />
-
         <Tab.Screen
           name="About"
           component={About}
