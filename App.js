@@ -44,7 +44,7 @@ export default function App() {
           component={Control}
           options={{
             tabBarIcon: () => (
-              <MaterialIcons name="control-camera" size={24} color="001F47" />
+              <MaterialIcons name="control-camera" size={24} color="#001F47" />
             ),
             tabBarShowLabel: false,
           }}
