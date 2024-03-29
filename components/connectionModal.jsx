@@ -210,46 +210,6 @@ const ConnectionModal = ({
               <>
                 <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
                   <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Map Type
-                  </Text>
-                  <View
-                    style={{
-                      width: "100%",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <View
-                      style={{
-                        backgroundColor: "#fefefe99",
-                        width: "90%",
-                        padding: 10,
-                        flexDirection: "row",
-                        justifyContent: "space-around",
-                        borderRadius: 5,
-                      }}
-                    >
-                      <SmallButton
-                        event={() => {
-                          setMapType("hybrid");
-                          closeModal();
-                        }}
-                        text="Satellite"
-                        bgColor={"#F77000"}
-                      />
-                      <SmallButton
-                        event={() => {
-                          setMapType("standard");
-                          closeModal();
-                        }}
-                        text="Standard"
-                        bgColor={"#232D3F"}
-                      />
-                    </View>
-                  </View>
-                </View>
-                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
-                  <Text style={{ color: "gray", marginBottom: 3 }}>
                     Contact Number
                   </Text>
                   <View
@@ -440,7 +400,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "#FAF5FC",
     width: "100%",
-    height: 725,
+    height: 640,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",

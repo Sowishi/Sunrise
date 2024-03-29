@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
 import { database } from "../firebase";
@@ -85,7 +85,7 @@ const Home = ({ route, navigation }) => {
       "http://api.weatherapi.com/v1/current.json?key=563196700d224d06afb153723242903&q=14.0996,122.9550"
     ).then((res) => {
       res.json().then((data) => {
-        fetchWeather(data);
+        setWeather(data);
       });
     });
   }
@@ -98,7 +98,7 @@ const Home = ({ route, navigation }) => {
         backgroundColor: "#FAF5FC",
       }}
     >
-      <StatusBar backgroundColor={"#4C3488"} style="light" />
+      <StatusBar backgroundColor={"#F7A200"} style="light" />
 
       <ConnectionModal
         navigation={navigation}
@@ -192,7 +192,249 @@ const Home = ({ route, navigation }) => {
 
             {/* The maps */}
 
-            {deviceValue !== null && <Text>h12</Text>}
+            {deviceValue !== null && (
+              <LinearGradient
+                style={{ flex: 1 }}
+                colors={["#F7C77C", "#ECB136"]}
+              >
+                {weather !== null && (
+                  <View
+                    style={{
+                      flex: 1,
+                    }}
+                  >
+                    <View
+                      style={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flex: 1.2,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Image
+                          style={{ width: 70, height: 70 }}
+                          source={{
+                            uri: "https:" + weather.current.condition.icon,
+                          }}
+                        />
+                        <Text
+                          style={{
+                            fontSize: 25,
+                            color: "white",
+                          }}
+                        >
+                          {weather.current.condition.text}
+                        </Text>
+                      </View>
+
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: "white",
+                        }}
+                      >
+                        {weather.location.name}, {weather.location.region}
+                      </Text>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          fontSize: 80,
+                          color: "white",
+                        }}
+                      >
+                        {weather.current.temp_c}°
+                      </Text>
+                    </View>
+                    <ScrollView style={{ flex: 1 }}>
+                      <View
+                        style={{
+                          backgroundColor: "#F6F7E5",
+                          flex: 1,
+                          width: "100%",
+                          padding: 20,
+                        }}
+                      >
+                        <Text style={{ textAlign: "center" }}>
+                          Last Updated: {weather.current.last_updated}
+                        </Text>
+
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            marginVertical: 10,
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={{ fontSize: 13 }}>Humidity</Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "flex-end",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                              {weather.current.humidity}%
+                            </Text>
+                            <Text style={{ fontSize: 10, color: "gray" }}>
+                              Humidity Level in percentage
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            marginVertical: 10,
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={{ fontSize: 13 }}>Cloud</Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "flex-end",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                              {weather.current.cloud}%
+                            </Text>
+                            <Text style={{ fontSize: 10, color: "gray" }}>
+                              Cloud cover as a percentage
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+
+                            marginVertical: 10,
+                          }}
+                        >
+                          <Text style={{ fontSize: 13 }}>
+                            Atmospheric Pressure
+                          </Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "flex-end",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                              {weather.current.pressure_in}
+                            </Text>
+                            <Text style={{ fontSize: 10, color: "gray" }}>
+                              Atmospheric pressure in inches
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginVertical: 10,
+                          }}
+                        >
+                          <Text style={{ fontSize: 13 }}>
+                            Temperature Feels Like
+                          </Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "flex-end",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                              {weather.current.feelslike_c}%
+                            </Text>
+                            <Text style={{ fontSize: 10, color: "gray" }}>
+                              Temperature Feels Like in Celcius
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginVertical: 10,
+                          }}
+                        >
+                          <Text style={{ fontSize: 13 }}>Visibility</Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "flex-end",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                              {weather.current.vis_km}km
+                            </Text>
+                            <Text style={{ fontSize: 10, color: "gray" }}>
+                              Visibility in kilometers
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginVertical: 10,
+                          }}
+                        >
+                          <Text style={{ fontSize: 13 }}>UV Index </Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "flex-end",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                              {weather.current.uv}
+                            </Text>
+                            <Text style={{ fontSize: 10, color: "gray" }}>
+                              strength of ultraviolet radiation from the sun
+                            </Text>
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginVertical: 10,
+                          }}
+                        >
+                          <Text style={{ fontSize: 13 }}>Wind speed</Text>
+                          <View
+                            style={{
+                              flex: 1,
+                              justifyContent: "flex-end",
+                              alignItems: "flex-end",
+                            }}
+                          >
+                            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+                              {weather.current.wind_mph}
+                            </Text>
+                            <Text style={{ fontSize: 10, color: "gray" }}>
+                              Wind speed in miles per hour
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </ScrollView>
+                  </View>
+                )}
+              </LinearGradient>
+            )}
           </View>
         )}
       </View>

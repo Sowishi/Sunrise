@@ -26,7 +26,7 @@ const About = ({ navigation }) => {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor={"#4C3488"} style="light" />
+      <StatusBar backgroundColor={"#F7A200"} style="light" />
       <LinearGradient
         colors={["#F7A200", "#F74B00"]}
         style={{
