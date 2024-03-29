@@ -1,41 +1,23 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Modal,
-  Pressable,
-  TextInput,
-  Button,
-  Vibration,
-  Platform,
-} from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
 import { database } from "../firebase";
 import LottieView from "lottie-react-native";
-import { showToast } from "../components/toast";
 import { get, onValue, ref } from "firebase/database";
 import { FontAwesome } from "@expo/vector-icons";
 import ConnectionModal from "../components/connectionModal";
 import { useSmokeContext } from "../utils/appContext";
 import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import MapView, { Callout } from "react-native-maps";
-import { Marker, Circle, Polyline } from "react-native-maps";
 import SmallButton from "../components/smallButton";
-import { PROVIDER_GOOGLE } from "react-native-maps";
-import { Entypo } from "@expo/vector-icons";
-import { Audio } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
-import JoystickComponent from "../components/joystickComponent";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [deviceValue, setDeviceValue] = useState(null);
+  const [weather, setWeather] = useState(null);
 
   const { uid, updateUid, auth } = useSmokeContext();
 
@@ -53,6 +35,7 @@ const Home = ({ route, navigation }) => {
 
     fetchUidValue();
     fetchUid();
+    fetchWeather();
   }, [uid]);
 
   //Disable the back button functionality
@@ -74,6 +57,8 @@ const Home = ({ route, navigation }) => {
     };
   }, []);
 
+  //Fetching the device value
+
   async function fetchUid() {
     const userRef = ref(database, `users/${auth.id}`);
     const snapshot = await get(userRef);
@@ -92,6 +77,16 @@ const Home = ({ route, navigation }) => {
       const data = snapshot.val();
       console.log(data);
       setDeviceValue(data);
+    });
+  }
+
+  function fetchWeather() {
+    fetch(
+      "http://api.weatherapi.com/v1/current.json?key=563196700d224d06afb153723242903&q=14.0996,122.9550"
+    ).then((res) => {
+      res.json().then((data) => {
+        fetchWeather(data);
+      });
     });
   }
 
@@ -197,7 +192,7 @@ const Home = ({ route, navigation }) => {
 
             {/* The maps */}
 
-            {deviceValue !== null && <Text>h1</Text>}
+            {deviceValue !== null && <Text>h12</Text>}
           </View>
         )}
       </View>
