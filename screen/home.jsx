@@ -12,6 +12,7 @@ import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SmallButton from "../components/smallButton";
 import { LinearGradient } from "expo-linear-gradient";
+import moment from "moment";
 
 const Home = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
@@ -259,8 +260,11 @@ const Home = ({ route, navigation }) => {
                           padding: 20,
                         }}
                       >
-                        <Text style={{ textAlign: "center" }}>
-                          Last Updated: {weather.current.last_updated}
+                        <Text style={{ textAlign: "center", marginBottom: 10 }}>
+                          Last Updated:{" "}
+                          {moment(weather.current.last_updated).format(
+                            "MMMM Do YYYY, h:mm a"
+                          )}
                         </Text>
 
                         <View
