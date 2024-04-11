@@ -83,7 +83,7 @@ const Home = ({ route, navigation }) => {
 
   function fetchWeather() {
     fetch(
-      "http://api.weatherapi.com/v1/current.json?key=563196700d224d06afb153723242903&q=14.0996,122.9550"
+      "https://api.weatherapi.com/v1/current.json?key=563196700d224d06afb153723242903&q=14.0996,122.9550"
     ).then((res) => {
       res.json().then((data) => {
         setWeather(data);
@@ -437,6 +437,8 @@ const Home = ({ route, navigation }) => {
                     </ScrollView>
                   </View>
                 )}
+
+                {weather == null && <Text>Error Fetching Weather</Text>}
               </LinearGradient>
             )}
           </View>
