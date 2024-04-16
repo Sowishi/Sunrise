@@ -26,9 +26,9 @@ const About = ({ navigation }) => {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor={"#F7A200"} style="light" />
+      <StatusBar backgroundColor={"#1F91E4"} style="light" />
       <LinearGradient
-        colors={["#F7A200", "#F74B00"]}
+        colors={["#1F91E4", "#F74B00"]}
         style={{
           flex: 1.5,
           paddingHorizontal: 15,
@@ -129,19 +129,19 @@ const About = ({ navigation }) => {
             justifyContent: "space-between",
             marginTop: 10,
             flexDirection: "row",
-            backgroundColor: "#F70000",
+            backgroundColor: "#33455A",
             padding: 8,
             paddingHorizontal: 20,
             borderRadius: 5,
           }}
         >
-          <Text style={{ color: "white" }}> SUNRISE © 2024 </Text>
+          <Text style={{ color: "white" }}> SUNRICE © 2024 </Text>
           <TouchableOpacity onPress={() => setShow(true)}>
             <FontAwesome name="gear" size={27} color="white" />
           </TouchableOpacity>
         </View>
         <View style={{ marginTop: 20 }}>
-          <TitleComponent title={"SUNRISE"} noBG={true} />
+          <TitleComponent title={"SUNRICE"} noBG={true} />
           <Text
             style={{
               textAlign: "center",
@@ -149,9 +149,9 @@ const About = ({ navigation }) => {
               color: "white",
             }}
           >
-            AN ALZHEIMER’S MULTIFUNCTIONAL ARDUINO-BASED AND ESP IOT SYSTEM
-            EMERGENCY NECKLACE WITH GPS TRACKER, QUICK-RESPONSE CODE AND SMS
-            NOTIFICATION
+            Project SunRice: Solar-Powered IoT-Controlled Arduino-Based Palay
+            Sun-Drying Robot With Integrated Ultrasonic Bird Repeller, Palay
+            Humidity Sensor, and Weather Notifier
           </Text>
         </View>
 
@@ -172,16 +172,16 @@ const About = ({ navigation }) => {
           }}
         >
           Proponents:{"\n"}
-          {"\n"}Asis, Mary Ann
-          {"\n"}Benitez, Mark Joven
-          {"\n"}Caro, Rizalina
-          {"\n"}Juan, Prince Jheck
-          {"\n"}Nepomuceno, Lovely
-          {"\n"}Par, Jesusa
-          {"\n"}Placido, John Paul
-          {"\n"}Recreo, Ais
-          {"\n"}Rendon, Michael
-          {"\n"}Velasco, Bea Emmarie
+          {"\n"}Gerry B. Dela Rosa Jr.
+          {"\n"}Ace Hendrix V. Badong
+          {"\n"}Cryzel O. Convencido
+          {"\n"}Kyle Idrian E. Dating
+          {"\n"}Denise Elaine B. De Lemios
+          {"\n"}Carl Isaac A. Driz
+          {"\n"}Jethro G. Fajardo
+          {"\n"}Hannah Suzane V. Paitan
+          {"\n"}Janos Abel O. Rawat
+          {"\n"}Nigel Eron Sucgang
         </Text>
         <View
           style={{
@@ -200,7 +200,7 @@ const About = ({ navigation }) => {
           />
         </View>
         <Text style={{ color: "white", fontSize: 15, fontWeight: "bold" }}>
-          Function and Design
+          Description
         </Text>
         <Text
           style={{
@@ -209,25 +209,15 @@ const About = ({ navigation }) => {
             color: "white",
           }}
         >
-          The device AlzheiTech, whose main objective is monitoring and tracking
-          the Alzheimer's patient and securing an immediate response in case of
-          emergency, hence also increasing the patient’s safety. AlzheiTech
-          integrates different features and functions such as the Global
-          Positioning System (GPS) (1) which tracks and locates the patient, SMS
-          (2) Emergency alert system, which notifies and provides necessary
-          information. QR Code (3) contains basic information such as the
-          contact numbers in which they can communicate with the caretakers or
-          relatives in case that someone encounters the patient who got lost.
-          The Event Stream Processes (ESP) Basepoint (4) serves as a reference
-          for the device, triggering an alarm when it exceeds a designated range
-          from the basepoint. This proximity-based alarm system ensured timely
-          notifications if the wearable device ventured too far from the
-          established distance threshold. Then, a custom-made Application (5)
-          was developed, exclusive for use to provide the necessary profile,
-          collect and receive information from the GPS. Eventually, the
-          information gathered using the mentioned features was processed by
-          AlzhieTech to provide a location and information about the patient
-          with Alzheimer's.
+          Project SunRice is an innovative and advanced robot to enhance the
+          traditional sun-drying process of palay grains. This solar-powered
+          device possesses advanced features, including an ultrasonic bird
+          repeller that keeps birds away, a weather notifier that alerts farmers
+          to potential changes in weather conditions, and a palay humidity
+          sensor to ensure optimal drying conditions for the rice. The device is
+          controlled via the Internet of Things (IoT) and is powered by Arduino
+          technology. Project SunRice promotes modern agriculture, offering
+          farmers a reliable and efficient solution for rice drying.
         </Text>
         {/* <Text
           style={{

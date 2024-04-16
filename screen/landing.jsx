@@ -24,7 +24,7 @@ const Landing = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <StatusBar backgroundColor={"#F7A200"} style="light" />
+      <StatusBar backgroundColor={"#1F91E4"} style="light" />
 
       <LinearGradient
         colors={["#F7A200", "#FCF2F6", "#EEF6FE"]}
@@ -56,9 +56,9 @@ const Landing = ({ navigation }) => {
             SUNRICE
           </Text>
           <Text style={{ textAlign: "center", fontSize: 10 }}>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta
-            cupiditate ut, rerum deserunt nesciunt et facilis accusantium fugit
-            eius at?
+            Project SunRice: Solar-Powered IoT-Controlled Arduino-Based Palay
+            Sun-Drying Robot With Integrated Ultrasonic Bird Repeller, Palay
+            Humidity Sensor, and Weather Notifier
           </Text>
           <View
             style={{

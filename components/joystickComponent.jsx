@@ -57,7 +57,63 @@ const JoystickComponent = () => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+      }}
+    >
+      {upPress && (
+        <Text
+          style={{
+            color: "white",
+            fontSize: 30,
+            position: "absolute",
+            top: 60,
+          }}
+        >
+          Going forward...
+        </Text>
+      )}
+
+      {downPress && (
+        <Text
+          style={{
+            color: "white",
+            fontSize: 30,
+            position: "absolute",
+            top: 60,
+          }}
+        >
+          Going backward...
+        </Text>
+      )}
+      {leftPress && (
+        <Text
+          style={{
+            color: "white",
+            fontSize: 30,
+            position: "absolute",
+            top: 60,
+          }}
+        >
+          Going left...
+        </Text>
+      )}
+      {rightPress && (
+        <Text
+          style={{
+            color: "white",
+            fontSize: 30,
+            position: "absolute",
+            top: 60,
+          }}
+        >
+          Going right...
+        </Text>
+      )}
       <View style={{ position: "relative" }}>
         <View
           style={{

@@ -58,7 +58,7 @@ const Login = ({ navigation }) => {
       {loading && <Loader />}
 
       <LogoComponent />
-      <StatusBar backgroundColor={"#4C3488"} style="light" />
+      <StatusBar backgroundColor={"#1F91E4"} style="light" />
       <View
         style={{
           flex: 1.2,
@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
           paddingTop: 15,
         }}
       >
-        <TitleComponent titleColor={"black"} title={"Log in to SUNRISE"} />
+        <TitleComponent titleColor={"black"} title={"Log in to SUNRICE"} />
         <View
           style={{
             justifyContent: "center",

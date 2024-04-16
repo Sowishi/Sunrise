@@ -99,7 +99,7 @@ const Home = ({ route, navigation }) => {
         backgroundColor: "#FAF5FC",
       }}
     >
-      <StatusBar backgroundColor={"#F7A200"} style="light" />
+      <StatusBar backgroundColor={"#1F91E4"} style="light" />
 
       <ConnectionModal
         navigation={navigation}
@@ -169,7 +169,7 @@ const Home = ({ route, navigation }) => {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
-                colors={["#F7A200", "#F74B00"]}
+                colors={["#1F91E4", "#F74B00"]}
               >
                 <Text
                   style={{
@@ -193,10 +193,10 @@ const Home = ({ route, navigation }) => {
 
             {/* The maps */}
 
-            {deviceValue !== null && (
+            {uid !== null && (
               <LinearGradient
                 style={{ flex: 1 }}
-                colors={["#F7C77C", "#ECB136"]}
+                colors={["#1F91E4", "#FEFEFE"]}
               >
                 {weather !== null && (
                   <View
@@ -254,7 +254,7 @@ const Home = ({ route, navigation }) => {
                     <ScrollView style={{ flex: 1 }}>
                       <View
                         style={{
-                          backgroundColor: "#F6F7E5",
+                          backgroundColor: "#FFFFFF",
                           flex: 1,
                           width: "100%",
                           padding: 20,
