@@ -246,122 +246,6 @@ const ConnectionModal = ({
                     />
                   </View>
                 </View>
-                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
-                  <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Base Point Name
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      shadowColor: "#000",
-                      shadowOffset: { width: 0, height: 1 },
-                      shadowOpacity: 0.8,
-                      shadowRadius: 2,
-                      elevation: 3,
-                      paddingHorizontal: 10,
-                      backgroundColor: "white",
-                      borderRadius: 10,
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="account"
-                      size={24}
-                      color="gray"
-                    />
-                    <TextInput
-                      ref={masterInputRef}
-                      onChangeText={(text) => setNewMasterName(text)}
-                      placeholder={
-                        masterName == undefined
-                          ? "Unknown"
-                          : masterName.toString()
-                      }
-                      style={{
-                        flex: 1,
-                        paddingVertical: 9,
-                        paddingHorizontal: 10,
-                      }}
-                    />
-                  </View>
-                </View>
-                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
-                  <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Patient Name
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      shadowColor: "#000",
-                      shadowOffset: { width: 0, height: 1 },
-                      shadowOpacity: 0.8,
-                      shadowRadius: 2,
-                      elevation: 3,
-                      paddingHorizontal: 10,
-                      backgroundColor: "white",
-                      borderRadius: 10,
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="account"
-                      size={24}
-                      color="gray"
-                    />
-                    <TextInput
-                      ref={slaveInputRef}
-                      onChangeText={(text) => setNewSlaveName(text)}
-                      placeholder={
-                        slaveName == undefined
-                          ? "Unknown"
-                          : slaveName.toString()
-                      }
-                      style={{
-                        flex: 1,
-                        paddingVertical: 9,
-                        paddingHorizontal: 10,
-                      }}
-                    />
-                  </View>
-                </View>
-                <View style={{ paddingHorizontal: 10, marginTop: 15 }}>
-                  <Text style={{ color: "gray", marginBottom: 3 }}>
-                    Radius (meter)
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      shadowColor: "#000",
-                      shadowOffset: { width: 0, height: 1 },
-                      shadowOpacity: 0.8,
-                      shadowRadius: 2,
-                      elevation: 3,
-                      paddingHorizontal: 10,
-                      backgroundColor: "white",
-                      borderRadius: 10,
-                    }}
-                  >
-                    <MaterialCommunityIcons
-                      name="circle"
-                      size={24}
-                      color="gray"
-                    />
-                    <TextInput
-                      ref={radiusInputRef}
-                      onChangeText={(text) => setNewRadius(text)}
-                      placeholder={
-                        radius == undefined ? "Unknown" : radius.toString()
-                      }
-                      keyboardType="numeric"
-                      style={{
-                        flex: 1,
-                        paddingVertical: 9,
-                        paddingHorizontal: 10,
-                      }}
-                    />
-                  </View>
-                </View>
 
                 <View
                   style={{
@@ -400,7 +284,7 @@ const styles = StyleSheet.create({
   modalView: {
     backgroundColor: "#FAF5FC",
     width: "100%",
-    height: 640,
+    height: 430,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",

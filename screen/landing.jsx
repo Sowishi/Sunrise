@@ -53,7 +53,7 @@ const Landing = ({ navigation }) => {
           }}
         >
           <Text style={{ fontSize: 25, letterSpacing: 10, fontWeight: "bold" }}>
-            SUNRISE
+            SUNRICE
           </Text>
           <Text style={{ textAlign: "center", fontSize: 10 }}>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta

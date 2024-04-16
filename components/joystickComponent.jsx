@@ -1,48 +1,59 @@
+import { ref, update } from "firebase/database";
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
+import { database } from "../firebase";
+import { useSmokeContext } from "../utils/appContext";
+import Button from "./button";
 
 const JoystickComponent = () => {
   const [upPress, setUpPress] = useState(false);
   const [downPress, setDownPress] = useState(false);
   const [leftPress, setLeftPress] = useState(false);
   const [rightPress, setRightPress] = useState(false);
+  const { uid } = useSmokeContext();
+
+  const controlRef = ref(database, `uids/${uid}/`);
 
   const handlePress = (action) => {
     if (action == "up") {
       setUpPress(true);
-      console.log("up");
+      update(controlRef, { up: 1 });
     }
     if (action == "down") {
       setDownPress(true);
-      console.log("down");
+      update(controlRef, { down: 1 });
     }
     if (action == "left") {
       setLeftPress(true);
-      console.log("left");
+      update(controlRef, { left: 1 });
     }
     if (action == "right") {
       setRightPress(true);
-      console.log("right");
+      update(controlRef, { right: 1 });
     }
   };
 
   const handlePressOut = (action) => {
     if (action == "up") {
       setUpPress(false);
-      console.log("up close");
+      update(controlRef, { up: 0 });
     }
     if (action == "down") {
       setDownPress(false);
-      console.log("down close");
+      update(controlRef, { down: 0 });
     }
     if (action == "left") {
       setLeftPress(false);
-      console.log("left close");
+      update(controlRef, { left: 0 });
     }
     if (action == "right") {
       setRightPress(false);
-      console.log("right close");
+      update(controlRef, { right: 0 });
     }
+  };
+
+  const handleGetSample = () => {
+    update(controlRef, { getSample: 1 });
   };
 
   return (
@@ -155,106 +166,7 @@ const JoystickComponent = () => {
               transform: [{ rotate: "270deg" }], // R
             }}
           ></TouchableOpacity>
-          <TouchableOpacity
-            onPressIn={() => handlePress("right")}
-            onPressOut={() => {
-              handlePressOut("right");
-            }}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              position: "absolute",
-              top: 20,
-              left: 0,
-              zIndex: 10,
-              width: 0,
-              height: 0,
-              backgroundColor: "transparent",
-              borderStyle: "solid",
-              borderLeftWidth: 50,
-              borderRightWidth: 50,
-              borderBottomWidth: 80,
-              borderLeftColor: "transparent",
-              borderRightColor: "transparent",
-              borderBottomColor: "white", // Change color as needed
-              transform: [{ rotate: "250deg" }], // R
-            }}
-          ></TouchableOpacity>
-          <TouchableOpacity
-            onPressIn={() => handlePress("right")}
-            onPressOut={() => {
-              handlePressOut("right");
-            }}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              position: "absolute",
-              top: 20,
-              right: 0,
-              zIndex: 10,
-              width: 0,
-              height: 0,
-              backgroundColor: "transparent",
-              borderStyle: "solid",
-              borderLeftWidth: 50,
-              borderRightWidth: 50,
-              borderBottomWidth: 80,
-              borderLeftColor: "transparent",
-              borderRightColor: "transparent",
-              borderBottomColor: "white", // Change color as needed
-              transform: [{ rotate: "-250deg" }], // R
-            }}
-          ></TouchableOpacity>
-          <TouchableOpacity
-            onPressIn={() => handlePress("right")}
-            onPressOut={() => {
-              handlePressOut("right");
-            }}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              position: "absolute",
-              bottom: 20,
-              left: 0,
-              zIndex: 10,
-              width: 0,
-              height: 0,
-              backgroundColor: "transparent",
-              borderStyle: "solid",
-              borderLeftWidth: 50,
-              borderRightWidth: 50,
-              borderBottomWidth: 80,
-              borderLeftColor: "transparent",
-              borderRightColor: "transparent",
-              borderBottomColor: "white", // Change color as needed
-              transform: [{ rotate: "285deg" }], // R
-            }}
-          ></TouchableOpacity>
-          <TouchableOpacity
-            onPressIn={() => handlePress("right")}
-            onPressOut={() => {
-              handlePressOut("right");
-            }}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              position: "absolute",
-              bottom: 20,
-              right: 0,
-              zIndex: 10,
-              width: 0,
-              height: 0,
-              backgroundColor: "transparent",
-              borderStyle: "solid",
-              borderLeftWidth: 50,
-              borderRightWidth: 50,
-              borderBottomWidth: 80,
-              borderLeftColor: "transparent",
-              borderRightColor: "transparent",
-              borderBottomColor: "white", // Change color as needed
-              transform: [{ rotate: "-285deg" }], // R
-            }}
-          ></TouchableOpacity>
+
           <View
             style={{
               width: 150,
@@ -267,6 +179,9 @@ const JoystickComponent = () => {
             }}
           ></View>
         </View>
+      </View>
+      <View style={{ marginTop: 40 }}>
+        <Button text="Get Sample" bgColor={"#344854"} event={handleGetSample} />
       </View>
     </View>
   );
